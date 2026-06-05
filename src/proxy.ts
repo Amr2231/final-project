@@ -32,7 +32,7 @@ const CSP = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "media-src 'self' blob:",
-  "connect-src 'self' http://localhost:3000 http://localhost:3001", // allow API calls to backend during development
+  "connect-src 'self' https://backend-final-production-7de8.up.railway.app http://localhost:3000 http://localhost:3001", // allow API calls to backend during development
   "worker-src 'self' blob:",
 ].join("; ");
 
