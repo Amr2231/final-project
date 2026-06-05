@@ -1,0 +1,82 @@
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { InactiveUser } from "@/lib/types/admin";
+import { AlertTriangle } from "lucide-react";
+type DeleteProps = {
+  user: InactiveUser | null;
+  onClose: () => void;
+  onConfirm: (id: number) => void;
+  isPending?: boolean;
+};
+
+export function DeleteInactiveModal({
+  user,
+  onClose,
+  onConfirm,
+  isPending,
+}: DeleteProps) {
+  if (!user) return null;
+
+  return (
+    <Dialog open={!!user} onOpenChange={(v) => !v && onClose()}>
+      <DialogContent className="max-w-sm">
+        <DialogHeader>
+          <DialogTitle className="text-lg font-bold text-gray-900">
+            Delete Account
+          </DialogTitle>
+          <DialogDescription className="text-sm text-[#8B1A2B]">
+            This action cannot be undone
+          </DialogDescription>
+        </DialogHeader>
+
+        <div className="py-2 space-y-4">
+          <div className="flex flex-col items-center gap-3 py-2">
+            <div className="flex items-center justify-center w-12 h-12 rounded-full bg-red-50 border border-red-100">
+              <AlertTriangle className="w-6 h-6 text-red-600" />
+            </div>
+            <div className="text-center space-y-1">
+              <p className="text-sm font-semibold text-gray-900">
+                Delete {user.fName} {user.lName}?
+              </p>
+              <p className="text-xs text-gray-500 leading-relaxed">
+                This account will be{" "}
+                <span className="font-medium text-red-600">
+                  permanently deleted
+                </span>
+                . All associated data will be removed and cannot be recovered.
+              </p>
+            </div>
+          </div>
+
+          <div className="rounded-lg border border-red-100 bg-red-50/50 p-3 space-y-0.5">
+            <p className="text-xs text-gray-400">Account to be deleted</p>
+            <p className="text-sm font-semibold text-gray-900">
+              {user.fName} {user.lName}
+            </p>
+            <p className="text-xs text-gray-500">{user.role}</p>
+          </div>
+        </div>
+
+        <DialogFooter>
+          <Button variant="outline" onClick={onClose}>
+            Cancel
+          </Button>
+          <Button
+            disabled={isPending}
+            onClick={() => onConfirm(user.id)}
+            className="bg-red-600 hover:bg-red-700 text-white"
+          >
+            {isPending ? "Deleting..." : "Yes, Delete"}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}

@@ -1,0 +1,42 @@
+"use client";
+
+import type { ReactNode } from "react";
+import { Search } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils/tailwind-merge";
+
+type TableToolbarProps = {
+  search?: string;
+  onSearchChange?: (value: string) => void;
+  searchPlaceholder?: string;
+  filters?: ReactNode;
+  actions?: ReactNode;
+  className?: string;
+};
+
+export function TableToolbar({
+  search,
+  onSearchChange,
+  searchPlaceholder = "Search...",
+  filters,
+  actions,
+  className,
+}: TableToolbarProps) {
+  return (
+    <div className={cn("flex items-center gap-2", className)}>
+      {onSearchChange != null && (
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
+          <Input
+            placeholder={searchPlaceholder}
+            className="pl-9 h-10 text-sm bg-white dark:bg-gray-950"
+            value={search ?? ""}
+            onChange={(e) => onSearchChange(e.target.value)}
+          />
+        </div>
+      )}
+      {filters}
+      {actions}
+    </div>
+  );
+}

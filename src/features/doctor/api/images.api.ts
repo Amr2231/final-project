@@ -1,0 +1,51 @@
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/auth";
+import { doctorFetch, getApiBase } from "./client";
+import type { MutationResponse } from "@/lib/types/doctor";
+
+export type StudyImageResponse = {
+  success: boolean;
+  data: string | null;
+  mimeType: string | null;
+};
+
+export async function fetchStudyImage(
+  studyId: string,
+  imageId: number,
+): Promise<StudyImageResponse> {
+  try {
+    const session = await getServerSession(authOptions);
+    const res = await fetch(
+      `${getApiBase()}/studies/${studyId}/images/${imageId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${session?.accessToken ?? ""}`,
+        },
+        cache: "no-store",
+      },
+    );
+
+    if (!res.ok) {
+      return { success: false, data: null, mimeType: null };
+    }
+
+    const contentType =
+      res.headers.get("content-type") ?? "application/octet-stream";
+    const buffer = await res.arrayBuffer();
+    const base64 = Buffer.from(buffer).toString("base64");
+
+    return { success: true, data: base64, mimeType: contentType };
+  } catch {
+    return { success: false, data: null, mimeType: null };
+  }
+}
+
+export async function deleteStudyImage(
+  studyId: string,
+  imageId: number,
+): Promise<MutationResponse> {
+  return doctorFetch<MutationResponse>(
+    `/studies/${studyId}/images/${imageId}`,
+    { method: "DELETE" },
+  );
+}

@@ -1,0 +1,40 @@
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { EmptyState } from "@/components/ui/empty-state";
+import { ShieldAlert } from "lucide-react";
+
+export default function AuditLogsError({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string };
+  reset: () => void;
+}) {
+  return (
+    <div className="flex flex-col items-center justify-center py-20 gap-4 p-6">
+      <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
+        <EmptyState
+          title="Failed to load audit logs"
+          description={
+            error.digest
+              ? `Error Code: ${error.digest}`
+              : "An unexpected error occurred while fetching audit logs."
+          }
+          icon={ShieldAlert}
+        />
+      </p>
+      <p className="text-xs text-gray-500 max-w-sm text-center">
+        {error.message || "An unexpected error occurred."}
+      </p>
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={reset}
+        className="text-blue-900 border-blue-600/30"
+      >
+        Try again
+      </Button>
+    </div>
+  );
+}
