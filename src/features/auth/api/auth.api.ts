@@ -1,11 +1,12 @@
 import { JSON_HEADERS } from "@/lib/shared/constants/api";
 import { serverFetch } from "@/lib/shared/api/server-client";
 import { getPublicApiUrl } from "@/lib/shared/config/env";
+import { getServerApiUrl } from "@/lib/shared/config/env";
 import type { MutationResponse } from "@/lib/types/admin";
 
 // reset link actions
 export async function sendResetLink(fields: { email: string }) {
-  const response = await fetch(`${getPublicApiUrl()}/auth/forgot-password`, {
+  const response = await fetch(`${getServerApiUrl()}/auth/forgot-password`, {
     method: "POST",
     headers: { ...JSON_HEADERS },
     body: JSON.stringify(fields),
