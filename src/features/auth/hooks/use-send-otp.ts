@@ -7,10 +7,7 @@ export default function useEmail() {
   const { isPending, error, mutate } = useMutation({
     mutationFn: async (fields: EmailStepFields) => {
       const payload = await sendResetLinkAction (fields);
-
-      if ('code' in payload) {
-        throw new Error(payload.message);
-      }
+      console.log("payload:", payload);
       return payload;
     },
 
