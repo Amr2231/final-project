@@ -76,7 +76,8 @@ export async function proxy(req: NextRequest) {
   // ← جديد: الأكونت متقفل
   if (token.account_status === "locked") {
     const res = NextResponse.redirect(new URL("/login", req.nextUrl.origin));
-    return withCSP(clearSession(res));
+    clearSession(res);
+    return withCSP(res);
   }
 
   const role = token.role as Role;
