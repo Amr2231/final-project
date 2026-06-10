@@ -38,7 +38,6 @@ import type { DeactivatedPatient } from "../../actions/users.actions";
 
 export const TABLE_HEADERS = [
   "Patient",
-  "National ID",
   "Study",
   "Doctor",
   "Study Date",

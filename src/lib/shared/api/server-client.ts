@@ -13,6 +13,9 @@ export async function getAuthHeaders(
   includeJsonContentType = true,
 ): Promise<Record<string, string>> {
   const session = await getServerSession(authOptions);
+  if (!session?.accessToken) {
+    throw new ApiError("Unauthorized", 401);
+  }
   return {
     ...(includeJsonContentType ? { "Content-Type": "application/json" } : {}),
     Authorization: `Bearer ${session?.accessToken ?? ""}`,
