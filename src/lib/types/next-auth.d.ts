@@ -35,5 +35,7 @@ declare module "next-auth/jwt" {
     account_status: string;
     error?: "RefreshTokenExpired" | "AccessTokenExpired" | "UnknownError";
     expiresAt?: number;
+    rememberMe: boolean;
+    
   }
 }
