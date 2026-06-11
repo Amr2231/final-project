@@ -13,7 +13,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { EmptyState } from "@/components/ui/empty-state";
-import { formatFullTimestamp } from "@/lib/utils/date-format";
 import { cn } from "@/lib/utils/tailwind-merge";
 import {
   DoctorErrorState,
@@ -143,7 +142,7 @@ export function SchedulePage() {
                       </TableCell>
                       <TableCell className="text-sm">{item.status}</TableCell>
                       <TableCell>
-                        <div className="flex gap-1">
+                        <div className="flex gap-3">
                           <Link
                             href={`/doctor/patients/${item.study_id}/report`}
                           >

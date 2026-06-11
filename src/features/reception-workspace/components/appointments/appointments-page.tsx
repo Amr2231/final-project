@@ -19,7 +19,6 @@ import {
 import { ReceptionPageShell } from "../shared/reception-page-shell";
 import {
   TableToolbar,
-  TablePagination,
   ReceptionLoadingState,
   StatusBadge,
   PriorityBadge,
@@ -33,6 +32,7 @@ import { APPOINTMENT_STATUSES, PRIORITY_LEVELS } from "../../constants";
 import type { Appointment } from "@/lib/types/reception-workspace";
 import { cn } from "@/lib/utils/tailwind-merge";
 import { EmptyState } from "@/components/ui/empty-state";
+import PaginationWrapper from "@/components/ui/paginationWrapper";
 
 export function AppointmentsPage() {
   const [view, setView] = useState<"table" | "timeline">("table");
@@ -53,7 +53,7 @@ export function AppointmentsPage() {
       sort,
       order,
       page,
-      limit: 12,
+      limit: 10,
     }),
     [debouncedSearch, status, priority, sort, order, page],
   );
@@ -63,7 +63,7 @@ export function AppointmentsPage() {
 
   const appointments = data?.data ?? [];
   const total = data?.total ?? 0;
-  const totalPages = Math.ceil(total / 12) || 1;
+  const totalPages = Math.ceil(total / 10);
 
   if (isLoading && !data) return <ReceptionLoadingState />;
 
@@ -263,11 +263,18 @@ export function AppointmentsPage() {
           </div>
         )}
 
-        <TablePagination
+        {/* <TablePagination
           page={page}
           totalPages={totalPages}
           onPageChange={setPage}
-        />
+        /> */}
+        {totalPages > 1 && (
+          <PaginationWrapper
+            currentPage={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+          />
+        )}
       </ReceptionPageShell>
 
       {selected && (

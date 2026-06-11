@@ -229,9 +229,7 @@ export function AvailabilityEditor() {
         </div>
 
         {(data?.holidays ?? []).length === 0 ? (
-          <p className="text-sm text-gray-400">
             <EmptyState icon={CalendarOff} title="No holidays" />
-          </p>
         ) : (
           <ul className="space-y-2">
             {(data?.holidays ?? []).map((holiday) => (

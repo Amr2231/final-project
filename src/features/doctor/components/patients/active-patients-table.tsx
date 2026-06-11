@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "motion/react";
 import { Eye, FileText, Upload, Sparkles, Star, UserX } from "lucide-react";
@@ -59,6 +59,7 @@ export function ActivePatientsTable({
   // ===== FILTER STATE =====
   const [search, setSearch] = useState("");
   const [filterStudy, setFilterStudy] = useState("all");
+  const [currentPage, setCurrentPage] = useState(1);
   const [filterReportStatus, setFilterReportStatus] = useState("all");
   const [filterDate, setFilterDate] = useState("");
   const [sortDate, setSortDate] = useState<"newest" | "oldest">("newest");
@@ -69,8 +70,10 @@ export function ActivePatientsTable({
     null,
   );
 
-  const currentPage = Math.max(1, Number(searchParams?.page) || 1);
   const [debouncedSearch] = useDebounce(search, 400);
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [debouncedSearch, filterStudy, filterReportStatus, filterDate, sortDate]);
   const { mutate: addWatchlist } = useAddToWatchlist();
 
   // ===== SERVER-SIDE FETCH =====
@@ -324,15 +327,12 @@ export function ActivePatientsTable({
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex items-center justify-between mt-4">
-            <p className="text-xs text-gray-400">
-              Page {currentPage} of {totalPages} — {data?.total ?? 0} patients
-            </p>
-            <PaginationWrapper
-              totalPages={totalPages}
-              searchParams={{ page: String(currentPage) }}
-            />
-          </div>
+          <PaginationWrapper
+            totalPages={totalPages}
+            searchParams={{ page: String(currentPage) }}
+            currentPage={currentPage}
+            onPageChange={setCurrentPage}
+          />
         )}
 
         <PatientsFiltersModal

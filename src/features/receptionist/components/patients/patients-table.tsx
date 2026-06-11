@@ -21,6 +21,7 @@ import { PatientsPagination } from "./patients-pagination";
 import type { ActivePatient } from "@/lib/types/receptionist";
 import { PulseLoader } from "@/components/ui/pulse-loader";
 import { ReceptionPageShell } from "@/features/reception-workspace/components/shared/reception-page-shell";
+import PaginationWrapper from "@/components/ui/paginationWrapper";
 
 export function PatientsTable() {
   // hooks
@@ -164,7 +165,10 @@ export function PatientsTable() {
   return (
     <>
       {/* ── Toolbar ── */}
-      <ReceptionPageShell title="Active Patients" description="List of all active patients in the system at the moment of your visit.">
+      <ReceptionPageShell
+        title="Active Patients"
+        description="List of all active patients in the system at the moment of your visit."
+      >
         <div className="flex items-center gap-2 mb-4 animate-in fade-in duration-700">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none z-10" />
@@ -181,10 +185,7 @@ export function PatientsTable() {
 
           <Button
             variant="outline"
-            className={cn(
-              "gap-2 text-gray-600",
-              activeFilters > 0 && "",
-            )}
+            className={cn("gap-2 text-gray-600", activeFilters > 0 && "")}
             onClick={() => setFiltersOpen(true)}
           >
             <SlidersHorizontal className="w-4 h-4" />
@@ -210,13 +211,14 @@ export function PatientsTable() {
           onDelete={setDeleteTarget}
         />
 
-        {/* ── Pagination ── */}
-        <PatientsPagination
-          totalPatients={total}
-          totalPages={totalPages}
-          currentPage={currentPage}
-          pageSize={10}
-        />
+        {patients.length > 0 && (
+          <PaginationWrapper
+            currentPage={currentPage}
+            totalPages={totalPages}
+            searchParams={{ page: String(currentPage) }}
+          />
+        )}
+
 
         {/* ── Modals ── */}
         <ActiveFiltersModal

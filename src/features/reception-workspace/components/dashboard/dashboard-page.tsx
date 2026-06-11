@@ -118,9 +118,9 @@ export function DashboardPage() {
             />
           ) : (
             <div className="space-y-2">
-              {live_queue.map((item) => (
+              {live_queue.map((item , i) => (
                 <div
-                  key={item.queue_id}
+                  key={`${item.queue_id}-${i}`}
                   className="flex items-center justify-between gap-3 p-3 rounded-lg bg-muted/40 border border-border/50"
                 >
                   <div className="flex items-center gap-3 min-w-0">

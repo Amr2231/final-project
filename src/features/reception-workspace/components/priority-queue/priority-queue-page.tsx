@@ -56,9 +56,9 @@ export function PriorityQueuePage() {
             description="There are currently no patients in the priority queue."
           />
         ) : (
-          queue.map((item) => (
+          queue.map((item , i) => (
             <div
-              key={item.queue_id}
+              key={`${item.queue_id}-${i}`}
               className="rounded-xl border p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
             >
               <div className="flex items-center gap-4">

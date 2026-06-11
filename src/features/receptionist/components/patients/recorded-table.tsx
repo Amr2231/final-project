@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import { motion } from "motion/react";
 import {
   Eye,
@@ -11,7 +11,6 @@ import {
   ClipboardList,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import {
   Table,
@@ -34,9 +33,11 @@ import { TABLE_HEADERS } from "@/lib/constants/patient-table.constants";
 import { EmptyState } from "@/components/ui/empty-state";
 import { PulseLoader } from "@/components/ui/pulse-loader";
 import { ReceptionPageShell } from "@/features/reception-workspace/components/shared/reception-page-shell";
+import PaginationWrapper from "@/components/ui/paginationWrapper";
 
 export function RecordedTable() {
   const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [filterStudy, setFilterStudy] = useState("all");
   const [filterDate, setFilterDate] = useState("");
@@ -52,13 +53,19 @@ export function RecordedTable() {
     useState<HistoricalPatient | null>(null);
 
   const [debouncedSearch] = useDebounce(search, 150);
+  useEffect(() => {
+    setPage(1);
+  }, [debouncedSearch, filterStudy, filterDate, sortDate]);
 
   const { data: response, isLoading } = useHistoricalPatients({
     keyword: debouncedSearch || undefined,
     study_type: filterStudy !== "all" ? filterStudy : undefined,
     date: filterDate || undefined,
     sort: sortDate,
+    page,
   });
+
+  const totalPages = Math.ceil((response?.total ?? 0) / 10);
 
   const patients = useMemo(() => response?.data ?? [], [response?.data]);
 
@@ -243,6 +250,12 @@ export function RecordedTable() {
           setFilterDate={setFilterDate}
           sortDate={sortDate}
           setSortDate={setSortDate}
+        />
+        <PaginationWrapper
+          currentPage={page}
+          totalPages={totalPages}
+          searchParams={{ page: String(page) }}
+          onPageChange={setPage}
         />
       </ReceptionPageShell>
 
