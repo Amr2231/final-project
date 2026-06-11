@@ -23,7 +23,6 @@ export async function POST(
   // if error from backend
   if (!res.ok) {
     const errorText = await res.text();
-    console.log("backend error:", errorText);
     return NextResponse.json({ error: errorText }, { status: res.status });
   }
 

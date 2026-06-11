@@ -31,7 +31,7 @@ function buildCSP(nonce: string): string {
   return [
     "default-src 'self'",
     `script-src 'self' 'nonce-${nonce}'${!isProd ? " 'unsafe-eval'" : ""}`,
-    `style-src 'self' 'nonce-${nonce}' 'unsafe-inline'`,
+    `style-src 'self' 'unsafe-inline'`,
     "img-src 'self' data: blob:",
     "media-src 'self' blob:",
     isProd
@@ -77,6 +77,7 @@ export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
+  // 1. Auth pages: redirect logged-in users to their dashboard
   if (isAuthPage(pathname)) {
     if (!token) return withCSP(NextResponse.next(), nonce);
     const role = token.role as Role;
@@ -88,6 +89,7 @@ export async function proxy(req: NextRequest) {
     );
   }
 
+  // 2. Session expired / token error: clear cookie + redirect
   if (token?.error === "RefreshTokenExpired") {
     const res = NextResponse.redirect(new URL("/login", req.nextUrl.origin));
     return withCSP(clearSession(res), nonce);
@@ -105,6 +107,7 @@ export async function proxy(req: NextRequest) {
     return withCSP(clearSession(res), nonce);
   }
 
+  // 3. Locked account: clear session immediately
   if (token.account_status === "locked") {
     const res = NextResponse.redirect(new URL("/login", req.nextUrl.origin));
     clearSession(res);

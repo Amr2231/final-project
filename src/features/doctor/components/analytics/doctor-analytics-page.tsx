@@ -50,7 +50,6 @@ export function DoctorAnalyticsPage() {
   // destructure data
   const { performance, monthly_activity, diagnosis_distribution } = data;
   const dist = diagnosis_distribution;
-  // console.log("dist:", dist); 
 
   return (
     <DoctorPageShell
