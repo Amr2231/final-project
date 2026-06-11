@@ -74,8 +74,12 @@ export function useStaffRealtime(
     let es: EventSource | null = null;
     let retryTimer: ReturnType<typeof setTimeout>;
 
-    const connect = () => {
-      es = new EventSource(`${url}?token=${encodeURIComponent(token)}`);
+    const connect = async () => {
+      const { ticket } = await fetch("/api/sse-ticket", {
+        method: "POST",
+      }).then((r) => r.json());
+
+      es = new EventSource(`${url}?t=${ticket}`);
 
       for (const ch of [
         "appointments",

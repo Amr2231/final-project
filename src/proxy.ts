@@ -1,5 +1,6 @@
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
+import crypto from "crypto";
 
 const ROLE_HOME = {
   Admin: "/admin",
@@ -20,20 +21,31 @@ function isAuthPage(pathname: string) {
 
 const isProd = process.env.NODE_ENV === "production";
 
-const CSP = [
-  "default-src 'self'",
-  "script-src 'self' 'unsafe-eval' 'unsafe-inline'",
-  "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob:",
-  "media-src 'self' blob:",
-  isProd
-    ? `connect-src 'self' ${process.env.NEXT_PUBLIC_API_URL}`
-    : "connect-src 'self' http://localhost:3000 http://localhost:3001",
-  "worker-src 'self' blob:",
-].join("; ");
+function generateNonce(): string {
+  return crypto.randomBytes(16).toString("base64");
+}
 
-function withCSP(res: NextResponse) {
-  res.headers.set("Content-Security-Policy", CSP);
+function buildCSP(nonce: string): string {
+  const apiUrl = process.env.NEXT_PUBLIC_API ?? "http://localhost:3001";
+
+  return [
+    "default-src 'self'",
+    `script-src 'self' 'nonce-${nonce}'${!isProd ? " 'unsafe-eval'" : ""}`,
+    `style-src 'self' 'nonce-${nonce}' 'unsafe-inline'`,
+    "img-src 'self' data: blob:",
+    "media-src 'self' blob:",
+    isProd
+      ? `connect-src 'self' ${apiUrl}`
+      : "connect-src 'self' http://localhost:3000 http://localhost:3001",
+    "worker-src 'self' blob:",
+    "base-uri 'self'",
+    "form-action 'self'",
+  ].join("; ");
+}
+
+function withCSP(res: NextResponse, nonce: string) {
+  res.headers.set("Content-Security-Policy", buildCSP(nonce));
+  res.headers.set("x-nonce", nonce);
   return res;
 }
 
@@ -61,37 +73,42 @@ function isSessionExpiredByAge(token: {
 }
 
 export async function proxy(req: NextRequest) {
+  const nonce = generateNonce();
   const { pathname } = req.nextUrl;
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
   if (isAuthPage(pathname)) {
-    if (!token) return withCSP(NextResponse.next());
+    if (!token) return withCSP(NextResponse.next(), nonce);
     const role = token.role as Role;
     const home = ROLE_HOME[role];
-    if (!home) return withCSP(NextResponse.next());
-    return withCSP(NextResponse.redirect(new URL(home, req.nextUrl.origin)));
+    if (!home) return withCSP(NextResponse.next(), nonce);
+    return withCSP(
+      NextResponse.redirect(new URL(home, req.nextUrl.origin)),
+      nonce,
+    );
   }
 
   if (token?.error === "RefreshTokenExpired") {
     const res = NextResponse.redirect(new URL("/login", req.nextUrl.origin));
-    return withCSP(clearSession(res));
+    return withCSP(clearSession(res), nonce);
   }
 
   if (!token) {
     return withCSP(
       NextResponse.redirect(new URL("/login", req.nextUrl.origin)),
+      nonce,
     );
   }
 
   if (isSessionExpiredByAge(token)) {
     const res = NextResponse.redirect(new URL("/login", req.nextUrl.origin));
-    return withCSP(clearSession(res));
+    return withCSP(clearSession(res), nonce);
   }
 
   if (token.account_status === "locked") {
     const res = NextResponse.redirect(new URL("/login", req.nextUrl.origin));
     clearSession(res);
-    return withCSP(res);
+    return withCSP(res, nonce);
   }
 
   const role = token.role as Role;
@@ -99,18 +116,21 @@ export async function proxy(req: NextRequest) {
 
   if (!home) {
     const res = NextResponse.redirect(new URL("/login", req.nextUrl.origin));
-    return withCSP(clearSession(res));
+    return withCSP(clearSession(res), nonce);
   }
 
   if (pathname === "/unauthorized") {
-    return withCSP(NextResponse.next());
+    return withCSP(NextResponse.next(), nonce);
   }
 
   if (!pathname.startsWith(home)) {
-    return withCSP(NextResponse.redirect(new URL(home, req.nextUrl.origin)));
+    return withCSP(
+      NextResponse.redirect(new URL(home, req.nextUrl.origin)),
+      nonce,
+    );
   }
 
-  return withCSP(NextResponse.next());
+  return withCSP(NextResponse.next(), nonce);
 }
 
 export const config = {
