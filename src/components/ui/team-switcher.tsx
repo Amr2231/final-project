@@ -1,12 +1,14 @@
 "use client";
 
 import * as React from "react";
+import logo from "../../../public/logo.jpeg";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import Image from "next/image";
 
 export function TeamSwitcher({
   teams,
@@ -30,9 +32,12 @@ export function TeamSwitcher({
           size="lg"
           className="pointer-events-none select-none hover:bg-transparent active:bg-transparent"
         >
-          {/* Logo */}
-          <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-blue-800 text-white font-bold text-sm shrink-0 shadow-sm shadow-blue-800/40">
-            E
+          <div className="flex aspect-square size-9 items-center justify-center rounded-lg overflow-hidden border border-sidebar-border">
+            <Image
+              src={logo}
+              alt="logo"
+              className="w-full h-full object-cover"
+            />
           </div>
 
           {!isCollapsed && (

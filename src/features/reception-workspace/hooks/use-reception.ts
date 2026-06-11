@@ -37,11 +37,15 @@ export function useReceptionDashboard() {
   });
 }
 
-export function useTodayAppointments(filters: Record<string, string | number | undefined> = {}) {
+export function useTodayAppointments(
+  filters: Record<string, string | number | undefined> = {},
+) {
   return useQuery({
     queryKey: RECEPTION_QUERY_KEYS.appointmentsToday(filters),
     queryFn: () => fetchTodayAppointments(filters),
     refetchInterval: 15000,
+    placeholderData: (prev) => prev,
+    staleTime: 0,
   });
 }
 
@@ -75,8 +79,13 @@ export function useUpdateAppointmentStatus() {
 export function useUpdateAppointmentPriority() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, priority_level }: { id: number; priority_level: string }) =>
-      updateAppointmentPriority(id, priority_level),
+    mutationFn: ({
+      id,
+      priority_level,
+    }: {
+      id: number;
+      priority_level: string;
+    }) => updateAppointmentPriority(id, priority_level),
     onSuccess: () => qc.invalidateQueries({ queryKey: ["reception"] }),
   });
 }
@@ -92,7 +101,9 @@ export function useCreateAppointment() {
   });
 }
 
-export function useQueue(filters: Record<string, string | number | undefined> = {}) {
+export function useQueue(
+  filters: Record<string, string | number | undefined> = {},
+) {
   return useQuery({
     queryKey: RECEPTION_QUERY_KEYS.queue(filters),
     queryFn: () => fetchQueue(filters),
@@ -100,7 +111,9 @@ export function useQueue(filters: Record<string, string | number | undefined> = 
   });
 }
 
-export function useArrivalBoard(filters: Record<string, string | number | undefined> = {}) {
+export function useArrivalBoard(
+  filters: Record<string, string | number | undefined> = {},
+) {
   return useQuery({
     queryKey: RECEPTION_QUERY_KEYS.arrivalBoard(filters),
     queryFn: () => fetchArrivalBoard(filters).then((r) => r.data),
@@ -134,7 +147,9 @@ export function useDoctorsAvailability() {
   });
 }
 
-export function useCallbacks(filters: Record<string, string | number | undefined> = {}) {
+export function useCallbacks(
+  filters: Record<string, string | number | undefined> = {},
+) {
   return useQuery({
     queryKey: RECEPTION_QUERY_KEYS.callbacks(filters),
     queryFn: () => fetchCallbacks(filters),
@@ -145,7 +160,8 @@ export function useCreateCallback() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: createCallback,
-    onSuccess: () => qc.invalidateQueries({ queryKey: RECEPTION_QUERY_KEYS.callbacks({}) }),
+    onSuccess: () =>
+      qc.invalidateQueries({ queryKey: RECEPTION_QUERY_KEYS.callbacks({}) }),
   });
 }
 
@@ -154,16 +170,24 @@ export function useUpdateCallbackStatus() {
   return useMutation({
     mutationFn: ({ id, status }: { id: number; status: string }) =>
       updateCallbackStatus(id, status),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["reception", "callbacks"] }),
+    onSuccess: () =>
+      qc.invalidateQueries({ queryKey: ["reception", "callbacks"] }),
   });
 }
 
 export function useAddContactAttempt() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, ...body }: { id: number; outcome: string; notes?: string }) =>
-      addContactAttempt(id, body),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["reception", "callbacks"] }),
+    mutationFn: ({
+      id,
+      ...body
+    }: {
+      id: number;
+      outcome: string;
+      notes?: string;
+    }) => addContactAttempt(id, body),
+    onSuccess: () =>
+      qc.invalidateQueries({ queryKey: ["reception", "callbacks"] }),
   });
 }
 
@@ -173,7 +197,8 @@ export function useCommunicationTimeline(
 ) {
   return useQuery({
     queryKey: RECEPTION_QUERY_KEYS.communications(nationalId, filters),
-    queryFn: () => fetchCommunicationTimeline(nationalId, filters).then((r) => r.data),
+    queryFn: () =>
+      fetchCommunicationTimeline(nationalId, filters).then((r) => r.data),
     enabled: !!nationalId,
   });
 }
@@ -182,7 +207,8 @@ export function useAddCommunicationNote() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: addCommunicationNote,
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["reception", "communications"] }),
+    onSuccess: () =>
+      qc.invalidateQueries({ queryKey: ["reception", "communications"] }),
   });
 }
 

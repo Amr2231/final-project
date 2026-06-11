@@ -50,20 +50,20 @@ export function ViewReportModal({ studyId, onClose }: ViewReportModalProps) {
           </div>
         ) : (
           <div className="space-y-4 text-sm pt-2">
-            <div className="grid grid-cols-2 gap-3 bg-gray-50 rounded-lg p-4 border border-gray-100">
+            <div className="grid grid-cols-2 gap-3 bg-gray-900 rounded-lg p-4 border ">
               <div>
                 <p className="text-xs text-gray-400">Patient</p>
-                <p className="font-medium text-gray-800">
+                <p className="font-medium text-gray-800 dark:text-gray-100">
                   {report.patient_first_name} {report.patient_last_name}
                 </p>
               </div>
               <div>
                 <p className="text-xs text-gray-400">Study Type</p>
-                <p className="font-medium text-gray-800">{report.study_type}</p>
+                <p className="font-medium text-gray-800 dark:text-gray-100">{report.study_type}</p>
               </div>
               <div>
                 <p className="text-xs text-gray-400">Study Date</p>
-                <p className="font-medium text-gray-800">
+                <p className="font-medium text-gray-800 dark:text-gray-100">
                   {report.study_date
                     ? new Date(report.study_date).toLocaleDateString("en-GB", {
                         year: "numeric",
@@ -75,20 +75,20 @@ export function ViewReportModal({ studyId, onClose }: ViewReportModalProps) {
               </div>
               <div>
                 <p className="text-xs text-gray-400">Status</p>
-                <p className="font-medium capitalize text-gray-800">
+                <p className="font-medium capitalize text-gray-800 dark:text-gray-100">
                   {report.report_status}
                 </p>
               </div>
               <div>
                 <p className="text-xs text-gray-400">Assigned Doctor</p>
-                <p className="font-medium text-gray-800">
+                <p className="font-medium text-gray-800 dark:text-gray-100">
                   {report.assigned_doctor ?? "—"}
                 </p>
               </div>
               {report.signing_doctor && (
                 <div>
                   <p className="text-xs text-gray-400">Signed By</p>
-                  <p className="font-medium text-gray-800">
+                  <p className="font-medium text-gray-800 dark:text-gray-100">
                     {report.signing_doctor}
                   </p>
                 </div>
@@ -96,7 +96,7 @@ export function ViewReportModal({ studyId, onClose }: ViewReportModalProps) {
               {report.signed_at && (
                 <div className="col-span-2">
                   <p className="text-xs text-gray-400">Signed At</p>
-                  <p className="font-medium text-gray-800">
+                  <p className="font-medium text-gray-800 dark:text-gray-100">
                     {
                       new Date(report.signed_at)
                         .toISOString()
@@ -111,7 +111,7 @@ export function ViewReportModal({ studyId, onClose }: ViewReportModalProps) {
               <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
                 Findings
               </p>
-              <pre className="whitespace-pre-wrap font-sans text-sm text-gray-700 bg-gray-50 border border-gray-100 rounded-lg p-4 leading-relaxed">
+              <pre className="whitespace-pre-wrap font-sans text-sm text-gray-500 bg-gray-900 border  rounded-lg p-4 leading-relaxed">
                 {report.report_content || "No findings recorded."}
               </pre>
             </div>

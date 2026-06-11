@@ -65,7 +65,7 @@ export function EditUserModal({ user, onClose, onSave, isPending }: EditProps) {
     <Dialog open={!!user} onOpenChange={(v) => !v && onClose()}>
       <DialogContent className="max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-lg font-bold text-gray-900">
+          <DialogTitle className="text-lg font-bold text-gray-900 dark:text-gray-200">
             Edit User
           </DialogTitle>
           <DialogDescription className="text-sm text-gray-500">
@@ -79,7 +79,6 @@ export function EditUserModal({ user, onClose, onSave, isPending }: EditProps) {
             <Input
               {...register("first_name")}
               className={cn(
-                "h-9 text-sm bg-gray-50",
                 errors.first_name && "border-red-400",
               )}
             />
@@ -95,7 +94,6 @@ export function EditUserModal({ user, onClose, onSave, isPending }: EditProps) {
             <Input
               {...register("last_name")}
               className={cn(
-                "h-9 text-sm bg-gray-50",
                 errors.last_name && "border-red-400",
               )}
             />
@@ -109,7 +107,6 @@ export function EditUserModal({ user, onClose, onSave, isPending }: EditProps) {
             <Input
               {...register("username")}
               className={cn(
-                "h-9 text-sm bg-gray-50 font-mono",
                 errors.username && "border-red-400",
               )}
             />
@@ -124,7 +121,6 @@ export function EditUserModal({ user, onClose, onSave, isPending }: EditProps) {
               type="email"
               {...register("email")}
               className={cn(
-                "h-9 text-sm bg-gray-50",
                 errors.email && "border-red-400",
               )}
             />

@@ -35,6 +35,7 @@ import { ActionBadge } from "./action-badge";
 import { EntityBadge } from "./entity-badge";
 import type { AuditLogFiltersState } from "./audit-log-filters-modal";
 import { formatFullTimestamp } from "@/lib/utils/date-format";
+import PaginationWrapper from "@/components/ui/paginationWrapper";
 
 const AuditLogFiltersModal = dynamic(() =>
   import("./audit-log-filters-modal").then((m) => ({
@@ -284,7 +285,7 @@ export function AuditLogsTable() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
           <Input
             placeholder="Search actor, description, or entity ID..."
-            className="pl-9 h-10 text-sm bg-white dark:bg-gray-950"
+            className="pl-9 h-10 text-sm  dark:bg-gray-950"
             value={search}
             onChange={(e) => handleSearchChange(e.target.value)}
           />
@@ -294,7 +295,7 @@ export function AuditLogsTable() {
           variant="outline"
           className={cn(
             "h-10 gap-2 text-sm font-normal text-gray-600 border-gray-200",
-            activeFilterCount > 0 && "bg-[#8B1A2B] text-white border-[#8B1A2B]",
+            activeFilterCount > 0 && "bg-blue-600 text-white border-blue-600",
           )}
           onClick={() => setFiltersOpen(true)}
         >
@@ -310,7 +311,7 @@ export function AuditLogsTable() {
 
       <div
         className={cn(
-          "rounded-xl border border-gray-200 bg-white dark:bg-gray-950 overflow-hidden transition-opacity",
+          "rounded-xl border bg-white dark:bg-gray-950 overflow-hidden transition-opacity",
           isFetching && "opacity-70",
         )}
       >
@@ -362,60 +363,11 @@ export function AuditLogsTable() {
       </div>
 
       {totalPages > 1 && (
-        <div className="flex items-center justify-between px-1">
-          <p className="text-xs text-gray-400 tabular-nums">
-            Page {page} of {totalPages}
-          </p>
-          <div className="flex items-center gap-1">
-            <Button
-              variant="outline"
-              size="icon"
-              className="h-8 w-8 border-gray-200"
-              onClick={() => setPage((p) => Math.max(1, p - 1))}
-              disabled={page === 1}
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </Button>
-
-            {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
-              let pageNum: number;
-              if (totalPages <= 5) {
-                pageNum = i + 1;
-              } else if (page <= 3) {
-                pageNum = i + 1;
-              } else if (page >= totalPages - 2) {
-                pageNum = totalPages - 4 + i;
-              } else {
-                pageNum = page - 2 + i;
-              }
-              return (
-                <Button
-                  key={pageNum}
-                  variant="outline"
-                  size="icon"
-                  className={cn(
-                    "h-8 w-8 text-xs border-gray-200",
-                    page === pageNum &&
-                      "bg-[#8B1A2B] text-white border-[#8B1A2B] hover:bg-[#7a1726] hover:text-white",
-                  )}
-                  onClick={() => setPage(pageNum)}
-                >
-                  {pageNum}
-                </Button>
-              );
-            })}
-
-            <Button
-              variant="outline"
-              size="icon"
-              className="h-8 w-8 border-gray-200"
-              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-              disabled={page === totalPages}
-            >
-              <ChevronRight className="w-4 h-4" />
-            </Button>
-          </div>
-        </div>
+        <PaginationWrapper
+          totalPages={totalPages}
+          currentPage={page}
+          onPageChange={setPage}
+        />
       )}
 
       {filtersOpen && (

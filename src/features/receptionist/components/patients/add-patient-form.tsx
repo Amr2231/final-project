@@ -52,15 +52,17 @@ function SectionCard({
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: 0.1 + index * 0.08 }}
-      className="rounded-2xl border border-gray-200 bg-white overflow-hidden"
+      className="rounded-2xl border border-gray-200 dark:border-gray-700  dark:bg-gray-900 overflow-hidden"
     >
-      <div className="flex items-center gap-3 px-6 py-4 border-b border-gray-100 bg-gray-50/60">
-        <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-100">
+      <div className="flex items-center gap-3 px-6 py-4 border-b border-gray-100 dark:border-gray-700 bg-gray-50/60 ">
+        <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-100/10 dark:bg-blue-900/20">
           <Icon className="w-4 h-4 text-blue-800" />
         </span>
         <div>
-          <h2 className="text-sm font-semibold text-gray-900">{title}</h2>
-          <p className="text-xs text-gray-400">{description}</p>
+          <h2 className="text-sm font-semibold text-gray-900 ">{title}</h2>
+          <p className="text-xs text-gray-400 dark:text-gray-500">
+            {description}
+          </p>
         </div>
       </div>
       <div className="p-6">{children}</div>
@@ -76,7 +78,7 @@ function FieldLabel({
   required?: boolean;
 }) {
   return (
-    <label className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+    <label className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
       {label} {required && <span className="text-blue-800">*</span>}
     </label>
   );
@@ -156,7 +158,7 @@ export function AddPatientForm() {
                 placeholder="e.g. Ahmed"
                 {...register("first_name")}
                 className={cn(
-                  "h-10 bg-gray-50 border-gray-200 text-sm",
+                  "h-10  text-sm",
                   errors.first_name && "border-red-400",
                 )}
               />
@@ -169,7 +171,7 @@ export function AddPatientForm() {
                 placeholder="e.g. Hassan"
                 {...register("last_name")}
                 className={cn(
-                  "h-10 bg-gray-50 border-gray-200 text-sm",
+                  "h-10  text-sm",
                   errors.last_name && "border-red-400",
                 )}
               />
@@ -186,7 +188,7 @@ export function AddPatientForm() {
                   },
                 })}
                 className={cn(
-                  "h-10 bg-gray-50 border-gray-200 text-sm font-mono tracking-wider",
+                  "h-10  text-sm font-mono tracking-wider",
                   errors.national_id && "border-red-400",
                 )}
               />
@@ -208,7 +210,7 @@ export function AddPatientForm() {
                   <Select value={field.value} onValueChange={field.onChange}>
                     <SelectTrigger
                       className={cn(
-                        "w-full h-10 bg-gray-50 border-gray-200 text-sm",
+                        "w-full h-10  text-sm",
                         errors.gender && "border-red-400",
                       )}
                     >
@@ -236,7 +238,7 @@ export function AddPatientForm() {
                   },
                 })}
                 className={cn(
-                  "w-full h-10 px-3 bg-gray-50 border-gray-200 text-sm",
+                  "w-full h-10 px-3  text-sm",
                   errors.phone_number && "border-red-400",
                 )}
               />
@@ -304,7 +306,7 @@ export function AddPatientForm() {
                   >
                     <SelectTrigger
                       className={cn(
-                        "h-10 bg-gray-50 border-gray-200 text-sm w-full",
+                        "h-10 text-sm w-full",
                         errors.study_type && "border-red-400",
                       )}
                     >
@@ -342,7 +344,7 @@ export function AddPatientForm() {
                   onChange: () => setValue("appointment_time", ""),
                 })}
                 className={cn(
-                  "h-10 bg-gray-50 border-gray-200 text-sm",
+                  "h-10  text-sm",
                   errors.study_date && "border-red-400",
                 )}
               />
@@ -355,7 +357,7 @@ export function AddPatientForm() {
                 <div className="flex items-center gap-2">
                   <Clock className="w-3.5 h-3.5 text-gray-400" />
                   <FieldLabel label="Available Time Slots" required />
-                  {loadingSlots && <PulseLoader/>}
+                  {loadingSlots && <PulseLoader />}
                 </div>
 
                 {/* Warnings */}
@@ -381,55 +383,60 @@ export function AddPatientForm() {
                     control={control}
                     render={({ field }) => (
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                        {slots.map((slot: { appointment_time: string; score?: number }) => {
-                          const time = String(slot.appointment_time).slice(
-                            0,
-                            5,
-                          );
-                          const isSelected =
-                            field.value === slot.appointment_time;
-                          return (
-                            <button
-                              key={slot.appointment_time}
-                              type="button"
-                              onClick={() =>
-                                field.onChange(slot.appointment_time)
-                              }
-                              className={cn(
-                                "flex flex-col items-start gap-1 rounded-xl border px-3 py-2.5 text-left transition-all",
-                                isSelected
-                                  ? "border-blue-600 bg-blue-50 ring-1 ring-blue-600"
-                                  : "border-gray-200 bg-gray-50 hover:border-blue-300 hover:bg-blue-50/40",
-                              )}
-                            >
-                              <div className="flex items-center justify-between w-full">
-                                <span
-                                  className={cn(
-                                    "font-mono text-sm font-semibold",
-                                    isSelected
-                                      ? "text-blue-700"
-                                      : "text-gray-800",
-                                  )}
-                                >
-                                  {time}
-                                </span>
-                                {isSelected && (
-                                  <CheckCircle2 className="w-3.5 h-3.5 text-blue-600" />
-                                )}
-                              </div>
-                              <span
+                        {slots.map(
+                          (slot: {
+                            appointment_time: string;
+                            score?: number;
+                          }) => {
+                            const time = String(slot.appointment_time).slice(
+                              0,
+                              5,
+                            );
+                            const isSelected =
+                              field.value === slot.appointment_time;
+                            return (
+                              <button
+                                key={slot.appointment_time}
+                                type="button"
+                                onClick={() =>
+                                  field.onChange(slot.appointment_time)
+                                }
                                 className={cn(
-                                  "text-[10px]",
+                                  "flex flex-col items-start gap-1 rounded-xl border px-3 py-2.5 text-left transition-all",
                                   isSelected
-                                    ? "text-blue-600"
-                                    : "text-gray-400",
+                                    ? "border-blue-600 bg-blue-50 ring-1 ring-blue-600"
+                                    : "border-gray-200 bg-gray-50 hover:border-blue-300 hover:bg-blue-50/40",
                                 )}
                               >
-                                Score: {slot.score}/100
-                              </span>
-                            </button>
-                          );
-                        })}
+                                <div className="flex items-center justify-between w-full">
+                                  <span
+                                    className={cn(
+                                      "font-mono text-sm font-semibold",
+                                      isSelected
+                                        ? "text-blue-700"
+                                        : "text-gray-800",
+                                    )}
+                                  >
+                                    {time}
+                                  </span>
+                                  {isSelected && (
+                                    <CheckCircle2 className="w-3.5 h-3.5 text-blue-600" />
+                                  )}
+                                </div>
+                                <span
+                                  className={cn(
+                                    "text-[10px]",
+                                    isSelected
+                                      ? "text-blue-600"
+                                      : "text-gray-400",
+                                  )}
+                                >
+                                  Score: {slot.score}/100
+                                </span>
+                              </button>
+                            );
+                          },
+                        )}
                       </div>
                     )}
                   />

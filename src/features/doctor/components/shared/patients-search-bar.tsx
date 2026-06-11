@@ -24,7 +24,7 @@ export function PatientsSearchBar({
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
         <Input
           placeholder="Search by name or National ID..."
-          className="pl-9 h-10 text-sm bg-white"
+          className="pl-9 h-10 text-sm "
           value={search}
           onChange={(event) => onSearchChange(event.target.value)}
         />

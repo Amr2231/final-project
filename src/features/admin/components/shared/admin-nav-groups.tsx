@@ -10,9 +10,12 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { ADMIN_NAV_GROUPS } from "../../constants/navigation";
+import { useChatUnread } from "@/features/doctor/hooks/use-chat";
 
 export function AdminNavGroups() {
   const pathname = usePathname();
+  const { data: unreadData } = useChatUnread();
+  const unreadCount = unreadData?.unread ?? 0;
 
   return (
     <>
@@ -46,6 +49,11 @@ export function AdminNavGroups() {
                         className={`size-4 shrink-0 ${isActive ? "text-white" : "text-sidebar-foreground/50"}`}
                       />
                       <span className="text-sm">{item.title}</span>
+                      {item.badge === "chat" && unreadCount > 0 && (
+                        <span className="ml-auto text-[10px] font-bold bg-blue-500 text-white rounded-full min-w-[18px] text-center px-1.5 py-0.5">
+                          {unreadCount > 99 ? "99+" : unreadCount}
+                        </span>
+                      )}
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

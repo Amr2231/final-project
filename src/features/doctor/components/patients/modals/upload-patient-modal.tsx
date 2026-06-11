@@ -44,7 +44,7 @@ function UploadImageForm({
   return (
     <>
       <DialogHeader>
-        <DialogTitle className="text-lg font-bold text-gray-900">
+        <DialogTitle className="text-lg font-bold text-gray-900 dark:text-gray-100">
           Upload Images
         </DialogTitle>
         <DialogDescription className="text-sm text-gray-500">

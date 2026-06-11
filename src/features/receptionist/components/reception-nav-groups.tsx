@@ -10,9 +10,13 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { RECEPTION_NAV_GROUPS } from "../constants/navigation";
+import { useChatInbox } from "@/features/reception-workspace/hooks/use-reception";
 
 export function ReceptionNavGroups() {
   const pathname = usePathname();
+  const { data: inbox = [] } = useChatInbox();
+
+  const unreadCount = inbox.reduce((sum, c) => sum + (c.unread_count ?? 0), 0);
 
   return (
     <>
@@ -24,7 +28,11 @@ export function ReceptionNavGroups() {
           <SidebarMenu className="gap-0.5">
             {group.items.map((item) => {
               const isActive =
-                pathname === item.url || pathname.startsWith(`${item.url}/`);
+                pathname === item.url ||
+                (pathname.startsWith(`${item.url}/`) &&
+                  !RECEPTION_NAV_GROUPS.flatMap((g) => g.items).some(
+                    (i) => i.url !== item.url && pathname === i.url,
+                  ));
               const Icon = item.icon;
 
               return (
@@ -43,6 +51,11 @@ export function ReceptionNavGroups() {
                         className={`size-4 shrink-0 ${isActive ? "text-white" : "text-sidebar-foreground/50"}`}
                       />
                       <span className="text-sm">{item.title}</span>
+                      {item.badge === "chat" && unreadCount > 0 && (
+                        <span className="ml-auto text-[10px] font-bold bg-blue-500 text-white rounded-full min-w-4.5 text-center px-1.5 py-0.5">
+                          {unreadCount > 99 ? "99+" : unreadCount}
+                        </span>
+                      )}
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

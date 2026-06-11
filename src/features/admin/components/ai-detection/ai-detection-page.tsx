@@ -63,13 +63,24 @@ function DiagnosisBadge({
   const hf = Number(result.has_hfref) === 1;
   const lvh = Number(result.has_lvh) === 1;
   const label =
-    !hf && !lvh ? "Normal" : hf && lvh ? "HF + LVH" : hf ? "Heart Failure" : "LVH";
+    !hf && !lvh
+      ? "Normal"
+      : hf && lvh
+        ? "HF + LVH"
+        : hf
+          ? "Heart Failure"
+          : "LVH";
   const style =
     !hf && !lvh
       ? "bg-emerald-50 text-emerald-700 border-emerald-200"
       : "bg-rose-50 text-rose-700 border-rose-200";
   return (
-    <span className={cn("inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium", style)}>
+    <span
+      className={cn(
+        "inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium",
+        style,
+      )}
+    >
       {label}
     </span>
   );
@@ -92,7 +103,11 @@ export function AIDetectionPage() {
 
   const tabs = [
     { id: "stats" as const, label: "Statistics" },
-    { id: "results" as const, label: "Detection History", count: resultsData?.total },
+    {
+      id: "results" as const,
+      label: "Detection History",
+      count: resultsData?.total,
+    },
   ];
 
   return (
@@ -109,10 +124,24 @@ export function AIDetectionPage() {
           ) : stats ? (
             <>
               <MetricGrid cols={4}>
-                <MetricCard label="Total AI Runs" value={stats.total_runs} icon={Brain} />
-                <MetricCard label="Edited Results" value={stats.edited_results} icon={Brain} accent="bg-blue-100 dark:bg-blue-900/40" />
+                <MetricCard
+                  label="Total AI Runs"
+                  value={stats.total_runs}
+                  icon={Brain}
+                />
+                <MetricCard
+                  label="Edited Results"
+                  value={stats.edited_results}
+                  icon={Brain}
+                  accent="bg-blue-100 dark:bg-blue-900/40"
+                />
                 {stats.by_status.map((s) => (
-                  <MetricCard key={s.status} label={s.status} value={s.count} icon={Brain} />
+                  <MetricCard
+                    key={s.status}
+                    label={s.status}
+                    value={s.count}
+                    icon={Brain}
+                  />
                 ))}
               </MetricGrid>
 
@@ -128,12 +157,33 @@ export function AIDetectionPage() {
                   <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                     Diagnosis Distribution
                   </p>
-                  <MiniBar label="Normal" value={stats.diagnosis_dist.normal} max={stats.total_runs} color="bg-emerald-500" />
-                  <MiniBar label="HF Only" value={stats.diagnosis_dist.hf_only} max={stats.total_runs} color="bg-rose-500" />
-                  <MiniBar label="LVH Only" value={stats.diagnosis_dist.lvh_only} max={stats.total_runs} color="bg-orange-500" />
-                  <MiniBar label="Both" value={stats.diagnosis_dist.both} max={stats.total_runs} color="bg-red-600" />
+                  <MiniBar
+                    label="Normal"
+                    value={stats.diagnosis_dist.normal}
+                    max={stats.total_runs}
+                    color="bg-emerald-500"
+                  />
+                  <MiniBar
+                    label="HF Only"
+                    value={stats.diagnosis_dist.hf_only}
+                    max={stats.total_runs}
+                    color="bg-rose-500"
+                  />
+                  <MiniBar
+                    label="LVH Only"
+                    value={stats.diagnosis_dist.lvh_only}
+                    max={stats.total_runs}
+                    color="bg-orange-500"
+                  />
+                  <MiniBar
+                    label="Both"
+                    value={stats.diagnosis_dist.both}
+                    max={stats.total_runs}
+                    color="bg-red-600"
+                  />
                   <div className="pt-2 border-t border-gray-100 dark:border-gray-800 text-xs text-gray-500">
-                    Avg EF: {stats.averages.avg_ef.toFixed(1)}% · Avg Wall: {stats.averages.avg_wall_thickness.toFixed(1)}mm
+                    Avg EF: {stats.averages.avg_ef.toFixed(1)}% · Avg Wall:{" "}
+                    {stats.averages.avg_wall_thickness.toFixed(1)}mm
                   </div>
                 </div>
               </div>
@@ -167,30 +217,50 @@ export function AIDetectionPage() {
             <Table>
               <TableHeader>
                 <TableRow className="bg-gray-50/70 hover:bg-gray-50/70 border-b border-gray-200">
-                  {["Study", "EF", "Wall", "Diagnosis", "Status", "Validated By", "Date"].map(
-                    (h) => (
-                      <TableHead key={h} className="text-xs font-semibold text-gray-500 first:pl-4">
-                        {h}
-                      </TableHead>
-                    ),
-                  )}
+                  {[
+                    "Study",
+                    "EF",
+                    "Wall",
+                    "Diagnosis",
+                    "Status",
+                    "Validated By",
+                    "Date",
+                  ].map((h) => (
+                    <TableHead
+                      key={h}
+                      className="text-xs font-semibold text-gray-500 first:pl-4"
+                    >
+                      {h}
+                    </TableHead>
+                  ))}
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {results.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={7} className="py-10">
-                      <EmptyState icon={Brain} title="No AI results" description="No detection history found." />
+                      <EmptyState
+                        icon={Brain}
+                        title="No AI results"
+                        description="No detection history found."
+                      />
                     </TableCell>
                   </TableRow>
                 ) : (
                   results.map((r) => (
-                    <TableRow key={r.study_id} className="border-b border-gray-100 hover:bg-gray-50/60">
+                    <TableRow
+                      key={r.study_id}
+                      className="border-b border-gray-100 hover:bg-gray-50/60"
+                    >
                       <TableCell className="pl-4 text-sm font-medium text-gray-800">
                         #{r.study_id}
                       </TableCell>
-                      <TableCell className="text-sm tabular-nums">{r.ejection_fraction}%</TableCell>
-                      <TableCell className="text-sm tabular-nums">{r.wall_thickness}mm</TableCell>
+                      <TableCell className="text-sm tabular-nums">
+                        {r.ejection_fraction}%
+                      </TableCell>
+                      <TableCell className="text-sm tabular-nums">
+                        {r.wall_thickness}mm
+                      </TableCell>
                       <TableCell>
                         <DiagnosisBadge result={r} />
                       </TableCell>
@@ -209,7 +279,11 @@ export function AIDetectionPage() {
               </TableBody>
             </Table>
           </AdminTableShell>
-          <TablePagination page={page} totalPages={totalPages} onPageChange={setPage} />
+          <TablePagination
+            page={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+          />
         </div>
       )}
     </AdminPageShell>

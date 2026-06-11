@@ -69,7 +69,7 @@ export function ReassignModal({
     <Dialog open={!!patient} onOpenChange={(o) => !o && handleClose()}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-lg font-bold text-gray-900">
+          <DialogTitle className="text-lg font-bold text-gray-900 dark:text-gray-100">
             Reassign Doctor
           </DialogTitle>
           <DialogDescription className="text-sm text-blue-800">
@@ -81,17 +81,17 @@ export function ReassignModal({
         {patient && (
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             {/* Patient Info */}
-            <div className="rounded-lg border border-gray-200 bg-gray-200/60 p-4 grid grid-cols-2 gap-3">
+            <div className="rounded-lg border  bg-gray-900 p-4 grid grid-cols-2 gap-3">
               <div>
-                <p className="text-xs text-blue-900">First Name</p>
+                <p className="text-xs text-gray-500">First Name</p>
                 <p className="text-sm font-medium">{patient.first_name}</p>
               </div>
               <div>
-                <p className="text-xs text-blue-900">Last Name</p>
+                <p className="text-xs text-gray-500">Last Name</p>
                 <p className="text-sm font-medium">{patient.last_name}</p>
               </div>
               <div className="col-span-2">
-                <p className="text-xs text-blue-900">National ID</p>
+                <p className="text-xs text-gray-500">National ID</p>
                 <p className="text-sm font-medium font-mono">
                   {patient.national_id}
                 </p>
@@ -152,7 +152,7 @@ export function ReassignModal({
                   control={control}
                   name="study_date"
                   render={({ field }) => (
-                    <Input type="date" className="h-10 text-sm" {...field} />
+                    <Input type="date" className="h-11 text-sm" {...field} />
                   )}
                 />
                 {errors.study_date && (

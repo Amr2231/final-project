@@ -21,7 +21,7 @@ export function ViewPatientModal({
     <Dialog open={!!patient} onOpenChange={(o) => !o && onClose()}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-lg font-bold text-gray-900">
+          <DialogTitle className="text-lg font-bold text-gray-900 dark:text-gray-100">
             Patient Details
           </DialogTitle>
           <DialogDescription className="text-sm text-gray-500">

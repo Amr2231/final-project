@@ -282,7 +282,7 @@ export function StudyImageViewer({
       <button
         onClick={handleDelete}
         disabled={isDeleting}
-        className="absolute bottom-2 right-2 z-10 w-7 h-7 rounded-full bg-blue-700/85 flex items-center justify-center hover:bg-red-600 transition-colors disabled:opacity-50"
+        className="absolute bottom-2 right-2 z-10 w-7 h-7 rounded-full bg-blue-700/85 flex items-center justify-center hover:bg-blue-600 transition-colors disabled:opacity-50"
         title="Delete image"
       >
         {isDeleting ? (

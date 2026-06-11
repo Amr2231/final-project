@@ -21,7 +21,7 @@ export function ViewUserModal({
     <Dialog open={!!user} onOpenChange={(v) => !v && onClose()}>
       <DialogContent className="max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-lg font-bold text-gray-900">
+          <DialogTitle className="text-lg font-bold text-gray-900 dark:text-gray-200">
             User Details
           </DialogTitle>
           <DialogDescription className="text-sm text-gray-500">
@@ -33,29 +33,40 @@ export function ViewUserModal({
           <div className="grid grid-cols-2 gap-4 text-sm pt-2">
             <div>
               <p className="text-gray-400 text-xs mb-0.5">First Name</p>
-              <p className="font-medium text-gray-900">{user.first_name}</p>
+              <p className="font-medium text-gray-900 dark:text-gray-100">
+                {user.first_name}
+              </p>
             </div>
             <div>
               <p className="text-gray-400 text-xs mb-0.5">Last Name</p>
-              <p className="font-medium text-gray-900">{user.last_name}</p>
+              <p className="font-medium text-gray-900 dark:text-gray-100">
+                {user.last_name}
+              </p>
             </div>
             <div>
               <p className="text-gray-400 text-xs mb-0.5">Username</p>
-              <p className="font-medium text-gray-900 font-mono">
+              <p className="font-medium text-gray-900 dark:text-gray-100 font-mono">
                 {user.username ?? "—"}
               </p>
             </div>
             <div>
               <p className="text-gray-400 text-xs mb-0.5">Email</p>
-              <p className="font-medium text-gray-900">{user.email ?? "—"}</p>
+              <p
+                className="font-medium text-gray-900 dark:text-gray-100 truncate"
+                title={user.email ?? "—"}
+              >
+                {user.email ?? "—"}
+              </p>
             </div>
             <div>
               <p className="text-gray-400 text-xs mb-0.5">Role</p>
-              <p className="font-medium text-gray-900">{user.role_name}</p>
+              <p className="font-medium text-gray-900 dark:text-gray-100">
+                {user.role_name}
+              </p>
             </div>
             <div>
               <p className="text-gray-400 text-xs mb-0.5">Created Date</p>
-              <p className="font-medium text-gray-900">
+              <p className="font-medium text-gray-900 dark:text-gray-100">
                 {new Date(user.created_at).toLocaleDateString("en-GB", {
                   year: "numeric",
                   month: "short",
@@ -80,12 +91,7 @@ export function ViewUserModal({
         )}
 
         <DialogFooter>
-          <Button
-            onClick={onClose}
-            className="bg-[#8B1A2B] hover:bg-[#7a1726] text-white"
-          >
-            Close
-          </Button>
+          <Button onClick={onClose}>Close</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

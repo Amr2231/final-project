@@ -124,7 +124,7 @@ export function NotificationsPageContent({ role }: NotificationsPageContentProps
             size="sm"
             onClick={() => markAllRead()}
             disabled={isMarkingAll}
-            className="h-8 gap-2 text-xs text-blue-600 border-[#8B1A2B]/30 hover:bg-[#8B1A2B]/5 shrink-0"
+            className="h-8 gap-2 text-xs text-blue-600 border-blue-600/30 hover:bg-blue-600/5 shrink-0"
           >
             <CheckCheck className="w-3.5 h-3.5" />
             Mark all as read

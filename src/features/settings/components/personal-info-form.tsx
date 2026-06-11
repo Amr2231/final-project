@@ -59,7 +59,6 @@ export function PersonalInfoForm() {
           <Label className="text-sm text-gray-600">First Name</Label>
           <Input
             {...register("first_name")}
-            className="h-10 bg-gray-50 border-gray-200 text-sm"
           />
           <FormFieldError error={errors.first_name} />
         </div>
@@ -68,7 +67,6 @@ export function PersonalInfoForm() {
           <Label className="text-sm text-gray-600">Last Name</Label>
           <Input
             {...register("last_name")}
-            className="h-10 bg-gray-50 border-gray-200 text-sm"
           />
           <FormFieldError error={errors.last_name} />
         </div>
@@ -77,7 +75,6 @@ export function PersonalInfoForm() {
           <Label className="text-sm text-gray-600">Username</Label>
           <Input
             {...register("username")}
-            className="h-10 bg-gray-50 border-gray-200 text-sm font-mono"
           />
           <FormFieldError error={errors.username} />
         </div>
@@ -87,7 +84,6 @@ export function PersonalInfoForm() {
           <Input
             type="email"
             {...register("email")}
-            className="h-10 bg-gray-50 border-gray-200 text-sm"
           />
           <FormFieldError error={errors.email} />
         </div>

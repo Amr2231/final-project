@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import * as React from "react"
+import * as React from "react";
 
-import { cn } from "@/lib/utils/tailwind-merge"
+import { cn } from "@/lib/utils/tailwind-merge";
 
 function Table({ className, ...props }: React.ComponentProps<"table">) {
   return (
@@ -16,17 +16,20 @@ function Table({ className, ...props }: React.ComponentProps<"table">) {
         {...props}
       />
     </div>
-  )
+  );
 }
 
 function TableHeader({ className, ...props }: React.ComponentProps<"thead">) {
   return (
     <thead
       data-slot="table-header"
-      className={cn("[&_tr]:border-b", className)}
+      className={cn(
+        "[&_tr]:border-b [&_tr]:border-gray-200 dark:[&_tr]:border-gray-700",
+        className,
+      )}
       {...props}
     />
-  )
+  );
 }
 
 function TableBody({ className, ...props }: React.ComponentProps<"tbody">) {
@@ -36,7 +39,7 @@ function TableBody({ className, ...props }: React.ComponentProps<"tbody">) {
       className={cn("[&_tr:last-child]:border-0", className)}
       {...props}
     />
-  )
+  );
 }
 
 function TableFooter({ className, ...props }: React.ComponentProps<"tfoot">) {
@@ -44,12 +47,12 @@ function TableFooter({ className, ...props }: React.ComponentProps<"tfoot">) {
     <tfoot
       data-slot="table-footer"
       className={cn(
-        "border-t bg-muted/50 font-medium [&>tr]:last:border-b-0",
-        className
+        "border-t border-gray-200 bg-gray-50 font-medium dark:border-gray-700 dark:bg-gray-800/50 [&>tr]:last:border-b-0",
+        className,
       )}
       {...props}
     />
-  )
+  );
 }
 
 function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
@@ -57,12 +60,15 @@ function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
     <tr
       data-slot="table-row"
       className={cn(
-        "border-b transition-colors hover:bg-muted/50 has-aria-expanded:bg-muted/50 data-[state=selected]:bg-muted",
-        className
+        "border-b border-gray-200 transition-colors dark:border-gray-700/60",
+        "hover:bg-gray-50 dark:hover:bg-gray-700/30",
+        "has-aria-expanded:bg-gray-50 dark:has-aria-expanded:bg-gray-700/30",
+        "data-[state=selected]:bg-gray-100 dark:data-[state=selected]:bg-gray-700/50",
+        className,
       )}
       {...props}
     />
-  )
+  );
 }
 
 function TableHead({ className, ...props }: React.ComponentProps<"th">) {
@@ -70,12 +76,15 @@ function TableHead({ className, ...props }: React.ComponentProps<"th">) {
     <th
       data-slot="table-head"
       className={cn(
-        "h-10 px-2 text-left align-middle font-medium whitespace-nowrap text-foreground [&:has([role=checkbox])]:pr-0",
-        className
+        "h-10 px-2 text-left align-middle font-medium whitespace-nowrap",
+        "text-gray-600 dark:text-gray-400",
+        "bg-gray-100 dark:bg-gray-800",
+        "[&:has([role=checkbox])]:pr-0",
+        className,
       )}
       {...props}
     />
-  )
+  );
 }
 
 function TableCell({ className, ...props }: React.ComponentProps<"td">) {
@@ -83,12 +92,14 @@ function TableCell({ className, ...props }: React.ComponentProps<"td">) {
     <td
       data-slot="table-cell"
       className={cn(
-        "p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0",
-        className
+        "p-2 align-middle whitespace-nowrap",
+        "text-gray-900 dark:text-gray-200",
+        "[&:has([role=checkbox])]:pr-0",
+        className,
       )}
       {...props}
     />
-  )
+  );
 }
 
 function TableCaption({
@@ -98,10 +109,10 @@ function TableCaption({
   return (
     <caption
       data-slot="table-caption"
-      className={cn("mt-4 text-sm text-muted-foreground", className)}
+      className={cn("mt-4 text-sm text-gray-500 dark:text-gray-400", className)}
       {...props}
     />
-  )
+  );
 }
 
 export {
@@ -113,4 +124,4 @@ export {
   TableRow,
   TableCell,
   TableCaption,
-}
+};

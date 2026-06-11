@@ -23,16 +23,10 @@ export function useUploadStudyImages(studyId: string) {
       files.forEach((file) => formData.append("images", file));
       formData.append("view_type", view_type);
 
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API}/studies/${studyId}/images`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${session?.accessToken ?? ""}`,
-          },
-          body: formData,
-        },
-      );
+      const res = await fetch(`/api/studies/${studyId}/images`, {
+        method: "POST",
+        body: formData,
+      });
 
       if (!res.ok) throw new Error("Failed to upload images");
       return res.json();

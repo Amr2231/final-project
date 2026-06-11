@@ -7,6 +7,7 @@ import type {
   StudyNote,
 } from "@/lib/types/doctor";
 
+
 export function getLatestStudyNoteText(
   notes: StudyNote[] | undefined | null,
 ): string | null {

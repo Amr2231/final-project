@@ -75,19 +75,19 @@ export function SchedulePage() {
         <>
           {/* stats */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div className="rounded-xl border border-gray-200 bg-white dark:bg-gray-950 p-4">
+            <div className="rounded-xl border  dark:bg-gray-950 p-4">
               <p className="text-xs text-gray-500">Upcoming</p>
               <p className="text-2xl font-semibold tabular-nums">
                 {upcoming.length}
               </p>
             </div>
-            <div className="rounded-xl border border-gray-200 bg-white dark:bg-gray-950 p-4">
+            <div className="rounded-xl border  dark:bg-gray-950 p-4">
               <p className="text-xs text-gray-500">Completed</p>
               <p className="text-2xl font-semibold tabular-nums">
                 {completed.length}
               </p>
             </div>
-            <div className="rounded-xl border border-gray-200 bg-white dark:bg-gray-950 p-4">
+            <div className="rounded-xl border  dark:bg-gray-950 p-4">
               <p className="text-xs text-gray-500">Total Today</p>
               <p className="text-2xl font-semibold tabular-nums">
                 {schedule.length}
@@ -135,7 +135,11 @@ export function SchedulePage() {
                         {item.study_type}
                       </TableCell>
                       <TableCell className="text-sm tabular-nums">
-                        {formatFullTimestamp(item.study_date)}
+                        {new Date(item.study_date).toLocaleString("en-GB", {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric",
+                        })}
                       </TableCell>
                       <TableCell className="text-sm">{item.status}</TableCell>
                       <TableCell>

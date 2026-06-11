@@ -35,6 +35,7 @@ import { useDeactivatedPatients } from "../../hooks/use-deactivated-patients";
 import { useReactivatePatient } from "../../hooks/use-reactivate-patient";
 // import { DeactivatedPatientsFiltersModal } from "./patient-modals/filter-patients-modal";
 import type { DeactivatedPatient } from "../../actions/users.actions";
+import PaginationWrapper from "@/components/ui/paginationWrapper";
 
 export const TABLE_HEADERS = [
   "Patient",
@@ -60,15 +61,15 @@ function ReactivatePatientModal({
     <Dialog open={!!patient} onOpenChange={(v) => !v && onClose()}>
       <DialogContent className="max-w-sm">
         <DialogHeader>
-          <DialogTitle className="text-lg font-bold text-gray-900">
+          <DialogTitle className="text-lg font-bold text-gray-900 dark:text-gray-100">
             Reactivate Patient
           </DialogTitle>
           <DialogDescription className="text-sm text-gray-500">
             Are you sure you want to reactivate{" "}
-            <span className="font-medium text-gray-800">
-              {patient?.first_name} {patient?.last_name}
+            <span className="font-medium text-gray-800 dark:text-gray-100">
+              {patient?.first_name} {patient?.last_name} ?
             </span>
-            ? They will appear in the active patients list again.
+            They will appear in the active patients list again.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
@@ -141,13 +142,11 @@ export function DeactivatedPatientsTable() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
           <Input
             placeholder="Search by name or National ID..."
-            className="pl-9 h-10 text-sm bg-white"
+            className="pl-9 h-10 text-sm "
             value={search}
             onChange={(e) => handleSearchChange(e.target.value)}
           />
         </div>
-
-
 
         {total > 0 && (
           <span className="text-xs text-gray-400 whitespace-nowrap">
@@ -161,7 +160,7 @@ export function DeactivatedPatientsTable() {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: 0.1 }}
-        className="rounded-xl border border-gray-200 bg-white overflow-hidden"
+        className="rounded-xl border  overflow-hidden"
       >
         <Table>
           <TableHeader>
@@ -195,19 +194,19 @@ export function DeactivatedPatientsTable() {
                   initial={{ opacity: 0, x: -8 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.3, delay: 0.1 + i * 0.04 }}
-                  className="border-b border-gray-100 transition-colors hover:bg-gray-50/60"
+                  className="border-b border-gray-100 transition-colors dark:hover:bg-gray-900 hover:bg-gray-50"
                 >
-                    <TableCell className="">
-                      <div className="flex flex-col">
-                        <span className="font-medium text-gray-800 truncate text-center">
-                          {patient.first_name} {patient.last_name}
-                        </span>
+                  <TableCell>
+                    <div className="flex flex-col">
+                      <span className="font-medium text-gray-800 dark:text-gray-200 truncate ">
+                        {patient.first_name} {patient.last_name}
+                      </span>
 
-                        <span className="text-xs text-gray-400 font-mono">
-                          {patient.national_id}
-                        </span>
-                      </div>
-                    </TableCell>
+                      <span className="text-xs text-gray-400 font-mono">
+                        {patient.national_id}
+                      </span>
+                    </div>
+                  </TableCell>
                   <TableCell className="text-sm text-gray-600">
                     {patient.study_type ?? "—"}
                   </TableCell>
@@ -245,70 +244,11 @@ export function DeactivatedPatientsTable() {
 
       {/* ── Pagination ── */}
       {totalPages > 1 && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3, delay: 0.3 }}
-          className="flex items-center justify-between mt-4 px-1"
-        >
-          <p className="text-xs text-gray-400">
-            Page {page} of {totalPages}
-          </p>
-          <div className="flex items-center gap-1">
-            <Button
-              variant="outline"
-              size="icon"
-              className="h-8 w-8 border-gray-200"
-              onClick={() => setPage((p) => Math.max(1, p - 1))}
-              disabled={page === 1}
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </Button>
-            {Array.from({ length: totalPages }, (_, i) => i + 1)
-              .filter(
-                (p) => p === 1 || p === totalPages || Math.abs(p - page) <= 1,
-              )
-              .reduce<(number | "...")[]>((acc, p, idx, arr) => {
-                if (idx > 0 && p - (arr[idx - 1] as number) > 1)
-                  acc.push("...");
-                acc.push(p);
-                return acc;
-              }, [])
-              .map((item, idx) =>
-                item === "..." ? (
-                  <span
-                    key={`ellipsis-${idx}`}
-                    className="w-8 text-center text-xs text-gray-400"
-                  >
-                    ...
-                  </span>
-                ) : (
-                  <Button
-                    key={item}
-                    variant="outline"
-                    size="icon"
-                    className={cn(
-                      "h-8 w-8 text-xs border-gray-200",
-                      page === item &&
-                        "bg-[#8B1A2B] text-white border-[#8B1A2B] hover:bg-[#7a1726] hover:text-white",
-                    )}
-                    onClick={() => setPage(item as number)}
-                  >
-                    {item}
-                  </Button>
-                ),
-              )}
-            <Button
-              variant="outline"
-              size="icon"
-              className="h-8 w-8 border-gray-200"
-              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-              disabled={page === totalPages}
-            >
-              <ChevronRight className="w-4 h-4" />
-            </Button>
-          </div>
-        </motion.div>
+        <PaginationWrapper
+          totalPages={totalPages}
+          currentPage={page}
+          onPageChange={setPage}
+        />
       )}
 
       {/* ── Modals ── */}

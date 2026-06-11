@@ -17,15 +17,15 @@ export const StatusBadge = ({ status }: { status: StudyStatus }) => {
       className: "bg-gray-100 text-gray-500 border-gray-200",
       label: "Scheduled",
     },
-    Viewed: {
+    Pending: {
       icon: Clock,
       className: "bg-blue-50 text-blue-600 border-blue-200",
-      label: "Viewed",
+      label: "Pending",
     },
     "In Progress": {
       icon: Clock,
-      className: "bg-orange-100 text-red-700 border-red-200",
-      label: "Pending",
+      className: "bg-yellow-50 text-yellow-700 border-yellow-200",
+      label: "In Progress",
     },
   };
 

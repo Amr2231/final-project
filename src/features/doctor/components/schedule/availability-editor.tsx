@@ -14,6 +14,7 @@ import {
 } from "../../hooks/use-doctor-schedule";
 import type { DoctorScheduleDay } from "../../api/schedule.api";
 import { DoctorLoadingState } from "../shared/ui";
+import { EmptyState } from "@/components/ui/empty-state";
 
 // helpers
 function toTimeInput(value?: string | null) {
@@ -59,8 +60,8 @@ export function AvailabilityEditor() {
 
   return (
     <div className="space-y-6">
-      <div className="rounded-xl border border-gray-200 bg-white dark:bg-gray-950 overflow-hidden">
-        <div className="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
+      <div className="rounded-xl border  dark:bg-gray-950 overflow-hidden">
+        <div className="px-4 py-3 border-b  flex items-center justify-between">
           <div>
             <p className="text-sm font-semibold">Weekly availability</p>
             <p className="text-xs text-gray-500">
@@ -78,7 +79,7 @@ export function AvailabilityEditor() {
           </Button>
         </div>
 
-        <div className="divide-y divide-gray-100">
+        <div className="divide-y">
           {days.map((day) => (
             <div
               key={day.day_of_week}
@@ -182,7 +183,7 @@ export function AvailabilityEditor() {
         </div>
       </div>
 
-      <div className="rounded-xl border border-gray-200 bg-white dark:bg-gray-950 p-4 space-y-4">
+      <div className="rounded-xl border  dark:bg-gray-950 p-4 space-y-4">
         <div>
           <p className="text-sm font-semibold flex items-center gap-2">
             <CalendarOff className="w-4 h-4" />
@@ -229,7 +230,7 @@ export function AvailabilityEditor() {
 
         {(data?.holidays ?? []).length === 0 ? (
           <p className="text-sm text-gray-400">
-            No upcoming holidays configured.
+            <EmptyState icon={CalendarOff} title="No holidays" />
           </p>
         ) : (
           <ul className="space-y-2">

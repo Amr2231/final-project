@@ -40,6 +40,7 @@ import type { EditUserPayload } from "./active-modals/edit-user-modal";
 import { EmptyState } from "@/components/ui/empty-state";
 import { PulseLoader } from "@/components/ui/pulse-loader";
 import { TABLE_HEADERS } from "@/lib/constants/users-table.constants";
+import PaginationWrapper from "@/components/ui/paginationWrapper";
 
 // ── Lazy-load modals ──────────────────────────────────────────────────────────
 const UserFiltersModal = dynamic(() =>
@@ -61,7 +62,6 @@ const DeleteUserModal = dynamic(() =>
 // ── Memoized row ──────────────────────────────────────────────────────────────
 const UserRow = memo(function UserRow({
   user,
-  isSelected,
   onView,
   onEdit,
   onDeactivate,
@@ -83,22 +83,21 @@ const UserRow = memo(function UserRow({
     <TableRow
       className={cn(
         "border-b border-gray-100 transition-colors hover:bg-gray-50/60 group",
-        isSelected && "bg-[#8B1A2B]/5",
         user.is_active === 0 && "bg-red-50/40",
       )}
     >
       <TableCell className="pl-4">
-        <span className="text-sm font-medium text-gray-700">
+        <span className="text-sm font-medium text-gray-600 dark:text-gray-200">
           U-{String(user.user_id).padStart(4, "0")}
         </span>
       </TableCell>
       <TableCell className="">
-        <span className="font-medium text-gray-800 truncate text-center">
+        <span className="font-medium text-gray-600 dark:text-gray-200 truncate text-center">
           {user.first_name} {user.last_name}
         </span>
       </TableCell>
       <TableCell className="text-sm text-gray-600">{user.role_name}</TableCell>
-      <TableCell className="text-sm text-[#8B1A2B]/70 tabular-nums">
+      <TableCell className="text-sm text-blue-900/70 tabular-nums">
         {new Date(user.created_at).toLocaleDateString("en-GB", {
           year: "numeric",
           month: "short",
@@ -115,7 +114,7 @@ const UserRow = memo(function UserRow({
           <Button
             variant="ghost"
             size="icon"
-            className="h-8 w-8 text-gray-500 hover:text-[#8B1A2B]"
+            className="h-8 w-8 text-gray-500 hover:text-blue-800"
             onClick={() => onView(user)}
             title="View"
           >
@@ -124,7 +123,7 @@ const UserRow = memo(function UserRow({
           <Button
             variant="ghost"
             size="icon"
-            className="h-8 w-8 text-gray-500 hover:text-[#8B1A2B]"
+            className="h-8 w-8 text-gray-500 hover:text-blue-800"
             onClick={() => onEdit(user)}
             title="Edit"
           >
@@ -134,7 +133,7 @@ const UserRow = memo(function UserRow({
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8 text-gray-500 hover:text-orange-500"
+              className="h-8 w-8 text-gray-500 hover:text-blue-800"
               onClick={() => onDeactivate(user)}
               disabled={isDeactivating}
               title="Deactivate"
@@ -142,12 +141,11 @@ const UserRow = memo(function UserRow({
               <UserX className="w-4 h-4" />
             </Button>
           ) : null}
-          {user.role_name !== "Doctor" &&
-          user.user_id !== currentUserId ? (
+          {user.role_name !== "Doctor" && user.user_id !== currentUserId ? (
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8 text-gray-500 hover:text-red-500"
+              className="h-8 w-8 text-gray-500 hover:text-blue-900"
               onClick={() => onDelete(user)}
               title="Delete"
             >
@@ -278,12 +276,12 @@ export function UsersTable() {
         >
           <Link
             href="/admin/users"
-            className="flex items-center justify-center w-8 h-8 rounded-lg border border-gray-200 bg-white text-gray-500 hover:text-[#8B1A2B] hover:border-[#8B1A2B]/30 transition-colors"
+            className="flex items-center justify-center w-8 h-8 rounded-lg border border-gray-100 text-gray-500 hover:text-blue-600 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
           </Link>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
               Users Management
             </h1>
             <p className="text-sm text-gray-500 mt-0.5">
@@ -296,7 +294,7 @@ export function UsersTable() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
             <Input
               placeholder="Search by name or username..."
-              className="pl-9 h-10 text-sm bg-white"
+              className="pl-9 h-10 text-sm"
               value={search}
               onChange={(e) => handleSearchChange(e.target.value)}
             />
@@ -306,14 +304,14 @@ export function UsersTable() {
             variant="outline"
             className={cn(
               "h-10 gap-2 text-sm font-normal text-gray-600 border-gray-200",
-              activeFilters > 0 && "bg-[#8B1A2B] text-white border-[#8B1A2B]",
+              activeFilters > 0 && "border-gray-200",
             )}
             onClick={() => setFiltersOpen(true)}
           >
             <SlidersHorizontal className="w-4 h-4" />
             Filters
             {activeFilters > 0 && (
-              <span className="flex h-4 w-4 items-center justify-center rounded-full bg-white text-[10px] text-[#8B1A2B] font-bold">
+              <span className="flex h-4 w-4 items-center justify-center rounded-full bg-white text-[10px] text-blue-600 font-bold">
                 {activeFilters}
               </span>
             )}
@@ -328,14 +326,14 @@ export function UsersTable() {
         </div>
 
         {/* ── Table ── */}
-        <div className="rounded-xl border border-gray-200 bg-white overflow-hidden animate-in fade-in duration-300">
+        <div className="rounded-xl border  overflow-hidden animate-in fade-in duration-300">
           <Table>
             <TableHeader>
-              <TableRow className="bg-gray-50/70 hover:bg-gray-50/70 border-b border-gray-200">
+              <TableRow className=" hover:bg-gray-50/70 border-b border-gray-200">
                 {TABLE_HEADERS.map((h) => (
                   <TableHead
                     key={h}
-                    className="text-xs font-semibold text-gray-500 first-of-type:pl-3.5"
+                    className="text-xs font-semibold first-of-type:pl-3.5"
                   >
                     {h}
                   </TableHead>
@@ -348,7 +346,7 @@ export function UsersTable() {
                 <TableRow>
                   <TableCell
                     colSpan={TABLE_HEADERS.length + 1}
-                    className="text-center text-sm text-gray-400 py-10"
+                    className="text-center text-sm py-10"
                   >
                     <EmptyState
                       icon={Users}
@@ -379,67 +377,11 @@ export function UsersTable() {
 
         {/* ── Pagination ── */}
         {totalPages > 1 && (
-          <div className="flex items-center justify-between mt-4 px-1 animate-in fade-in duration-300">
-            <p className="text-xs text-gray-400">
-              Page {page} of {totalPages}
-            </p>
-            <div className="flex items-center gap-1">
-              <Button
-                variant="outline"
-                size="icon"
-                className="h-8 w-8 border-gray-200"
-                onClick={() => setPage((p) => Math.max(1, p - 1))}
-                disabled={page === 1}
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </Button>
-
-              {Array.from({ length: totalPages }, (_, i) => i + 1)
-                .filter(
-                  (p) => p === 1 || p === totalPages || Math.abs(p - page) <= 1,
-                )
-                .reduce<(number | "...")[]>((acc, p, idx, arr) => {
-                  if (idx > 0 && p - (arr[idx - 1] as number) > 1)
-                    acc.push("...");
-                  acc.push(p);
-                  return acc;
-                }, [])
-                .map((item, idx) =>
-                  item === "..." ? (
-                    <span
-                      key={`ellipsis-${idx}`}
-                      className="w-8 text-center text-xs text-gray-400"
-                    >
-                      ...
-                    </span>
-                  ) : (
-                    <Button
-                      key={item}
-                      variant="outline"
-                      size="icon"
-                      className={cn(
-                        "h-8 w-8 text-xs border-gray-200",
-                        page === item &&
-                          "bg-[#8B1A2B] text-white border-[#8B1A2B] hover:bg-[#7a1726] hover:text-white",
-                      )}
-                      onClick={() => setPage(item as number)}
-                    >
-                      {item}
-                    </Button>
-                  ),
-                )}
-
-              <Button
-                variant="outline"
-                size="icon"
-                className="h-8 w-8 border-gray-200"
-                onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-                disabled={page === totalPages}
-              >
-                <ChevronRight className="w-4 h-4" />
-              </Button>
-            </div>
-          </div>
+          <PaginationWrapper
+            totalPages={totalPages}
+            currentPage={page}
+            onPageChange={setPage}
+          />
         )}
 
         {/* ── Modals ── */}
@@ -449,8 +391,6 @@ export function UsersTable() {
             onOpenChange={setFiltersOpen}
             filterRole={filterRole}
             setFilterRole={handleSetFilterRole}
-            // filterStatus={filterStatus}
-            // setFilterStatus={handleSetFilterStatus}
             filterDate={filterDate}
             setFilterDate={handleSetFilterDate}
             sortDate={sortDate}

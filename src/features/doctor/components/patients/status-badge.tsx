@@ -26,33 +26,26 @@ export const ReportStatusBadge = ({ status }: { status: string }) => {
   );
 };
 
-export const PatientStatusBadge = ({ status }: { status: PatientStatus | string }) => {
-  const normalized =
-    status === "In Progress"
-      ? "Viewed"
-      : status === "Pending"
-        ? "Viewed"
-        : status;
-
+export const PatientStatusBadge = ({
+  status,
+}: {
+  status: PatientStatus | string;
+}) => {
   const config: Record<string, string> = {
     Scheduled: "bg-gray-100 text-gray-700 border-gray-200",
-    Viewed: "bg-blue-50 text-blue-600 border-blue-200",
+    Pending: "bg-blue-50 text-blue-600 border-blue-200",
+    "In Progress": "bg-yellow-50 text-yellow-700 border-yellow-200",
     Completed: "bg-green-50 text-green-700 border-green-200",
   };
-
-  const label =
-    status === "In Progress"
-      ? "Pending"
-      : String(normalized);
 
   return (
     <span
       className={cn(
         "inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border",
-        config[String(normalized)] ?? config.Scheduled,
+        config[status] ?? config.Scheduled,
       )}
     >
-      {label}
+      {String(status)}
     </span>
   );
 };

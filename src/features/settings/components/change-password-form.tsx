@@ -54,7 +54,6 @@ export function ChangePasswordForm({ variant = "admin" }: ChangePasswordFormProp
           placeholder="Enter current password"
           {...register("current_password")}
           error={!!errors.current_password}
-          className="bg-gray-50 border-gray-200"
         />
         <FormFieldError error={errors.current_password} />
       </div>
@@ -66,7 +65,6 @@ export function ChangePasswordForm({ variant = "admin" }: ChangePasswordFormProp
             placeholder="Enter new password"
             {...register("new_password")}
             error={!!errors.new_password}
-            className="bg-gray-50 border-gray-200"
           />
           <FormFieldError error={errors.new_password} />
           {!errors.new_password && (
@@ -80,7 +78,6 @@ export function ChangePasswordForm({ variant = "admin" }: ChangePasswordFormProp
             placeholder="Confirm new password"
             {...register("confirm_password")}
             error={!!errors.confirm_password}
-            className="bg-gray-50 border-gray-200"
           />
           <FormFieldError error={errors.confirm_password} />
         </div>

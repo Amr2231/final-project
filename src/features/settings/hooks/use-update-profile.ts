@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { updateProfileAction } from "../actions/profile.actions";
 import type { PersonalInfoFormValues } from "@/lib/shared/schemas/settings.schema";
 import type { UpdateProfileResponse } from "../api/profile.api";
+import { useRouter } from "next/navigation";
 
 function handleProfileResponse(
   data: UpdateProfileResponse,
@@ -37,9 +38,11 @@ function handleProfileResponse(
 
 export function useUpdateProfile() {
   const { update } = useSession();
+  const router = useRouter();
 
   return useMutation({
-    mutationFn: (payload: PersonalInfoFormValues) => updateProfileAction(payload),
+    mutationFn: (payload: PersonalInfoFormValues) =>
+      updateProfileAction(payload),
     onSuccess: async (data) => {
       await handleProfileResponse(data, async () => {
         if (data.id) {
@@ -52,6 +55,7 @@ export function useUpdateProfile() {
             username: data.username,
             email: data.email,
           });
+          router.refresh();
         }
       });
     },

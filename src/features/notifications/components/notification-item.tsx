@@ -44,7 +44,7 @@ export function NotificationItem({
           "flex items-start gap-4 p-4 rounded-xl border transition-colors",
           notification.isRead
             ? "border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-950"
-            : "border-[#8B1A2B]/20 bg-[#8B1A2B]/5 dark:border-[#8B1A2B]/30 dark:bg-[#8B1A2B]/10",
+            : "border-blue-600/20 bg-blue-600/5",
         )}
       >
         <NotificationIcon category={notification.category} />
@@ -78,7 +78,7 @@ export function NotificationItem({
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8 text-[#8B1A2B] hover:bg-[#8B1A2B]/10"
+              className="h-8 w-8 text-blue-600 hover:bg-blue-600/10"
               onClick={() => onMarkRead(notification.id)}
               title="Mark as read"
             >
@@ -107,7 +107,7 @@ export function NotificationItem({
       onClick={handleClick}
       className={cn(
         "flex w-full items-start gap-3 px-4 py-3 text-left transition-colors hover:bg-gray-50 dark:hover:bg-gray-900/50",
-        !notification.isRead && "bg-[#8B1A2B]/5 dark:bg-[#8B1A2B]/10",
+        !notification.isRead && "bg-blue-600/5 dark:bg-blue-600/10",
         href && "cursor-pointer",
       )}
     >
@@ -123,7 +123,7 @@ export function NotificationItem({
             {notification.title}
           </p>
           {!notification.isRead && (
-            <span className="w-2 h-2 rounded-full bg-[#8B1A2B] shrink-0" />
+            <span className="w-2 h-2 rounded-full bg-blue-600 shrink-0" />
           )}
         </div>
         <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 line-clamp-2">

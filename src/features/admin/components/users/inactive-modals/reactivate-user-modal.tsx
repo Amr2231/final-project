@@ -29,10 +29,10 @@ export function ReactivateModal({
     <Dialog open={!!user} onOpenChange={(v) => !v && onClose()}>
       <DialogContent className="max-w-sm">
         <DialogHeader>
-          <DialogTitle className="text-lg font-bold text-gray-900">
+          <DialogTitle className="text-lg font-bold text-gray-900 dark:text-gray-100">
             Reactivate Account
           </DialogTitle>
-          <DialogDescription className="text-sm text-[#8B1A2B]">
+          <DialogDescription className="text-sm text-blue-800">
             Confirm account reactivation
           </DialogDescription>
         </DialogHeader>
@@ -43,7 +43,7 @@ export function ReactivateModal({
               <CheckCircle2 className="w-6 h-6 text-green-600" />
             </div>
             <div className="text-center space-y-1">
-              <p className="text-sm font-semibold text-gray-900">
+              <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">
                 Reactivate {user.fName} {user.lName}?
               </p>
               <p className="text-xs text-gray-500 leading-relaxed">
@@ -54,12 +54,12 @@ export function ReactivateModal({
             </div>
           </div>
 
-          <div className="rounded-lg border border-gray-200 bg-gray-50 p-3 space-y-0.5">
-            <p className="text-xs text-gray-400">Account</p>
-            <p className="text-sm font-semibold text-gray-900">
+          <div className="rounded-lg border border-gray-200 bg-gray-50 dark:bg-gray-800 dark:border-gray-700 p-3 space-y-0.5">
+            <p className="text-xs text-gray-400 dark:text-gray-300">Account</p>
+            <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">
               {user.fName} {user.lName}
             </p>
-            <p className="text-xs text-gray-500">{user.role}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-300">{user.role}</p>
           </div>
         </div>
 

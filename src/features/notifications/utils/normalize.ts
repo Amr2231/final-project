@@ -13,31 +13,38 @@ export function getNotificationCategory(
 ): NotificationCategory {
   if (
     type === "patient_registered" ||
-    type === "doctor_reassigned"
-  ) {
+    type === "doctor_reassigned" ||
+    type === "patient_deactivated" || 
+    type === "patient_completed" 
+  )
     return "patient";
-  }
-  if (type === "report_signed" || type === "image_uploaded") {
-    return "report";
-  }
+
   if (
-    type === "appointment_created" ||
-    type === "appointment_cancelled" ||
-    type === "appointment_approved" ||
-    type === "appointment_status"
-  ) {
+    type === "report_signed" ||
+    type === "report_downloaded" || 
+    type === "image_uploaded"
+  )
+    return "report";
+
+  if (
+    type === "user_created" || 
+    type === "user_deactivated" || 
+    type === "user_reactivated" || 
+    type === "profile_updated" || 
+    type === "password_changed" || 
+    type === "patients_transferred" || 
+    type === "suspicious_ip" || 
+    type === "failed_login" 
+  )
     return "system";
-  }
-  if (type === "chat_message" || type === "doctor_unavailable") {
-    return "system";
-  }
+
   if (
     type === "ai_completed" ||
     type === "ai_validated" ||
     type === "ai_edited"
-  ) {
+  )
     return "ai";
-  }
+
   return "system";
 }
 
@@ -55,6 +62,8 @@ export function normalizeNotification(row: NotificationRow): Notification {
   };
 }
 
-export function normalizeNotifications(rows: NotificationRow[]): Notification[] {
+export function normalizeNotifications(
+  rows: NotificationRow[],
+): Notification[] {
   return rows.map(normalizeNotification);
 }

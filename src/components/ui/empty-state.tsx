@@ -25,7 +25,7 @@ export function EmptyState({
         <Icon className="w-6 h-6 text-blue-800" />
       </div>
       <div className="text-center">
-        <p className="text-sm font-medium text-gray-900 mb-1">{title}</p>
+        <p className="text-sm font-medium text-gray-900 mb-1 dark:text-gray-100">{title}</p>
         {description && <p className="text-xs text-gray-400">{description}</p>}
       </div>
     </div>

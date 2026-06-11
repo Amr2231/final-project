@@ -195,7 +195,7 @@ export function ActivePatientsTable({
                         },
                       )}
                     </TableCell>
-                    <TableCell className="text-sm text-muted-foreground max-w-[180px]">
+                    <TableCell className="text-sm text-muted-foreground max-w-45">
                       {patient.notes ? (
                         <Tooltip>
                           <TooltipTrigger asChild>

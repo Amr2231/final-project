@@ -1,4 +1,3 @@
-// ===================== MOVE =====================
 // Transfers the doctor's patients to another doctor, then deactivates them.
 "use client";
 import { getDoctorsAction } from "@/features/admin/actions/users.actions";
@@ -54,22 +53,22 @@ export function TransferModal({
     <Dialog open={!!user} onOpenChange={(v) => !v && onClose()}>
       <DialogContent key={user.id} className="max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-lg font-bold text-gray-900">
+          <DialogTitle className="text-lg font-bold text-gray-900 dark:text-gray-100">
             Transfer Patients & Deactivate
           </DialogTitle>
-          <DialogDescription className="text-sm text-[#8B1A2B]">
+          <DialogDescription className="text-sm text-blue-800">
             Select a doctor to transfer all patients to before deactivating this
             user
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-1">
-          <div className="rounded-lg border border-gray-200 bg-gray-50 p-3 space-y-0.5">
-            <p className="text-xs text-gray-400">User to be deactivated</p>
-            <p className="text-sm font-semibold text-gray-900">
+          <div className="rounded-lg border border-gray-200 bg-gray-50 dark:bg-gray-800 dark:border-gray-700 p-3 space-y-0.5">
+            <p className="text-xs text-gray-400 dark:text-gray-300">User to be deactivated</p>
+            <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">
               {user.fName} {user.lName}
             </p>
-            <p className="text-xs text-gray-500">{user.role}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-300">{user.role}</p>
           </div>
 
           <div className="space-y-1.5">
@@ -83,7 +82,7 @@ export function TransferModal({
                 setErrors({});
               }}
               disabled={loadingDoctors}
-              className={`w-full h-9 rounded-md border px-3 text-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#8B1A2B]/20 focus:border-[#8B1A2B] ${
+              className={`w-full h-9 rounded-md border px-3 text-sm text-gray-600 placeholder:text-gray-400 focus:outline-none focus:ring-2  ${
                 errors.doctor ? "border-red-400" : "border-gray-200"
               }`}
             >
@@ -116,7 +115,6 @@ export function TransferModal({
           <Button
             disabled={isPending || loadingDoctors}
             onClick={handleConfirm}
-            className="bg-[#8B1A2B] hover:bg-[#7a1726] text-white"
           >
             {isPending ? "Processing..." : "Transfer"}
           </Button>

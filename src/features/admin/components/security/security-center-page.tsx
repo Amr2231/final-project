@@ -40,6 +40,7 @@ import {
   useSecurityOverview,
   useUnlockAccount,
 } from "../../hooks/use-security";
+import PaginationWrapper from "@/components/ui/paginationWrapper";
 
 type SecurityTab = "overview" | "locked" | "logs";
 
@@ -80,7 +81,8 @@ export function SecurityCenterPage() {
   const [ipSearch, setIpSearch] = useState("");
   const [debouncedIp] = useDebounce(ipSearch, 400);
 
-  const { data: overviewData, isLoading: overviewLoading } = useSecurityOverview();
+  const { data: overviewData, isLoading: overviewLoading } =
+    useSecurityOverview();
   const { data: lockedData, isLoading: lockedLoading } = useLockedAccounts();
   const { data: logsData, isFetching: logsFetching } = useFailedLoginLogs({
     page: logsPage,
@@ -164,13 +166,21 @@ export function SecurityCenterPage() {
             <Table>
               <TableHeader>
                 <TableRow className="bg-gray-50/70 hover:bg-gray-50/70 border-b border-gray-200">
-                  {["User", "Role", "Failed Attempts", "Locked Until", "IP", "Action"].map(
-                    (h) => (
-                      <TableHead key={h} className="text-xs font-semibold text-gray-500 first:pl-4">
-                        {h}
-                      </TableHead>
-                    ),
-                  )}
+                  {[
+                    "User",
+                    "Role",
+                    "Failed Attempts",
+                    "Locked Until",
+                    "IP",
+                    "Action",
+                  ].map((h) => (
+                    <TableHead
+                      key={h}
+                      className="text-xs font-semibold text-gray-500 first:pl-4"
+                    >
+                      {h}
+                    </TableHead>
+                  ))}
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -186,14 +196,19 @@ export function SecurityCenterPage() {
                   </TableRow>
                 ) : (
                   lockedData.data.map((acc) => (
-                    <TableRow key={acc.user_id} className="border-b border-gray-100 hover:bg-gray-50/60">
+                    <TableRow
+                      key={acc.user_id}
+                      className="border-b border-gray-100 hover:bg-gray-50/60"
+                    >
                       <TableCell className="pl-4">
-                        <p className="text-sm font-medium text-gray-800">
+                        <p className="text-sm font-medium text-gray-800 dark:text-gray-100">
                           {acc.first_name} {acc.last_name}
                         </p>
                         <p className="text-xs text-gray-400">{acc.email}</p>
                       </TableCell>
-                      <TableCell className="text-sm text-gray-600">{acc.role_name}</TableCell>
+                      <TableCell className="text-sm text-gray-600">
+                        {acc.role_name}
+                      </TableCell>
                       <TableCell>
                         <span className="text-sm font-semibold text-red-600">
                           {acc.failed_login_attempts}
@@ -239,11 +254,16 @@ export function SecurityCenterPage() {
             <Table>
               <TableHeader>
                 <TableRow className="bg-gray-50/70 hover:bg-gray-50/70 border-b border-gray-200">
-                  {["Timestamp", "User", "Description", "IP Address"].map((h) => (
-                    <TableHead key={h} className="text-xs font-semibold text-gray-500 first:pl-4">
-                      {h}
-                    </TableHead>
-                  ))}
+                  {["Timestamp", "User", "Description", "IP Address"].map(
+                    (h) => (
+                      <TableHead
+                        key={h}
+                        className="text-xs font-semibold text-gray-500 first:pl-4"
+                      >
+                        {h}
+                      </TableHead>
+                    ),
+                  )}
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -258,13 +278,16 @@ export function SecurityCenterPage() {
                     </TableCell>
                   </TableRow>
                 ) : (
-                  logsData.data.map((log) => (
-                    <TableRow key={log.audit_log_id} className="border-b border-gray-100 hover:bg-gray-50/60">
+                  logsData.data.map((log , i) => (
+                    <TableRow
+                      key={`${log.audit_log_id}-${i}`}
+                      className="border-b border-gray-100 hover:bg-gray-50/60"
+                    >
                       <TableCell className="pl-4 text-sm text-gray-600 tabular-nums whitespace-nowrap">
                         {formatFullTimestamp(log.created_at)}
                       </TableCell>
                       <TableCell>
-                        <p className="text-sm font-medium text-gray-800">
+                        <p className="text-sm font-medium text-gray-800 dark:text-gray-100">
                           {log.actor_name ?? "—"}
                         </p>
                       </TableCell>
@@ -280,15 +303,20 @@ export function SecurityCenterPage() {
               </TableBody>
             </Table>
           </AdminTableShell>
-          <TablePagination
-            page={logsPage}
-            totalPages={logsData?.pages ?? 1}
-            onPageChange={setLogsPage}
-          />
+          {(logsData?.pages ?? 0) > 1 && (
+            <PaginationWrapper
+              totalPages={logsData?.pages ?? 1}
+              currentPage={logsPage}
+              onPageChange={setLogsPage}
+            />
+          )}
         </div>
       )}
 
-      <Dialog open={!!targetUser} onOpenChange={(v) => !v && setTargetUser(null)}>
+      <Dialog
+        open={!!targetUser}
+        onOpenChange={(v) => !v && setTargetUser(null)}
+      >
         <DialogContent className="max-w-sm">
           <DialogHeader>
             <DialogTitle>Unlock Account</DialogTitle>

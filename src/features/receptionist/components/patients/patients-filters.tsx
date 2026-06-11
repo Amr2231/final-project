@@ -46,7 +46,7 @@ export function ActiveFiltersModal({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-sm">
         <DialogHeader>
-          <DialogTitle className="text-base font-bold text-gray-900">
+          <DialogTitle className="text-base font-bold text-gray-900 dark:text-gray-100">
             Filters
           </DialogTitle>
         </DialogHeader>
@@ -164,7 +164,7 @@ export function HistoricalFiltersModal({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-sm">
         <DialogHeader>
-          <DialogTitle className="text-base font-bold text-gray-900">
+          <DialogTitle className="text-base font-bold text-gray-900 dark:text-gray-100">
             Filters
           </DialogTitle>
         </DialogHeader>
@@ -207,7 +207,7 @@ export function HistoricalFiltersModal({
             <p className="text-xs text-gray-400">Study date</p>
             <Input
               type="date"
-              className="h-9 text-sm w-full"
+              className=" text-sm w-full"
               value={filterDate}
               onChange={(e) => setFilterDate(e.target.value)}
             />

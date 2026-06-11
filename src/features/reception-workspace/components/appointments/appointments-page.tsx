@@ -1,7 +1,13 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { LayoutList, GitBranch, ArrowUpDown, CalendarDaysIcon } from "lucide-react";
+import { useDebounce } from "use-debounce";
+import {
+  LayoutList,
+  GitBranch,
+  ArrowUpDown,
+  CalendarDaysIcon,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -23,10 +29,7 @@ import {
   useTodayAppointments,
   useUpdateAppointmentStatus,
 } from "../../hooks/use-reception";
-import {
-  APPOINTMENT_STATUSES,
-  PRIORITY_LEVELS,
-} from "../../constants";
+import { APPOINTMENT_STATUSES, PRIORITY_LEVELS } from "../../constants";
 import type { Appointment } from "@/lib/types/reception-workspace";
 import { cn } from "@/lib/utils/tailwind-merge";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -34,6 +37,7 @@ import { EmptyState } from "@/components/ui/empty-state";
 export function AppointmentsPage() {
   const [view, setView] = useState<"table" | "timeline">("table");
   const [search, setSearch] = useState("");
+  const [debouncedSearch] = useDebounce(search, 400);
   const [status, setStatus] = useState("");
   const [priority, setPriority] = useState("");
   const sort = "time";
@@ -43,7 +47,7 @@ export function AppointmentsPage() {
 
   const filters = useMemo(
     () => ({
-      search,
+      search: debouncedSearch,
       status: status || undefined,
       priority: priority || undefined,
       sort,
@@ -51,7 +55,7 @@ export function AppointmentsPage() {
       page,
       limit: 12,
     }),
-    [search, status, priority, sort, order, page],
+    [debouncedSearch, status, priority, sort, order, page],
   );
 
   const { data, isLoading } = useTodayAppointments(filters);
@@ -90,25 +94,48 @@ export function AppointmentsPage() {
         <div className="flex flex-col sm:flex-row gap-3 flex-wrap">
           <TableToolbar
             search={search}
-            onSearchChange={(v) => { setSearch(v); setPage(1); }}
+            onSearchChange={(v) => {
+              setSearch(v);
+              setPage(1);
+            }}
             searchPlaceholder="Search patients..."
             className="flex-1"
           />
-          <Select value={status || "all"} onValueChange={(v) => { setStatus(v === "all" ? "" : v); setPage(1); }}>
-            <SelectTrigger className="w-40"><SelectValue placeholder="Status" /></SelectTrigger>
+          <Select
+            value={status || "all"}
+            onValueChange={(v) => {
+              setStatus(v === "all" ? "" : v);
+              setPage(1);
+            }}
+          >
+            <SelectTrigger className="w-40">
+              <SelectValue placeholder="Status" />
+            </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All statuses</SelectItem>
               {APPOINTMENT_STATUSES.map((s) => (
-                <SelectItem key={s} value={s}>{s}</SelectItem>
+                <SelectItem key={s} value={s}>
+                  {s}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
-          <Select value={priority || "all"} onValueChange={(v) => { setPriority(v === "all" ? "" : v); setPage(1); }}>
-            <SelectTrigger className="w-40"><SelectValue placeholder="Priority" /></SelectTrigger>
+          <Select
+            value={priority || "all"}
+            onValueChange={(v) => {
+              setPriority(v === "all" ? "" : v);
+              setPage(1);
+            }}
+          >
+            <SelectTrigger className="w-40">
+              <SelectValue placeholder="Priority" />
+            </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All priorities</SelectItem>
               {PRIORITY_LEVELS.map((p) => (
-                <SelectItem key={p} value={p}>{p}</SelectItem>
+                <SelectItem key={p} value={p}>
+                  {p}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -129,18 +156,25 @@ export function AppointmentsPage() {
                 <tr>
                   <th className="text-left p-3 font-medium">Time</th>
                   <th className="text-left p-3 font-medium">Patient</th>
-                  <th className="text-left p-3 font-medium hidden md:table-cell">Doctor</th>
+                  <th className="text-left p-3 font-medium hidden md:table-cell">
+                    Doctor
+                  </th>
                   <th className="text-left p-3 font-medium">Status</th>
-                  <th className="text-left p-3 font-medium hidden sm:table-cell">Priority</th>
+                  <th className="text-left p-3 font-medium hidden sm:table-cell">
+                    Priority
+                  </th>
                   <th className="text-left p-3 font-medium">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {appointments.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="p-8 text-center text-muted-foreground">
+                    <td
+                      colSpan={6}
+                      className="p-8 text-center text-muted-foreground"
+                    >
                       <EmptyState
-                        title="No appointments found" 
+                        title="No appointments found"
                         description="Try adjusting your search or filters to find what you're looking for."
                         icon={CalendarDaysIcon}
                       />
@@ -153,17 +187,30 @@ export function AppointmentsPage() {
                       className="border-b hover:bg-muted/30 cursor-pointer"
                       onClick={() => setSelected(a)}
                     >
-                      <td className="p-3 font-mono">{String(a.appointment_time).slice(0, 5)}</td>
+                      <td className="p-3 font-mono">
+                        {String(a.appointment_time).slice(0, 5)}
+                      </td>
                       <td className="p-3 font-medium">{a.patient_name}</td>
-                      <td className="p-3 hidden md:table-cell text-muted-foreground">{a.doctor_name}</td>
-                      <td className="p-3"><StatusBadge label={a.status} /></td>
-                      <td className="p-3 hidden sm:table-cell"><PriorityBadge label={a.priority_level} /></td>
+                      <td className="p-3 hidden md:table-cell text-muted-foreground">
+                        {a.doctor_name}
+                      </td>
+                      <td className="p-3">
+                        <StatusBadge label={a.status} />
+                      </td>
+                      <td className="p-3 hidden sm:table-cell">
+                        <PriorityBadge label={a.priority_level} />
+                      </td>
                       <td className="p-3" onClick={(e) => e.stopPropagation()}>
                         {a.status === "Scheduled" && (
                           <Button
                             size="sm"
                             variant="outline"
-                            onClick={() => updateStatus({ id: a.appointment_id, status: "Checked In" })}
+                            onClick={() =>
+                              updateStatus({
+                                id: a.appointment_id,
+                                status: "Checked In",
+                              })
+                            }
                           >
                             Check In
                           </Button>
@@ -183,7 +230,8 @@ export function AppointmentsPage() {
                 key={a.appointment_id}
                 className={cn(
                   "relative ml-4 mb-4 p-4 rounded-xl border bg-card cursor-pointer hover:shadow-sm transition-shadow",
-                  selected?.appointment_id === a.appointment_id && "ring-2 ring-[#8B1A2B]/30",
+                  selected?.appointment_id === a.appointment_id &&
+                    "ring-2 ring-[#8B1A2B]/30",
                 )}
                 onClick={() => setSelected(a)}
               >
@@ -194,7 +242,9 @@ export function AppointmentsPage() {
                       {String(a.appointment_time).slice(0, 5)}
                     </p>
                     <p className="font-semibold">{a.patient_name}</p>
-                    <p className="text-sm text-muted-foreground">{a.doctor_name}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {a.doctor_name}
+                    </p>
                   </div>
                   <div className="flex gap-2">
                     <StatusBadge label={a.status} />
@@ -204,8 +254,8 @@ export function AppointmentsPage() {
               </div>
             ))}
             {appointments.length === 0 && (
-              <EmptyState 
-                title="No appointments found" 
+              <EmptyState
+                title="No appointments found"
                 description="Try adjusting your search or filters to find what you're looking for."
                 icon={CalendarDaysIcon}
               />
@@ -213,13 +263,23 @@ export function AppointmentsPage() {
           </div>
         )}
 
-        <TablePagination page={page} totalPages={totalPages} onPageChange={setPage} />
+        <TablePagination
+          page={page}
+          totalPages={totalPages}
+          onPageChange={setPage}
+        />
       </ReceptionPageShell>
 
       {selected && (
         <>
-          <div className="fixed inset-0 bg-black/20 z-40" onClick={() => setSelected(null)} />
-          <AppointmentDetailsPanel appointment={selected} onClose={() => setSelected(null)} />
+          <div
+            className="fixed inset-0 bg-black/20 z-40"
+            onClick={() => setSelected(null)}
+          />
+          <AppointmentDetailsPanel
+            appointment={selected}
+            onClose={() => setSelected(null)}
+          />
         </>
       )}
     </>

@@ -28,12 +28,12 @@ export function DownloadReportModal({
     <Dialog open={Boolean(patient)} onOpenChange={(open) => !open && onClose()}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-lg font-bold text-gray-900">
+          <DialogTitle className="text-lg font-bold text-gray-900 dark:text-gray-100">
             Download Report
           </DialogTitle>
           <DialogDescription className="text-sm text-gray-500">
             Are you sure you want to download the report for{" "}
-            <span className="font-medium text-gray-800">
+            <span className="font-medium text-gray-800 dark:text-gray-100">
               {patient?.first_name} {patient?.last_name}
             </span>
             ?

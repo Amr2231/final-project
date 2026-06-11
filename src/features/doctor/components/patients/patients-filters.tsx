@@ -46,7 +46,7 @@ export function PatientsFiltersModal({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-sm">
         <DialogHeader>
-          <DialogTitle className="text-base font-bold text-gray-900">
+          <DialogTitle className="text-base font-bold text-gray-900 dark:text-gray-100">
             Filters
           </DialogTitle>
         </DialogHeader>
@@ -59,7 +59,7 @@ export function PatientsFiltersModal({
               onChange={(e) =>
                 setSortDate(e.target.value as "newest" | "oldest")
               }
-              className="w-full h-9 rounded-md border border-gray-200 px-3 text-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#8B1A2B]/20 focus:border-[#8B1A2B]"
+              className="w-full h-9 rounded-md border border-gray-200 px-3 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#8B1A2B]/20"
             >
               <option value="newest">Newest first</option>
               <option value="oldest">Oldest first</option>
@@ -71,7 +71,7 @@ export function PatientsFiltersModal({
             <select
               value={filterStudy}
               onChange={(e) => setFilterStudy(e.target.value)}
-              className="w-full h-9 rounded-md border border-gray-200 px-3 text-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#8B1A2B]/20 focus:border-[#8B1A2B]"
+              className="w-full h-9 rounded-md border border-gray-200 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B1A2B]/20 text-gray-700 "
             >
               <option value="all">All Studies</option>
               {STUDIES.map((s) => (
@@ -88,7 +88,7 @@ export function PatientsFiltersModal({
               <select
                 value={filterReportStatus}
                 onChange={(e) => setFilterReportStatus(e.target.value)}
-                className="w-full h-9 rounded-md border border-gray-200 px-3 text-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#8B1A2B]/20 focus:border-[#8B1A2B]"
+                className="w-full h-9 rounded-md border border-gray-200 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B1A2B]/20 text-gray-700 "
               >
                 <option value="all">All Statuses</option>
                 {REPORT_STATUSES.map((s) => (
@@ -104,7 +104,7 @@ export function PatientsFiltersModal({
             <p className="text-xs text-gray-400">Received Date</p>
             <Input
               type="date"
-              className="h-9 text-sm w-full"
+              className="text-sm w-full"
               value={filterDate}
               onChange={(e) => setFilterDate(e.target.value)}
             />

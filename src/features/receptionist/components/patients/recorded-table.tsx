@@ -102,7 +102,7 @@ export function RecordedTable() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
             <Input
               placeholder="Search by patient name or National ID..."
-              className="pl-9 h-10 text-sm bg-white"
+              className="pl-9 h-10 text-sm "
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -128,20 +128,11 @@ export function RecordedTable() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.25 }}
-          className="rounded-xl border border-gray-200 bg-white overflow-hidden"
+          className="rounded-xl border overflow-hidden"
         >
           <Table>
             <TableHeader>
               <TableRow className="bg-gray-50/70 hover:bg-gray-50/70 border-b border-gray-200">
-                <TableHead className="w-10 pl-4">
-                  <Checkbox
-                    checked={
-                      selected.length === patients.length && patients.length > 0
-                    }
-                    onCheckedChange={toggleAll}
-                    className="border-gray-300 data-[state=checked]:bg-[#8B1A2B] data-[state=checked]:border-[#8B1A2B]"
-                  />
-                </TableHead>
                 {TABLE_HEADERS.map((h) => (
                   <TableHead
                     key={h}
@@ -171,21 +162,14 @@ export function RecordedTable() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.3, delay: 0.3 + i * 0.04 }}
                     className={cn(
-                      "border-b border-gray-100 transition-colors hover:bg-gray-50/60 group",
+                      "border-b border-gray-100 transition-colors  group",
                       selected.includes(patient.national_id) &&
                         "bg-[#8B1A2B]/5",
                     )}
                   >
-                    <TableCell className="pl-4">
-                      <Checkbox
-                        checked={selected.includes(patient.national_id)}
-                        onCheckedChange={() => toggleOne(patient.national_id)}
-                        className="border-gray-300 data-[state=checked]:bg-[#8B1A2B] data-[state=checked]:border-[#8B1A2B]"
-                      />
-                    </TableCell>
                     <TableCell className="">
                       <div className="flex flex-col">
-                        <span className="font-medium text-gray-800 truncate ">
+                        <span className="font-medium text-gray-800 truncate dark:text-gray-200 ">
                           {patient.first_name} {patient.last_name}
                         </span>
 
@@ -221,7 +205,7 @@ export function RecordedTable() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-8 w-8 text-gray-500 hover:text-[#8B1A2B]"
+                          className="h-8 w-8 text-gray-500 hover:text-blue-800"
                           onClick={() => setViewPatient(patient)}
                         >
                           <Eye className="w-4 h-4" />
@@ -229,7 +213,7 @@ export function RecordedTable() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-8 w-8 text-gray-500 hover:text-[#8B1A2B]"
+                          className="h-8 w-8 text-gray-500 hover:text-blue-800"
                           onClick={() => setDownloadPatient(patient)}
                         >
                           <FileDown className="w-4 h-4" />
@@ -237,7 +221,7 @@ export function RecordedTable() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-8 w-8 text-gray-500 hover:text-[#8B1A2B]"
+                          className="h-8 w-8 text-gray-500 hover:text-blue-800"
                           onClick={() => setReassignPatient(patient)}
                         >
                           <History className="w-4 h-4" />

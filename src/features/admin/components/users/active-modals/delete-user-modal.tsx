@@ -24,15 +24,15 @@ export function DeleteUserModal({
     <Dialog open={!!user} onOpenChange={(v) => !v && onClose()}>
       <DialogContent className="max-w-sm">
         <DialogHeader>
-          <DialogTitle className="text-lg font-bold text-gray-900">
+          <DialogTitle className="text-lg font-bold text-gray-900 dark:text-gray-200">
             Delete User
           </DialogTitle>
           <DialogDescription className="text-sm text-gray-500">
             Are you sure you want to delete{" "}
-            <span className="font-medium text-gray-800">
-              {user?.first_name} {user?.last_name}
+            <span className="font-medium text-gray-800 dark:text-gray-100">
+              {user?.first_name} {user?.last_name} ?
             </span>
-            ? This action cannot be undone.
+             This action cannot be undone.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
@@ -42,7 +42,6 @@ export function DeleteUserModal({
           <Button
             disabled={isPending}
             onClick={onConfirm}
-            className="bg-red-600 hover:bg-red-700 text-white"
           >
             {isPending ? "Deleting..." : "Delete"}
           </Button>

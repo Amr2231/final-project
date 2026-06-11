@@ -23,11 +23,13 @@ export function useLogin() {
         redirect: false,
       });
 
-      // Check if the login was successful
       if (!response?.ok) {
         throw new Error(response?.error || "Login failed");
       }
-      // Set session preference for "Remember Me" functionality
+
+      // انتظر شوية عشان NextAuth يكتب الـ cookie الأول
+      await new Promise((resolve) => setTimeout(resolve, 200));
+
       await fetch("/api/auth/session-preference", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

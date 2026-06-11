@@ -39,6 +39,7 @@ import type { InactiveUser } from "@/lib/types/admin";
 import { PulseLoader } from "@/components/ui/pulse-loader";
 import { EmptyState } from "@/components/ui/empty-state";
 import { TABLE_HEADERS } from "@/lib/constants/users-table.constants";
+import PaginationWrapper from "@/components/ui/paginationWrapper";
 
 export function InactiveUsersTable() {
   const [search, setSearch] = useState("");
@@ -120,7 +121,7 @@ export function InactiveUsersTable() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-1" />
           <Input
             placeholder="Search by name or username..."
-            className="pl-9 h-10 text-sm bg-white"
+            className="pl-9 h-10 text-sm "
             value={search}
             onChange={(e) => handleSearchChange(e.target.value)}
           />
@@ -129,7 +130,7 @@ export function InactiveUsersTable() {
         <Button
           variant="outline"
           className={cn(
-            "h-10 gap-2 text-sm font-normal text-gray-600 border-gray-200",
+            "h-10 gap-2 text-sm font-normal text-gray-600 border-gray-200 dark:text-gray-400 dark:border-gray-700",
             activeFilters > 0 && "bg-[#8B1A2B] text-white border-[#8B1A2B]",
           )}
           onClick={() => setFiltersOpen(true)}
@@ -149,11 +150,11 @@ export function InactiveUsersTable() {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: 0.25 }}
-        className="rounded-xl border border-gray-200 bg-white overflow-hidden"
+        className="rounded-xl border overflow-hidden"
       >
         <Table className="table-fixed">
           <TableHeader>
-            <TableRow className="bg-gray-50/70 hover:bg-gray-50/70 border-b border-gray-200">
+            <TableRow >
               {TABLE_HEADERS.map((h) => (
                 <TableHead
                   key={h}
@@ -187,23 +188,23 @@ export function InactiveUsersTable() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.3, delay: 0.3 + i * 0.04 }}
                   className={cn(
-                    "border-b border-gray-100 transition-colors hover:bg-gray-50/60 group",
+                    "border-b transition-colors dark:hover:bg-gray-700/30 hover:bg-gray-50 group",
                   )}
                 >
                   <TableCell className="pl-4">
-                    <span className="text-sm font-medium text-gray-700">
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                       U-{String(user.id).padStart(4, "0")}
                     </span>
                   </TableCell>
                   <TableCell className="">
-                    <span className="font-medium text-gray-800 truncate text-center">
+                    <span className="font-medium text-gray-800 dark:text-gray-300 truncate text-center">
                       {user.fName} {user.lName}
                     </span>
                   </TableCell>
-                  <TableCell className="text-sm text-gray-600">
+                  <TableCell className="text-sm text-gray-600 dark:text-gray-300">
                     {user.role}
                   </TableCell>
-                  <TableCell className="text-sm text-[#8B1A2B]/70 tabular-nums">
+                  <TableCell className="text-sm text-blue-900/70 dark:text-gray-300 tabular-nums">
                     {new Date(user.created_date).toLocaleDateString("en-GB", {
                       year: "numeric",
                       month: "short",
@@ -219,7 +220,7 @@ export function InactiveUsersTable() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-8 w-8 text-gray-500 hover:text-orange-500"
+                          className="h-8 w-8 text-gray-500 hover:text-blue-800"
                           onClick={() => setTransferTarget(user)}
                           disabled={isTransferring}
                           title="Transfer patients"
@@ -230,7 +231,7 @@ export function InactiveUsersTable() {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-8 w-8 text-gray-500 hover:text-green-600"
+                        className="h-8 w-8 text-gray-500 hover:text-blue-800"
                         onClick={() => setReactivateTarget(user)}
                         disabled={isReactivating}
                         title="Reactivate"
@@ -240,7 +241,7 @@ export function InactiveUsersTable() {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-8 w-8 text-gray-500 hover:text-red-500"
+                        className="h-8 w-8 text-gray-500 hover:text-blue-800"
                         onClick={() => setDeleteTarget(user)}
                         disabled={isDeleting}
                         title="Delete"
@@ -258,72 +259,11 @@ export function InactiveUsersTable() {
 
       {/* ── Pagination ── */}
       {totalPages > 1 && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3, delay: 0.4 }}
-          className="flex items-center justify-between mt-4 px-1"
-        >
-          <p className="text-xs text-gray-400">
-            Page {page} of {totalPages}
-          </p>
-          <div className="flex items-center gap-1">
-            <Button
-              variant="outline"
-              size="icon"
-              className="h-8 w-8 border-gray-200"
-              onClick={() => setPage((p) => Math.max(1, p - 1))}
-              disabled={page === 1}
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </Button>
-
-            {Array.from({ length: totalPages }, (_, i) => i + 1)
-              .filter(
-                (p) => p === 1 || p === totalPages || Math.abs(p - page) <= 1,
-              )
-              .reduce<(number | "...")[]>((acc, p, idx, arr) => {
-                if (idx > 0 && p - (arr[idx - 1] as number) > 1)
-                  acc.push("...");
-                acc.push(p);
-                return acc;
-              }, [])
-              .map((item, idx) =>
-                item === "..." ? (
-                  <span
-                    key={`ellipsis-${idx}`}
-                    className="w-8 text-center text-xs text-gray-400"
-                  >
-                    ...
-                  </span>
-                ) : (
-                  <Button
-                    key={item}
-                    variant="outline"
-                    size="icon"
-                    className={cn(
-                      "h-8 w-8 text-xs border-gray-200",
-                      page === item &&
-                        "bg-[#8B1A2B] text-white border-[#8B1A2B] hover:bg-[#7a1726] hover:text-white",
-                    )}
-                    onClick={() => setPage(item as number)}
-                  >
-                    {item}
-                  </Button>
-                ),
-              )}
-
-            <Button
-              variant="outline"
-              size="icon"
-              className="h-8 w-8 border-gray-200"
-              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-              disabled={page === totalPages}
-            >
-              <ChevronRight className="w-4 h-4" />
-            </Button>
-          </div>
-        </motion.div>
+        <PaginationWrapper
+          totalPages={totalPages}
+          currentPage={page}
+          onPageChange={setPage}
+        />
       )}
 
       {/* ── Modals ── */}

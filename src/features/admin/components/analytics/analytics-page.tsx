@@ -35,6 +35,7 @@ import {
   useGeoLogins,
   useHeatmap,
 } from "../../hooks/use-analytics";
+import PaginationWrapper from "@/components/ui/paginationWrapper";
 
 type AnalyticsTab = "heatmap" | "file-access" | "geo";
 
@@ -48,14 +49,15 @@ function HeatmapGrid({
   const max = Math.max(...matrix.map((m) => m.count), 1);
 
   const getCount = (day: number, hour: number) =>
-    matrix.find((m) => m.day_of_week === day && m.hour_of_day === hour)?.count ?? 0;
+    matrix.find((m) => m.day_of_week === day && m.hour_of_day === hour)
+      ?.count ?? 0;
 
   return (
     <div className="rounded-xl border border-gray-200 bg-white dark:bg-gray-950 dark:border-gray-800 p-4 overflow-x-auto">
       <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">
         Activity Heatmap
       </p>
-      <div className="min-w-[600px]">
+      <div className="min-w-150">
         <div className="grid grid-cols-[40px_repeat(24,1fr)] gap-0.5">
           <div />
           {Array.from({ length: 24 }, (_, h) => (
@@ -100,7 +102,8 @@ export function AnalyticsPage() {
     to_date: toDate || undefined,
   };
 
-  const { data: heatmapData, isLoading: heatmapLoading } = useHeatmap(dateFilters);
+  const { data: heatmapData, isLoading: heatmapLoading } =
+    useHeatmap(dateFilters);
   const { data: fileData, isFetching: fileFetching } = useFileAccessLogs({
     ...dateFilters,
     page: filePage,
@@ -117,7 +120,9 @@ export function AnalyticsPage() {
   const dateRangeFilter = (
     <div className="flex flex-wrap items-end gap-3">
       <div className="space-y-1">
-        <Label htmlFor="from-date" className="text-xs">From</Label>
+        <Label htmlFor="from-date" className="text-xs">
+          From
+        </Label>
         <Input
           id="from-date"
           type="date"
@@ -127,7 +132,9 @@ export function AnalyticsPage() {
         />
       </div>
       <div className="space-y-1">
-        <Label htmlFor="to-date" className="text-xs">To</Label>
+        <Label htmlFor="to-date" className="text-xs">
+          To
+        </Label>
         <Input
           id="to-date"
           type="date"
@@ -154,9 +161,9 @@ export function AnalyticsPage() {
           ) : heatmapData?.data ? (
             <>
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                {heatmapData.data.top_actors.slice(0, 4).map((a) => (
+                {heatmapData.data.top_actors.slice(0, 4).map((a , i) => (
                   <MetricCard
-                    key={a.actor_id}
+                    key={`${a.actor_id}-${i}`}
                     label={a.actor_name}
                     value={a.total_actions}
                     icon={BarChart3}
@@ -205,30 +212,44 @@ export function AnalyticsPage() {
             <Table>
               <TableHeader>
                 <TableRow className="bg-gray-50/70 hover:bg-gray-50/70 border-b border-gray-200">
-                  {["Timestamp", "Actor", "Entity", "Description", "IP"].map((h) => (
-                    <TableHead key={h} className="text-xs font-semibold text-gray-500 first:pl-4">
-                      {h}
-                    </TableHead>
-                  ))}
+                  {["Timestamp", "Actor", "Entity", "Description", "IP"].map(
+                    (h) => (
+                      <TableHead
+                        key={h}
+                        className="text-xs font-semibold text-gray-500 first:pl-4"
+                      >
+                        {h}
+                      </TableHead>
+                    ),
+                  )}
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {!fileData?.data.length ? (
                   <TableRow>
                     <TableCell colSpan={5} className="py-10">
-                      <EmptyState icon={Shield} title="No file access logs" description="No file access activity recorded." />
+                      <EmptyState
+                        icon={Shield}
+                        title="No file access logs"
+                        description="No file access activity recorded."
+                      />
                     </TableCell>
                   </TableRow>
                 ) : (
-                  fileData.data.map((log) => (
-                    <TableRow key={log.audit_log_id} className="border-b border-gray-100 hover:bg-gray-50/60">
+                  fileData.data.map((log , i) => (
+                    <TableRow
+                      key={`${log.audit_log_id}-${i}`}
+                      className="border-b border-gray-100 hover:bg-gray-50/60"
+                    >
                       <TableCell className="pl-4 text-sm tabular-nums whitespace-nowrap text-gray-600">
                         {formatFullTimestamp(log.created_at)}
                       </TableCell>
                       <TableCell className="text-sm font-medium text-gray-800">
                         {log.actor_name ?? "—"}
                       </TableCell>
-                      <TableCell className="text-sm text-gray-600">{log.entity}</TableCell>
+                      <TableCell className="text-sm text-gray-600">
+                        {log.entity}
+                      </TableCell>
                       <TableCell className="text-sm text-gray-600 max-w-xs truncate">
                         {log.description ?? "—"}
                       </TableCell>
@@ -241,11 +262,13 @@ export function AnalyticsPage() {
               </TableBody>
             </Table>
           </AdminTableShell>
-          <TablePagination
-            page={filePage}
-            totalPages={fileData?.pages ?? 1}
-            onPageChange={setFilePage}
-          />
+          {fileData?.data.length && (
+            <PaginationWrapper
+              totalPages={fileData?.pages ?? 1}
+              currentPage={filePage}
+              onPageChange={setFilePage}
+            />
+          )}
         </div>
       )}
 
@@ -255,14 +278,18 @@ export function AnalyticsPage() {
             <AdminLoadingState />
           ) : geoData?.data ? (
             <>
-              <MetricCard label="Total Login Events" value={geoData.data.total} icon={Globe} />
+              <MetricCard
+                label="Total Login Events"
+                value={geoData.data.total}
+                icon={Globe}
+              />
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <div className="rounded-xl border border-gray-200 bg-white dark:bg-gray-950 dark:border-gray-800 p-4">
                   <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
                     Top Countries
                   </p>
                   {geoData.data.countries.length === 0 ? (
-                    <p className="text-sm text-gray-400">No geo data available</p>
+                    <EmptyState icon={Globe} title="No countries found" />
                   ) : (
                     geoData.data.countries.map((c) => (
                       <MiniBar
@@ -279,7 +306,10 @@ export function AnalyticsPage() {
                     <TableHeader>
                       <TableRow className="bg-gray-50/70 hover:bg-gray-50/70 border-b border-gray-200">
                         {["User", "Location", "IP", "Time"].map((h) => (
-                          <TableHead key={h} className="text-xs font-semibold text-gray-500 first:pl-4">
+                          <TableHead
+                            key={h}
+                            className="text-xs font-semibold text-gray-500 first:pl-4"
+                          >
                             {h}
                           </TableHead>
                         ))}
@@ -287,7 +317,10 @@ export function AnalyticsPage() {
                     </TableHeader>
                     <TableBody>
                       {geoData.data.data.slice(0, 10).map((entry, i) => (
-                        <TableRow key={`${entry.actor_id}-${i}`} className="border-b border-gray-100">
+                        <TableRow
+                          key={`${entry.actor_id}-${i}`}
+                          className="border-b border-gray-100"
+                        >
                           <TableCell className="pl-4 text-sm font-medium text-gray-800">
                             {entry.actor_name}
                           </TableCell>

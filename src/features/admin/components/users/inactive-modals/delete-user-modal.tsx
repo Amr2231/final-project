@@ -28,10 +28,10 @@ export function DeleteInactiveModal({
     <Dialog open={!!user} onOpenChange={(v) => !v && onClose()}>
       <DialogContent className="max-w-sm">
         <DialogHeader>
-          <DialogTitle className="text-lg font-bold text-gray-900">
+          <DialogTitle className="text-lg font-bold text-gray-900 dark:text-gray-100">
             Delete Account
           </DialogTitle>
-          <DialogDescription className="text-sm text-[#8B1A2B]">
+          <DialogDescription className="text-sm text-red-600">
             This action cannot be undone
           </DialogDescription>
         </DialogHeader>
@@ -42,7 +42,7 @@ export function DeleteInactiveModal({
               <AlertTriangle className="w-6 h-6 text-red-600" />
             </div>
             <div className="text-center space-y-1">
-              <p className="text-sm font-semibold text-gray-900">
+              <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">
                 Delete {user.fName} {user.lName}?
               </p>
               <p className="text-xs text-gray-500 leading-relaxed">
@@ -55,12 +55,12 @@ export function DeleteInactiveModal({
             </div>
           </div>
 
-          <div className="rounded-lg border border-red-100 bg-red-50/50 p-3 space-y-0.5">
+          <div className="rounded-lg border border-gray-200 bg-gray-50 dark:bg-gray-800 dark:border-gray-700 p-3 space-y-0.5">
             <p className="text-xs text-gray-400">Account to be deleted</p>
-            <p className="text-sm font-semibold text-gray-900">
+            <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">
               {user.fName} {user.lName}
             </p>
-            <p className="text-xs text-gray-500">{user.role}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">{user.role}</p>
           </div>
         </div>
 

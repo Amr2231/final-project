@@ -78,17 +78,19 @@ export function UserFiltersModal({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-sm">
         <DialogHeader>
-          <DialogTitle className="text-base font-bold text-gray-900">
+          <DialogTitle className="text-base font-bold text-gray-900 dark:text-gray-200">
             Filters
           </DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4 py-2">
           <div className="space-y-1.5">
-            <p className="text-xs text-gray-400">Sort by date</p>
+            <p className="text-xs text-gray-400 dark:text-gray-100">
+              Sort by date
+            </p>
             <select
               {...register("sortDate")}
-              className="w-full h-9 rounded-md border border-gray-200 px-3 text-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#8B1A2B]/20 focus:border-[#8B1A2B]"
+              className="w-full h-9 rounded-md border border-gray-200 px-3 text-sm text-gray-700 dark:text-gray-400/80 focus:outline-none focus:ring-2 focus:ring-blue-800/20 focus:border-blue-600"
             >
               <option value="newest">Newest</option>
               <option value="oldest">Oldest</option>
@@ -99,7 +101,7 @@ export function UserFiltersModal({
             <p className="text-xs text-gray-400">Role</p>
             <select
               {...register("filterRole")}
-              className="w-full h-9 rounded-md border border-gray-200 px-3 text-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#8B1A2B]/20 focus:border-[#8B1A2B]"
+              className="w-full h-9 rounded-md border border-gray-200 px-3 text-sm text-gray-700 dark:text-gray-400/80 focus:outline-none focus:ring-2 focus:ring-blue-800/20 focus:border-blue-600"
             >
               <option value="all">All Roles</option>
               {ROLES.map((r) => (
@@ -112,11 +114,7 @@ export function UserFiltersModal({
 
           <div className="space-y-1.5">
             <p className="text-xs text-gray-400">Created Date</p>
-            <Input
-              type="date"
-              {...register("filterDate")}
-              className="h-9 text-sm border-gray-200 bg-white"
-            />
+            <Input type="date" {...register("filterDate")} />
           </div>
         </div>
 

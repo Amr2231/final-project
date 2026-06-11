@@ -62,7 +62,7 @@ export function NotificationBell({ role }: NotificationBellProps) {
               Notifications
             </h3>
             {unreadCount > 0 && (
-              <span className="flex h-5 px-1.5 items-center justify-center rounded-full bg-[#8B1A2B] text-[10px] text-white font-medium tabular-nums">
+              <span className="flex h-5 px-1.5 items-center justify-center rounded-full bg-blue-600 text-[10px] text-white font-medium tabular-nums">
                 {unreadCount}
               </span>
             )}

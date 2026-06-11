@@ -14,19 +14,17 @@ import { loginSchema } from "@/lib/schemas/auth.schema";
 import { LoginFields } from "@/lib/types/auth";
 import { useLogin } from "@/features/auth/hooks/use-login";
 import SubmissionFeedback from "@/components/shared/submission-feedback";
+import logo from "../../../../../public/logo.jpeg";
+import Image from "next/image";
 
-// component
 export default function LoginForm() {
-  // Mutation hook to handle login logic
   const { isPending, error, login } = useLogin();
 
-  // Initialize the form with react-hook-form and zod validation
   const form = useForm<LoginFields>({
     resolver: zodResolver(loginSchema),
     defaultValues: { email: "", password: "", rememberMe: false },
   });
 
-  // Destructure necessary methods and state from the form
   const {
     register,
     control,
@@ -34,12 +32,10 @@ export default function LoginForm() {
     formState: { errors },
   } = form;
 
-  // Handle form submission
   const onSubmit: SubmitHandler<LoginFields> = (values) => {
     login(values);
   };
 
-  // Render the login form
   return (
     <motion.div
       initial={{ opacity: 0, x: -20 }}
@@ -47,19 +43,27 @@ export default function LoginForm() {
       transition={{ duration: 0.5 }}
     >
       {/* Logo */}
-      <div className="flex items-center gap-3 mb-10">
-        <div className="w-10 h-10 rounded-lg bg-blue-800 flex items-center justify-center">
-          <span className="text-white font-bold text-base">E</span>
+      <div className="flex items-center gap-3 pb-9">
+        <div className="w-10 h-10 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 shadow-sm shrink-0">
+          <Image
+            src={logo}
+            alt="Echo Vision Logo"
+            className="w-full h-full object-cover"
+          />
         </div>
-        <span className="text-xl font-semibold text-gray-900">Echo vision</span>
+        <span className="text-xl font-semibold text-gray-900 dark:text-white">
+          Echo vision
+        </span>
       </div>
 
       {/* Heading */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-1">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
           Let&apos;s get started
         </h1>
-        <p className="text-sm text-gray-500">Sign in to your account</p>
+        <p className="text-sm text-gray-500 dark:text-gray-400">
+          Sign in to your account
+        </p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -98,7 +102,10 @@ export default function LoginForm() {
             <p className="text-sm text-red-800">{errors.password.message}</p>
           )}
           <div className="text-end">
-            <Link href="/forgot-password" className="text-blue-800 text-sm">
+            <Link
+              href="/forgot-password"
+              className="text-blue-800 dark:text-blue-400 text-sm"
+            >
               Forgot your password?
             </Link>
           </div>
@@ -122,15 +129,13 @@ export default function LoginForm() {
           )}
         />
 
-        {/* feedback */}
         <SubmissionFeedback>{error?.message}</SubmissionFeedback>
 
-        {/* submit button */}
         <Button
           variant="default"
           disabled={isPending || !form.formState.isValid}
           type="submit"
-          className = "w-full"
+          className="w-full"
         >
           Sign in
         </Button>

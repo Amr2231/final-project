@@ -19,6 +19,7 @@ export type AdminNavItem = {
   url: string;
   icon: LucideIcon;
   exact?: boolean;
+  badge?: string;
 };
 
 export type AdminNavGroup = {
@@ -30,16 +31,24 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
   {
     label: "Overview",
     items: [
-      { title: "Live Dashboard", url: "/admin/dashboard", icon: LayoutDashboard },
+      {
+        title: "Live Dashboard",
+        url: "/admin/dashboard",
+        icon: LayoutDashboard,
+      },
       { title: "Analytics", url: "/admin/analytics", icon: BarChart3 },
     ],
   },
   {
     label: "User Management",
     items: [
-      { title: "Users", url: "/admin/users", icon: Users , exact: true },
+      { title: "Users", url: "/admin/users", icon: Users, exact: true },
       { title: "Create User", url: "/admin/users/add", icon: UserPlus },
-      { title: "Inactive Accounts", url: "/admin/inactive-accounts", icon: Archive },
+      {
+        title: "Inactive Accounts",
+        url: "/admin/inactive-accounts",
+        icon: Archive,
+      },
     ],
   },
   {
@@ -54,15 +63,18 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
   {
     label: "Communication",
     items: [
-      { title: "Internal Chat", url: "/admin/chat", icon: MessageSquare },
+      {
+        title: "Internal Chat",
+        url: "/admin/chat",
+        icon: MessageSquare,
+        badge: "chat",
+      },
       { title: "Notifications", url: "/admin/notifications", icon: BellRing },
     ],
   },
   {
     label: "System",
-    items: [
-      { title: "Settings", url: "/admin/settings", icon: Settings },
-    ],
+    items: [{ title: "Settings", url: "/admin/settings", icon: Settings }],
   },
 ];
 

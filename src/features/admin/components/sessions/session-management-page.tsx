@@ -2,7 +2,14 @@
 
 import { useCallback, useState } from "react";
 import { useDebounce } from "use-debounce";
-import { AlertTriangle, Clock, LogOut, Shield, Users, Wifi } from "lucide-react";
+import {
+  AlertTriangle,
+  Clock,
+  LogOut,
+  Shield,
+  Users,
+  Wifi,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -47,14 +54,19 @@ import {
   useSessionStats,
 } from "../../hooks/use-sessions";
 import { SessionDetailsSheet } from "./session-details-sheet";
+import PaginationWrapper from "@/components/ui/paginationWrapper";
 
 export function SessionManagementPage() {
   const [search, setSearch] = useState("");
   const [debouncedSearch] = useDebounce(search, 400);
   const [page, setPage] = useState(1);
   const [role, setRole] = useState("all");
-  const [targetSession, setTargetSession] = useState<ActiveSession | null>(null);
-  const [detailsSession, setDetailsSession] = useState<ActiveSession | null>(null);
+  const [targetSession, setTargetSession] = useState<ActiveSession | null>(
+    null,
+  );
+  const [detailsSession, setDetailsSession] = useState<ActiveSession | null>(
+    null,
+  );
   const [logoutAllOpen, setLogoutAllOpen] = useState(false);
 
   const { data, isLoading, isFetching } = useActiveSessions({
@@ -64,7 +76,8 @@ export function SessionManagementPage() {
   });
   const { data: statsData } = useSessionStats();
   const { mutate: forceLogout, isPending: logoutPending } = useForceLogout();
-  const { mutate: logoutAll, isPending: logoutAllPending } = useForceLogoutAll();
+  const { mutate: logoutAll, isPending: logoutAllPending } =
+    useForceLogoutAll();
 
   const stats = statsData?.data;
   const sessions = data?.data ?? [];
@@ -156,16 +169,21 @@ export function SessionManagementPage() {
         <Table>
           <TableHeader>
             <TableRow className="bg-gray-50/70 hover:bg-gray-50/70 border-b border-gray-200 dark:bg-gray-900/50">
-              {["User", "Role", "Last Login", "Session Expires", "IP", "Actions"].map(
-                (h) => (
-                  <TableHead
-                    key={h}
-                    className="text-xs font-semibold text-gray-500 first:pl-4"
-                  >
-                    {h}
-                  </TableHead>
-                ),
-              )}
+              {[
+                "User",
+                "Role",
+                "Last Login",
+                "Session Expires",
+                "IP",
+                "Actions",
+              ].map((h) => (
+                <TableHead
+                  key={h}
+                  className="text-xs font-semibold text-gray-500 first:pl-4"
+                >
+                  {h}
+                </TableHead>
+              ))}
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -224,7 +242,13 @@ export function SessionManagementPage() {
         </Table>
       </AdminTableShell>
 
-      <TablePagination page={page} totalPages={totalPages} onPageChange={setPage} />
+      {totalPages > 1 && (
+        <PaginationWrapper
+          totalPages={totalPages}
+          currentPage={page}
+          onPageChange={setPage}
+        />
+      )}
 
       <SessionDetailsSheet
         session={detailsSession}
@@ -235,7 +259,10 @@ export function SessionManagementPage() {
         }}
       />
 
-      <Dialog open={!!targetSession} onOpenChange={(v) => !v && setTargetSession(null)}>
+      <Dialog
+        open={!!targetSession}
+        onOpenChange={(v) => !v && setTargetSession(null)}
+      >
         <DialogContent className="max-w-sm">
           <DialogHeader>
             <DialogTitle>Terminate Session</DialogTitle>

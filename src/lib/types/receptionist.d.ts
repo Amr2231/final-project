@@ -1,4 +1,4 @@
-export type StudyStatus = "Scheduled" | "In Progress" | "Viewed" | "Completed";
+export type StudyStatus = "Scheduled" | "In Progress" | "Pending" | "Completed";
 
 export interface Doctor {
   id: number;

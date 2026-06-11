@@ -58,7 +58,10 @@ export function useSaveReportDraft(studyId: string) {
       queryClient.setQueryData(doctorKeys.reportDraft(studyId), (old) => ({
         ...(old as object),
         report_content: variables.notes,
+        report_status: "Written",
       }));
+      queryClient.invalidateQueries({ queryKey: doctorKeys.patients });
+      queryClient.invalidateQueries({ queryKey: ["patients", "active"] }); // ← receptionist
     },
     onError: (error: Error, _variables, context) => {
       if (context?.previous) {

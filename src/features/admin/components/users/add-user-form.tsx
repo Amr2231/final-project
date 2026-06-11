@@ -37,15 +37,19 @@ function SectionCard({
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: 0.1 + index * 0.08 }}
-      className="rounded-2xl border border-gray-200 bg-white overflow-hidden"
+      className="rounded-2xl border border-gray-200 dark:border-gray-700  dark:bg-gray-900 overflow-hidden"
     >
-      <div className="flex items-center gap-3 px-6 py-4 border-b border-gray-100 bg-gray-50/60">
-        <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#8B1A2B]/10">
-          <Icon className="w-4 h-4 text-[#8B1A2B]" />
+      <div className="flex items-center gap-3 px-6 py-4 border-b border-gray-100 dark:border-gray-700 bg-gray-50/60 ">
+        <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-100/10 dark:bg-blue-900/20">
+          <Icon className="w-4 h-4 text-blue-800" />
         </span>
         <div>
-          <h2 className="text-sm font-semibold text-gray-900">{title}</h2>
-          <p className="text-xs text-gray-400">{description}</p>
+          <h2 className="text-sm font-semibold text-gray-900 ">
+            {title}
+          </h2>
+          <p className="text-xs text-gray-400 dark:text-gray-500">
+            {description}
+          </p>
         </div>
       </div>
       <div className="p-6">{children}</div>
@@ -61,8 +65,8 @@ function FieldLabel({
   required?: boolean;
 }) {
   return (
-    <label className="text-xs font-medium text-gray-500 uppercase tracking-wide">
-      {label} {required && <span className="text-[#8B1A2B]">*</span>}
+    <label className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+      {label} {required && <span className="text-blue-800">*</span>}
     </label>
   );
 }
@@ -92,13 +96,6 @@ export function AddUserForm() {
 
   return (
     <div className="space-y-6">
-      {/* Loading */}
-      {/* {isPending && (
-        <div className="absolute inset-0 bg-white/60 flex items-center justify-center">
-          <div className="animate-spin w-6 h-6 border-2 border-[#8B1A2B] border-t-transparent rounded-full" />
-        </div>
-      )} */}
-
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 8 }}
@@ -108,13 +105,15 @@ export function AddUserForm() {
       >
         <Link
           href="/admin/users"
-          className="flex items-center justify-center w-8 h-8 rounded-lg border border-gray-200 bg-white text-gray-500 hover:text-[#8B1A2B] hover:border-[#8B1A2B]/30 transition-colors"
+          className="flex items-center justify-center w-8 h-8 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:text-[#8B1A2B] hover:border-[#8B1A2B]/30 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
         </Link>
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Create New User</h1>
-          <p className="text-sm text-gray-500 mt-0.5">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+            Create New User
+          </h1>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
             Register a new user account in the system
           </p>
         </div>
@@ -134,7 +133,7 @@ export function AddUserForm() {
               placeholder="e.g. John"
               {...register("first_name")}
               className={cn(
-                "h-10 bg-gray-50 border-gray-200 text-sm",
+                "h-10 bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-sm dark:text-gray-200 dark:placeholder:text-gray-500",
                 errors.first_name && "border-red-400",
               )}
             />
@@ -151,7 +150,7 @@ export function AddUserForm() {
               placeholder="e.g. Smith"
               {...register("last_name")}
               className={cn(
-                "h-10 bg-gray-50 border-gray-200 text-sm",
+                "h-10 bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-sm dark:text-gray-200 dark:placeholder:text-gray-500",
                 errors.last_name && "border-red-400",
               )}
             />
@@ -166,7 +165,7 @@ export function AddUserForm() {
               placeholder="e.g. john_smith"
               {...register("username")}
               className={cn(
-                "h-10 bg-gray-50 border-gray-200 text-sm",
+                "h-10 bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-sm dark:text-gray-200 dark:placeholder:text-gray-500",
                 errors.username && "border-red-400",
               )}
             />
@@ -182,7 +181,7 @@ export function AddUserForm() {
               placeholder="e.g. john@medidash.com"
               {...register("email")}
               className={cn(
-                "h-10 bg-gray-50 border-gray-200 text-sm",
+                "h-10 bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-sm dark:text-gray-200 dark:placeholder:text-gray-500",
                 errors.email && "border-red-400",
               )}
             />
@@ -205,13 +204,17 @@ export function AddUserForm() {
           <select
             {...register("role_name")}
             className={cn(
-              "w-full h-10 rounded-md border px-3 text-sm text-gray-700 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#8B1A2B]/20 focus:border-[#8B1A2B]",
-              errors.role_name ? "border-red-400" : "border-gray-200",
+              "w-full h-10 rounded-md border px-3 text-sm text-gray-700 dark:text-gray-200 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-[#8B1A2B]/20 focus:border-[#8B1A2B] dark:focus:ring-[#8B1A2B]/30",
+              errors.role_name
+                ? "border-red-400"
+                : "border-gray-200 dark:border-gray-700",
             )}
           >
-            <option value="">Select role</option>
+            <option value="" className="dark:bg-gray-800">
+              Select role
+            </option>
             {ROLES.map((r) => (
-              <option key={r} value={r}>
+              <option key={r} value={r} className="dark:bg-gray-800">
                 {r}
               </option>
             ))}
@@ -237,13 +240,13 @@ export function AddUserForm() {
                 placeholder="Enter password"
                 {...register("password")}
                 error={!!errors.password}
-                className="bg-gray-50 border-gray-200"
+                className="bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 dark:text-gray-200 dark:placeholder:text-gray-500"
               />
               <Button
                 type="button"
                 variant="outline"
                 onClick={generatePassword}
-                className="h-10 px-2.5 text-[#8B1A2B] border-[#8B1A2B]/30 hover:bg-[#8B1A2B]/5 shrink-0"
+                className="h-10 px-2.5 text-blue-600 border-blue-900/30 hover:bg-blue-100 dark:border-blue-900/40 dark:hover:bg-blue-900/10 dark:bg-gray-800 shrink-0"
               >
                 <RefreshCw className="w-3.5 h-3.5" />
               </Button>
@@ -251,7 +254,9 @@ export function AddUserForm() {
             {errors.password ? (
               <p className="text-xs text-red-500">{errors.password.message}</p>
             ) : (
-              <p className="text-xs text-gray-400">Min 8 characters</p>
+              <p className="text-xs text-gray-400 dark:text-gray-500">
+                Min 8 characters
+              </p>
             )}
           </div>
 
@@ -261,7 +266,7 @@ export function AddUserForm() {
               placeholder="Confirm password"
               {...register("confirm_password")}
               error={!!errors.confirm_password}
-              className="bg-gray-50 border-gray-200"
+              className="bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 dark:text-gray-200 dark:placeholder:text-gray-500"
             />
             {errors.confirm_password && (
               <p className="text-xs text-red-500">
@@ -282,7 +287,7 @@ export function AddUserForm() {
         <Button
           onClick={handleSubmit((data) => addUser(data))}
           disabled={isPending}
-          className="h-9 bg-[#8B1A2B] hover:bg-[#7a1726] text-white text-sm"
+          className="h-9 bg-blue-800 hover:bg-blue-900 text-white text-sm"
         >
           {isPending ? "Creating..." : "Create User"}
         </Button>

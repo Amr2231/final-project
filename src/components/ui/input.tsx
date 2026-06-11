@@ -25,13 +25,12 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           type={type}
           className={cn(
             "flex h-12 w-full rounded-lg border bg-transparent px-3 py-1 text-base shadow-sm transition-colors outline-none",
-            "text-zinc-800 placeholder:text-zinc-400",
-            "hover:border-zinc-400 focus:border-maroon-600",
-            "dark:bg-zinc-700 dark:text-zinc-50 dark:placeholder:text-zinc-400 dark:border-zinc-600 dark:hover:border-zinc-700 dark:focus:border-softPink-300",
-            "disabled:cursor-not-allowed disabled:bg-zinc-100 disabled:border-none",
+            "text-foreground placeholder:text-muted-foreground",
+            "border-white/10 hover:border-white/20 focus:border-blue-500",
+            "disabled:cursor-not-allowed disabled:bg-muted disabled:border-none",
             search && "pl-10",
             error &&
-              "border-red-600 hover:border-red-600 focus:border-red-600 dark:border-red-500",
+              "border-destructive hover:border-destructive focus:border-destructive",
             className,
           )}
           {...props}

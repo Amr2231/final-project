@@ -26,10 +26,10 @@ export function BarChart({
       <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">
         {title}
       </p>
-      <div className="flex items-end flex-1 gap-3 h-52">
-        {data.map((d) => (
+      <div className="flex items-end flex-1 gap-3 h-72">
+        {data.map((d , i) => (
           <div
-            key={d.label}
+            key={`${d.label}-${i}`}
             className="flex-1 flex flex-col items-center gap-1 min-w-0"
           >
             <span className="text-xs text-gray-400 tabular-nums">

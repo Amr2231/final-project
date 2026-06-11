@@ -55,7 +55,7 @@ const PatientRow = memo(function PatientRow({
     >
       <TableCell className="">
         <div className="flex flex-col">
-          <span className="font-medium text-gray-800 truncate ">
+          <span className="font-medium text-gray-800 truncate dark:text-gray-200 ">
             {patient.first_name} {patient.last_name}
           </span>
 
@@ -145,7 +145,7 @@ export const PatientsDataTable = memo(function PatientsDataTable({
   }, []);
 
   return (
-    <div className="rounded-xl border border-gray-200 bg-white overflow-hidden animate-in fade-in duration-300">
+    <div className="rounded-xl border  overflow-hidden animate-in fade-in duration-300">
       <Table>
         <TableHeader>
           <TableRow className="bg-gray-50/70 hover:bg-gray-50/70 border-b border-gray-200">

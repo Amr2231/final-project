@@ -20,6 +20,10 @@ import { cn } from "@/lib/utils/tailwind-merge";
 interface PaginationProps {
   totalPages: number;
   searchParams?: { page?: string };
+  /** Pass when using client-side state (useState) instead of URL navigation */
+  currentPage?: number;
+  /** Pass when using client-side state (useState) instead of URL navigation */
+  onPageChange?: (page: number) => void;
   rtl?: boolean;
   className?: string;
 }
@@ -28,17 +32,19 @@ interface PaginationProps {
 export default function PaginationWrapper({
   totalPages,
   searchParams,
+  currentPage: controlledPage,
+  onPageChange,
   rtl = false,
   className,
 }: PaginationProps) {
-  // Navigation
+  // Navigation (only used when onPageChange is not provided)
   const router = useRouter();
   const pathname = usePathname();
   const currentSearchParams = useSearchParams();
 
-  // State
-  const pageParam = Number(searchParams?.page) || 1;
-  const currentPage = Math.max(1, Math.min(pageParam, totalPages));
+  // State — controlled (via props) or derived from URL
+  const pageParam = controlledPage ?? Number(searchParams?.page) ?? 1;
+  const currentPage = Math.max(1, Math.min(pageParam || 1, totalPages));
 
   // Variables
   const isFirstPage = currentPage === 1;
@@ -51,21 +57,17 @@ export default function PaginationWrapper({
    * Handles edge cases for first/last pages and includes ellipsis where needed.
    */
   function generatePageNumbers(): (number | "ellipsis")[] {
-    // constants
     const maxVisible = 5;
     const edgeThreshold = 3;
 
-    // Show all pages if total is within max visible range.
     if (totalPages <= maxVisible) {
       return Array.from({ length: totalPages }, (_, i) => i + 1);
     }
 
-    // Show first pages with ellipsis at the end.
     if (currentPage <= edgeThreshold) {
       return [1, 2, 3, 4, "ellipsis", totalPages];
     }
 
-    // Show last pages with ellipsis at the start.
     if (currentPage >= totalPages - 2) {
       return [
         1,
@@ -77,7 +79,6 @@ export default function PaginationWrapper({
       ];
     }
 
-    // Show current page with surrounding pages and ellipsis on both sides.
     return [
       1,
       "ellipsis",
@@ -90,12 +91,19 @@ export default function PaginationWrapper({
   }
 
   /**
-   * Navigate to a specific page by updating the URL query parameters.
-   * Removes the page param if navigating to page 1.
+   * Navigate to a specific page.
+   * Uses onPageChange callback if provided, otherwise updates the URL.
    */
   function navigateToPage(page: number): void {
     if (page < 1 || page > totalPages) return;
 
+    // Client-side state mode
+    if (onPageChange) {
+      onPageChange(page);
+      return;
+    }
+
+    // URL navigation mode
     const params = new URLSearchParams(currentSearchParams.toString());
 
     if (page === 1) {
@@ -162,8 +170,8 @@ export default function PaginationWrapper({
                 className={cn(
                   "w-9 h-9 rounded-lg border",
                   page === currentPage
-                    ? "bg-red-800 text-white border-red-600 hover:border-red-700 hover:bg-red-700 dark:bg-softPink-300 dark:text-black dark:border-softPink-300 cursor-pointer"
-                    : "border-zinc-100 dark:border-zinc-700 dark:text-white dark:hover:bg-zinc-600 hover:border-zinc-200 hover:bg-zinc-50 cursor-pointer",
+                    ? "bg-blue-600 text-white border-blue-600 hover:bg-blue-700 cursor-pointer dark:bg-blue-500 dark:border-blue-500 dark:hover:bg-blue-600 hover:border-blue-600 hover:text-white"
+                    : "border-border text-foreground hover:bg-blue-50 hover:border-blue-200 cursor-pointer",
                 )}
               >
                 {page}
@@ -190,7 +198,7 @@ export default function PaginationWrapper({
           </PaginationLink>
         </PaginationItem>
 
-        {/* Forward 2 pages button */}
+        {/* Go to last page */}
         <PaginationItem>
           <PaginationLink
             onClick={() => navigateToPage(totalPages)}

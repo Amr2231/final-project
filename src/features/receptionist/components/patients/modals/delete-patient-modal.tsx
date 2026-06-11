@@ -24,13 +24,13 @@ export function DeletePatientModal({
     <Dialog open={!!patient} onOpenChange={(o) => !o && onClose()}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-lg font-bold text-gray-900">
+          <DialogTitle className="text-lg font-bold text-gray-900 dark:text-gray-100">
             Deactivate Patient
           </DialogTitle>
           <DialogDescription className="text-sm text-gray-500">
             {/* FIX: honest message — this is a soft delete, not permanent */}
             This will deactivate{" "}
-            <span className="font-medium text-gray-800">
+            <span className="font-medium text-gray-800 dark:text-gray-100">
               {patient?.first_name} {patient?.last_name}
             </span>
             &apos;s account. The patient can be reactivated later by an admin.

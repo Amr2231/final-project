@@ -132,7 +132,7 @@ export function HistoricalPatientsTable({
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.25 }}
-          className="rounded-xl border border-gray-200 bg-white overflow-hidden"
+          className="rounded-xl border overflow-hidden"
         >
           <Table>
             <TableHeader>
@@ -170,13 +170,13 @@ export function HistoricalPatientsTable({
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.3, delay: 0.3 + i * 0.04 }}
                     className={cn(
-                      "border-b border-gray-100 transition-colors hover:bg-gray-50/60 group",
+                      "border-b border-gray-100 transition-colors  group",
                     )}
                   >
                     {/* Full Name + NID */}
                     <TableCell>
                       <div className="flex flex-col">
-                        <span className="font-medium text-gray-800 truncate">
+                        <span className="font-medium text-gray-800 truncate dark:text-gray-100">
                           {patient.first_name} {patient.last_name}
                         </span>
                         <span className="text-xs text-gray-400 font-mono">
@@ -227,7 +227,7 @@ export function HistoricalPatientsTable({
                             <Button
                               variant="ghost"
                               size="icon"
-                              className="h-8 w-8 text-gray-500 hover:text-[#8B1A2B]"
+                              className="h-8 w-8 text-gray-500 hover:text-blue-800"
                               onClick={() => setViewPatient(patient)}
                             >
                               <Eye className="w-4 h-4" />
@@ -241,7 +241,7 @@ export function HistoricalPatientsTable({
                             <Button
                               variant="ghost"
                               size="icon"
-                              className="h-8 w-8 text-gray-500 hover:text-[#8B1A2B]"
+                              className="h-8 w-8 text-gray-500 hover:text-blue-800"
                               onClick={() =>
                                 setViewReportStudyId(
                                   String(patient.studies.study_id),
@@ -259,7 +259,7 @@ export function HistoricalPatientsTable({
                             <Button
                               variant="ghost"
                               size="icon"
-                              className="h-8 w-8 text-gray-500 hover:text-[#8B1A2B]"
+                              className="h-8 w-8 text-gray-500 hover:text-blue-800"
                               onClick={() => setDownloadPatient(patient)}
                             >
                               <Download className="w-4 h-4" />

@@ -11,13 +11,12 @@ import Link from "next/link";
 import SubmissionFeedback from "@/components/shared/submission-feedback";
 import useResetPassword from "../../hooks/use-reset-password";
 import { resetSchema, ResetFields } from "@/lib/schemas/auth.schema";
+import logo from "../../../../../public/logo.jpeg";
+import Image from "next/image";
 
-// component
 export default function ResetPasswordForm({ token }: { token: string }) {
-  // hooks
   const { isPending, error, success, resetPassword } = useResetPassword(token);
 
-  // Initialize the form with react-hook-form and zod validation
   const {
     register,
     handleSubmit,
@@ -27,19 +26,17 @@ export default function ResetPasswordForm({ token }: { token: string }) {
     defaultValues: { password: "", confirmPassword: "" },
   });
 
-  // Handle form submission
   const onSubmit = (data: ResetFields) => resetPassword(data);
 
-  // Render the reset password form
   if (!token) {
     return (
       <div className="text-center">
-        {/* Error message */}
-        <h1 className="text-2xl font-bold text-gray-900 mb-3">Invalid Link</h1>
-        <p className="text-gray-500 mb-6">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+          Invalid Link
+        </h1>
+        <p className="text-gray-500 dark:text-gray-400 mb-6">
           This reset link is invalid or has expired.
         </p>
-        {/* Link to request a new link */}
         <Link
           href="/forgot-password"
           className="text-red-800 hover:text-red-900 font-medium"
@@ -50,7 +47,6 @@ export default function ResetPasswordForm({ token }: { token: string }) {
     );
   }
 
-  // Show success message and redirect if password reset is successful
   if (success) {
     return (
       <motion.div
@@ -59,15 +55,21 @@ export default function ResetPasswordForm({ token }: { token: string }) {
         animate={{ opacity: 1, y: 0 }}
       >
         {/* Logo */}
-        <div className="flex gap-3 mb-10">
-          <div className="w-10 h-10 rounded-lg bg-blue-800 flex items-center justify-center">
-            <span className="text-white font-bold text-base">M</span>
+        <div className="flex items-center gap-3 mb-10">
+          <div className="w-10 h-10 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 shadow-sm shrink-0">
+            <Image
+              src={logo}
+              alt="Echo Vision Logo"
+              className="w-full h-full object-cover"
+            />
           </div>
-          <span className="text-xl font-semibold text-gray-900">Echo vision</span>
+          <span className="text-xl font-semibold text-gray-900 dark:text-white">
+            Echo vision
+          </span>
         </div>
 
-        {/* success icon */}
-        <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mb-6">
+        {/* Success icon */}
+        <div className="w-16 h-16 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-6 mx-auto">
           <svg
             className="w-8 h-8 text-green-600"
             fill="none"
@@ -83,19 +85,19 @@ export default function ResetPasswordForm({ token }: { token: string }) {
           </svg>
         </div>
 
-        {/* Success message */}
-        <h1 className="text-2xl font-bold text-gray-900 mb-3">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
           Password Reset!
         </h1>
-        <p className="text-gray-500 mb-2">
+        <p className="text-gray-500 dark:text-gray-400 mb-2">
           Your password has been changed successfully.
         </p>
-        <p className="text-sm text-gray-400">Redirecting to login...</p>
+        <p className="text-sm text-gray-400 dark:text-gray-500">
+          Redirecting to login...
+        </p>
       </motion.div>
     );
   }
 
-  // Render the form with error state if token is valid but reset failed
   return (
     <motion.div
       className="w-full max-w-md"
@@ -103,10 +105,10 @@ export default function ResetPasswordForm({ token }: { token: string }) {
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.5 }}
     >
-      {/* Link to go back to login */}
+      {/* Back link */}
       <Link
         href="/login"
-        className="flex items-center gap-2 mb-8 -ml-2 text-gray-600 hover:text-blue-900 text-sm"
+        className="flex items-center gap-2 mb-8 -ml-2 text-gray-600 dark:text-gray-400 hover:text-blue-900 dark:hover:text-blue-400 text-sm"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to login
@@ -114,23 +116,30 @@ export default function ResetPasswordForm({ token }: { token: string }) {
 
       {/* Logo */}
       <div className="flex items-center gap-3 mb-10">
-        <div className="w-10 h-10 rounded-lg bg-blue-800 flex items-center justify-center">
-          <span className="text-white font-bold text-base">M</span>
+        <div className="w-10 h-10 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 shadow-sm shrink-0">
+          <Image
+            src={logo}
+            alt="Echo Vision Logo"
+            className="w-full h-full object-cover"
+          />
         </div>
-        <span className="text-xl font-semibold text-gray-900">Echo vision</span>
+        <span className="text-xl font-semibold text-gray-900 dark:text-white">
+          Echo vision
+        </span>
       </div>
 
-      {/* Form */}
+      {/* Heading */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-1">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
           Reset Password
         </h1>
-        <p className="text-sm text-gray-500">Enter your new password below.</p>
+        <p className="text-sm text-gray-500 dark:text-gray-400">
+          Enter your new password below.
+        </p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div className="space-y-2">
-          {/* New Password */}
           <Label>New Password</Label>
           <PasswordInput
             placeholder="Enter new password"
@@ -142,7 +151,6 @@ export default function ResetPasswordForm({ token }: { token: string }) {
           )}
         </div>
 
-        {/* Confirm Password */}
         <div className="space-y-2">
           <Label>Confirm Password</Label>
           <PasswordInput
@@ -157,10 +165,8 @@ export default function ResetPasswordForm({ token }: { token: string }) {
           )}
         </div>
 
-        {/* Error message */}
         <SubmissionFeedback>{(error as Error)?.message}</SubmissionFeedback>
 
-        {/* Submit button */}
         <Button type="submit" disabled={isPending} className="w-full">
           {isPending ? "Resetting..." : "Reset Password"}
           <MoveRight className="w-4 h-4" />

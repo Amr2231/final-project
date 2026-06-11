@@ -233,7 +233,7 @@ export function ArrivalBoardPage() {
                     )}
                   </div>
 
-                  {(e.board_status === "Waiting" ||
+                  {/* {(e.board_status === "Waiting" ||
                     e.board_status === "Checked In") && (
                     <Button
                       size="sm"
@@ -245,7 +245,7 @@ export function ArrivalBoardPage() {
                       <Megaphone className="h-3 w-3" />
                       Call
                     </Button>
-                  )}
+                  )} */}
                 </div>
               </div>
             ))}

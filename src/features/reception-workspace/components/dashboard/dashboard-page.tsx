@@ -237,7 +237,10 @@ export function DashboardPage() {
           <BarChart
             title=""
             data={charts.appointment_trends.map((r) => ({
-              label: String(r.day).slice(5),
+              label: new Date(r.day).toLocaleDateString( "en-US", {
+                month: "short",
+                day: "numeric",
+              }),
               value: r.total,
             }))}
             className="border-0 p-0 shadow-none"

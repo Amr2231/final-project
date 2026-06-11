@@ -55,7 +55,7 @@ export function ReassignModal({
     <Dialog open={!!patient} onOpenChange={(o) => !o && handleClose()}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-lg font-bold text-gray-900">
+          <DialogTitle className="text-lg font-bold text-gray-900 dark:text-gray-100">
             Reassign Doctor
           </DialogTitle>
           <DialogDescription className="text-sm text-blue-800">

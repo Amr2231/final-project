@@ -631,7 +631,7 @@ export function AiAnalysisForm({ patientId }: { patientId: string }) {
   const isEchoStudy = studyType === "Echo";
 
   return (
-    <div className="min-h-screen bg-gray-50/50 p-6 lg:p-8">
+    <div className="min-h-screen  p-6 lg:p-8">
       {/* ── Header ── */}
       <motion.div
         initial={{ opacity: 0, y: 8 }}
@@ -642,12 +642,12 @@ export function AiAnalysisForm({ patientId }: { patientId: string }) {
         <div className="flex items-center gap-3">
           <button
             onClick={() => router.back()}
-            className="flex items-center justify-center w-8 h-8 rounded-lg border border-gray-200 bg-white text-gray-500 hover:text-[#8B1A2B] hover:border-[#8B1A2B]/30 transition-colors"
+            className="flex items-center justify-center w-8 h-8 rounded-lg border border-gray-200 text-gray-500 hover:text-blue-800  transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
           </button>
           <div>
-            <h1 className="text-xl font-bold text-gray-900">AI Analysis</h1>
+            <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">AI Analysis</h1>
             <p className="text-xs text-gray-400 mt-0.5">
               Artificial Intelligence Medical Image Analysis
             </p>
@@ -664,7 +664,7 @@ export function AiAnalysisForm({ patientId }: { patientId: string }) {
           transition={{ duration: 0.4, delay: 0.1 }}
           className="space-y-4"
         >
-          <div className="rounded-xl border border-gray-200 bg-white p-5 space-y-4">
+          <div className="rounded-xl border border-gray-200 dark:bg-gray-400 p-5 space-y-4">
             <h2 className="text-base font-bold text-gray-900">
               Patient Information
             </h2>
@@ -705,7 +705,7 @@ export function AiAnalysisForm({ patientId }: { patientId: string }) {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.15 }}
-            className="rounded-xl border border-gray-200 bg-white p-5"
+            className="rounded-xl border border-gray-200 dark:bg-gray-400 p-5"
           >
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-base font-bold text-gray-900">
@@ -758,7 +758,7 @@ export function AiAnalysisForm({ patientId }: { patientId: string }) {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.2 }}
-            className="rounded-xl border border-gray-200 bg-white p-5"
+            className="rounded-xl border border-gray-200 dark:bg-gray-400 p-5"
           >
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-base font-bold text-gray-900">AI Analysis</h2>
@@ -809,8 +809,8 @@ export function AiAnalysisForm({ patientId }: { patientId: string }) {
               />
             ) : (
               <div className="flex flex-col items-center justify-center py-10 gap-3 text-gray-400">
-                <Sparkles className="w-10 h-10 text-[#8B1A2B]/20" />
-                <p className="text-sm text-center max-w-xs">
+                <Sparkles className="w-10 h-10 text-blue-800/20" />
+                <p className="text-sm text-center text-gray-700  max-w-xs">
                   {isEchoStudy
                     ? 'Click "Run AI Analysis" to analyze the uploaded medical images.'
                     : "AI analysis is not available for this study type."}

@@ -18,6 +18,7 @@ export type DoctorNavItem = {
   title: string;
   url: string;
   icon: typeof LayoutDashboard;
+  badge?: string;
 };
 
 export type DoctorNavGroup = {
@@ -31,15 +32,27 @@ export const DOCTOR_NAV_GROUPS: DoctorNavGroup[] = [
     items: [
       { title: "Dashboard", url: "/doctor/dashboard", icon: LayoutDashboard },
       { title: "Analytics", url: "/doctor/analytics", icon: BarChart3 },
-      { title: "Today's Schedule", url: "/doctor/schedule", icon: CalendarCheck },
+      {
+        title: "Today's Schedule",
+        url: "/doctor/schedule",
+        icon: CalendarCheck,
+      },
     ],
   },
   {
     label: "Patients",
     items: [
       { title: "Active Patients", url: "/doctor/patients", icon: Users },
-      { title: "Recent Patients", url: "/doctor/recent-patients", icon: History },
-      { title: "Historical Patients", url: "/doctor/historical-patients", icon: Archive },
+      {
+        title: "Recent Patients",
+        url: "/doctor/recent-patients",
+        icon: History,
+      },
+      {
+        title: "Historical Patients",
+        url: "/doctor/historical-patients",
+        icon: Archive,
+      },
       { title: "Watchlist", url: "/doctor/watchlist", icon: Star },
     ],
   },
@@ -47,19 +60,27 @@ export const DOCTOR_NAV_GROUPS: DoctorNavGroup[] = [
     label: "Clinical",
     items: [
       { title: "Follow-Ups", url: "/doctor/follow-ups", icon: Clock },
-      { title: "Compare Visits", url: "/doctor/compare-visits", icon: GitCompare },
+      {
+        title: "Compare Visits",
+        url: "/doctor/compare-visits",
+        icon: GitCompare,
+      },
     ],
   },
   {
     label: "Radiology",
-    items: [
-      { title: "Studies", url: "/doctor/radiology", icon: Scan },
-    ],
+    items: [{ title: "Studies", url: "/doctor/radiology", icon: Scan }],
   },
   {
     label: "Communication",
     items: [
-      { title: "Internal Chat", url: "/doctor/chat", icon: MessageSquare },
+      {
+        title: "Internal Chat",
+        url: "/doctor/chat",
+        icon: MessageSquare,
+        badge: "chat",
+      },
+
       { title: "Notifications", url: "/doctor/notifications", icon: BellRing },
     ],
   },

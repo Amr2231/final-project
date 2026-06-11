@@ -84,8 +84,9 @@ export function ChatPage() {
       description="Secure messaging with staff and radiology"
     >
       <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-4 h-[calc(100vh-220px)] min-h-125">
-        <aside className="rounded-xl border border-gray-200 bg-white dark:bg-gray-950 dark:border-gray-800 flex flex-col overflow-hidden">
-          <div className="p-3 border-b border-gray-100 flex items-center gap-2">
+        {/* Sidebar */}
+        <aside className="rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-gray-950 flex flex-col overflow-hidden">
+          <div className="p-3 border-b border-gray-100 dark:border-white/10 flex items-center gap-2">
             <div className="flex-1">
               <TableToolbar
                 search={search}
@@ -97,15 +98,16 @@ export function ChatPage() {
               type="button"
               variant="outline"
               size="sm"
-              className="shrink-0"
+              className="shrink-0 dark:border-white/10 dark:hover:bg-white/5"
               onClick={() => setShowUserPicker((v) => !v)}
             >
               <UserPlus className="w-4 h-4 mr-1" />
               New
             </Button>
           </div>
-          {showUserPicker ? (
-            <div className="p-3 border-b border-gray-100 space-y-2">
+
+          {showUserPicker && (
+            <div className="p-3 border-b border-gray-100 dark:border-white/10 space-y-2">
               <Input
                 value={userSearch}
                 onChange={(e) => setUserSearch(e.target.value)}
@@ -116,7 +118,7 @@ export function ChatPage() {
                   <button
                     key={user.user_id}
                     type="button"
-                    className="w-full text-left px-2 py-2 rounded-md hover:bg-gray-50 text-sm"
+                    className="w-full text-left px-2 py-2 rounded-md hover:bg-gray-50 dark:hover:bg-white/5 text-sm text-gray-700 dark:text-gray-300 transition-colors"
                     onClick={() => {
                       selectUser({
                         user_id: user.user_id,
@@ -130,22 +132,23 @@ export function ChatPage() {
                     <span className="font-medium">
                       {user.first_name} {user.last_name}
                     </span>
-                    <span className="block text-xs text-gray-500">
+                    <span className="block text-xs text-gray-400">
                       {user.role_name} · {user.email}
                     </span>
                   </button>
                 ))}
               </div>
             </div>
-          ) : null}
+          )}
+
           <div className="flex-1 overflow-y-auto">
             {filteredInbox.length === 0 && !search.trim() ? (
               <div className="p-6 flex flex-col items-center justify-center h-full gap-3 text-center">
-                <div className="w-12 h-12 rounded-full bg-[#8B1A2B]/10 flex items-center justify-center">
-                  <MessageSquare className="w-5 h-5 text-[#8B1A2B]" />
+                <div className="w-12 h-12 rounded-full bg-blue-600/10 flex items-center justify-center">
+                  <MessageSquare className="w-5 h-5 text-blue-600" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-700">
+                  <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
                     No conversations yet
                   </p>
                   <p className="text-xs text-gray-400 mt-1">
@@ -175,15 +178,17 @@ export function ChatPage() {
                     })
                   }
                   className={cn(
-                    "w-full text-left px-4 py-3 border-b border-gray-50 hover:bg-gray-50 transition-colors",
+                    "w-full text-left px-4 py-3 border-b border-gray-50 dark:border-white/5 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors",
                     selectedUserId === item.user_id &&
-                      "bg-[#8B1A2B]/5 border-l-2 border-l-[#8B1A2B]",
+                      "bg-blue-600/5 border-l-2 border-l-blue-600 dark:bg-blue-600/10",
                   )}
                 >
                   <div className="flex items-center justify-between gap-2">
-                    <p className="text-sm font-medium truncate">{item.name}</p>
+                    <p className="text-sm font-medium text-gray-800 dark:text-gray-100 truncate">
+                      {item.name}
+                    </p>
                     {item.unread_count > 0 && (
-                      <span className="shrink-0 text-[10px] font-bold bg-[#8B1A2B] text-white rounded-full px-1.5 py-0.5">
+                      <span className="shrink-0 text-[10px] font-bold bg-blue-600 text-white rounded-full px-1.5 py-0.5">
                         {item.unread_count}
                       </span>
                     )}
@@ -191,7 +196,7 @@ export function ChatPage() {
                   <p className="text-[10px] text-gray-400 uppercase tracking-wide">
                     {item.role_name}
                   </p>
-                  <p className="text-xs text-gray-500 truncate mt-0.5">
+                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate mt-0.5">
                     {item.last_message}
                   </p>
                 </button>
@@ -200,7 +205,8 @@ export function ChatPage() {
           </div>
         </aside>
 
-        <section className="rounded-xl border border-gray-200 bg-white dark:bg-gray-950 dark:border-gray-800 flex flex-col overflow-hidden">
+        {/* Chat section */}
+        <section className="rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-gray-950 flex flex-col overflow-hidden">
           {!selectedUserId ? (
             <div className="flex-1 flex items-center justify-center p-8">
               <EmptyState
@@ -211,9 +217,13 @@ export function ChatPage() {
             </div>
           ) : (
             <>
-              <header className="px-4 py-3 border-b border-gray-100">
-                <p className="text-sm font-semibold">{selected?.name ?? "Conversation"}</p>
-                <p className="text-xs text-gray-500">{selected?.role_name ?? ""}</p>
+              <header className="px-4 py-3 border-b border-gray-100 dark:border-white/10">
+                <p className="text-sm font-semibold text-gray-800 dark:text-gray-100">
+                  {selected?.name ?? "Conversation"}
+                </p>
+                <p className="text-xs text-gray-400">
+                  {selected?.role_name ?? ""}
+                </p>
               </header>
 
               <div className="flex-1 overflow-y-auto p-4 space-y-3">
@@ -223,49 +233,49 @@ export function ChatPage() {
                   </p>
                 ) : (
                   messages.map((msg) => {
-                  const isMine = msg.sender_id === currentUserId;
-                  return (
-                    <div
-                      key={msg.message_id}
-                      className={cn(
-                        "flex",
-                        isMine ? "justify-end" : "justify-start",
-                      )}
-                    >
+                    const isMine = msg.sender_id === currentUserId;
+                    return (
                       <div
+                        key={msg.message_id}
                         className={cn(
-                          "max-w-[75%] rounded-2xl px-3 py-2 text-sm",
-                          isMine
-                            ? "bg-[#8B1A2B] text-white rounded-br-sm"
-                            : "bg-gray-100 text-gray-800 rounded-bl-sm",
+                          "flex",
+                          isMine ? "justify-end" : "justify-start",
                         )}
                       >
-                        {!isMine && (
-                          <p className="text-[10px] font-medium opacity-70 mb-0.5">
-                            {msg.sender_name}
-                          </p>
-                        )}
-                        <p>{msg.message}</p>
-                        <p
+                        <div
                           className={cn(
-                            "text-[10px] mt-1",
-                            isMine ? "text-white/70" : "text-gray-400",
+                            "max-w-[75%] rounded-2xl px-3 py-2 text-sm",
+                            isMine
+                              ? "bg-blue-600 text-white rounded-br-sm"
+                              : "bg-gray-100 dark:bg-white/10 text-gray-800 dark:text-gray-100 rounded-bl-sm",
                           )}
                         >
-                          {formatFullTimestamp(msg.created_at)}
-                        </p>
+                          {!isMine && (
+                            <p className="text-[10px] font-medium opacity-70 mb-0.5">
+                              {msg.sender_name}
+                            </p>
+                          )}
+                          <p>{msg.message}</p>
+                          <p
+                            className={cn(
+                              "text-[10px] mt-1",
+                              isMine ? "text-white/70" : "text-gray-400",
+                            )}
+                          >
+                            {formatFullTimestamp(msg.created_at)}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })
+                    );
+                  })
                 )}
               </div>
 
-              <footer className="p-3 border-t border-gray-100 flex items-center gap-2">
+              <footer className="p-3 border-t border-gray-100 dark:border-white/10 flex items-center gap-2">
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="shrink-0"
+                  className="shrink-0 dark:hover:bg-white/5"
                   disabled
                   title="Attachments UI (backend pending)"
                 >
@@ -284,7 +294,7 @@ export function ChatPage() {
                 <Button
                   onClick={handleSend}
                   disabled={isPending || !draft.trim()}
-                  className="bg-[#8B1A2B] hover:bg-[#7a1726] text-white shrink-0"
+                  className="bg-blue-600 hover:bg-blue-700 text-white shrink-0"
                 >
                   <Send className="w-4 h-4" />
                 </Button>
