@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils/tailwind-merge";
 
+// styles
 const SEVERITY_STYLES = {
   low: "bg-gray-50 text-gray-600 border-gray-200 dark:bg-gray-900 dark:text-gray-400",
   medium:
@@ -16,6 +17,7 @@ type SeverityBadgeProps = {
   className?: string;
 };
 
+// component
 export function SeverityBadge({ severity, className }: SeverityBadgeProps) {
   return (
     <span
@@ -30,6 +32,7 @@ export function SeverityBadge({ severity, className }: SeverityBadgeProps) {
   );
 }
 
+// helper
 export function getSeverityFromCount(
   count: number,
   thresholds: { medium: number; high: number; critical: number },

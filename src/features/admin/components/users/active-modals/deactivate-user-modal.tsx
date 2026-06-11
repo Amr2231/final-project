@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/dialog";
 import { User } from "@/lib/types/admin";
 import { getDoctorsAction } from "../../../actions/users.actions";
+
+// types
 type DeactivateProps = {
   user: User | null;
   onClose: () => void;
@@ -18,6 +20,7 @@ type DeactivateProps = {
   isPending?: boolean;
 };
 
+// component
 export function DeactivateUserModal({
   user,
   onClose,
@@ -26,6 +29,7 @@ export function DeactivateUserModal({
 }: DeactivateProps) {
   const isDoctor = user?.role_name === "Doctor";
 
+  // Fetch active doctors from backend
   useQuery({
     queryKey: ["doctors-active"],
     queryFn: getDoctorsAction,
@@ -33,8 +37,10 @@ export function DeactivateUserModal({
     staleTime: 60_000,
   });
 
+  // user not found
   if (!user) return null;
 
+  // handle confirm
   const handleConfirm = () => {
     onConfirm();
   };
@@ -42,10 +48,13 @@ export function DeactivateUserModal({
   return (
     <Dialog open={!!user} onOpenChange={(v) => !v && onClose()}>
       <DialogContent key={user.user_id} className="max-w-md">
+        {/* header */}
         <DialogHeader>
           <DialogTitle className="text-lg font-bold text-gray-900 dark:text-gray-100">
             Deactivate Account
           </DialogTitle>
+
+          {/* description */}
           <DialogDescription className="text-sm text-orange-600">
             {isDoctor
               ? "This doctor has patients. Select a doctor to transfer them to first."
@@ -55,16 +64,20 @@ export function DeactivateUserModal({
 
         <div className="space-y-4 py-1">
           <div className="rounded-lg border border-gray-200 bg-gray-50 dark:bg-gray-800 dark:border-gray-700 p-3 space-y-0.5">
+            {/* title , user name and role */}
             <p className="text-xs text-gray-400 dark:text-gray-300">
               User to be deactivated
             </p>
             <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">
               {user.first_name} {user.last_name}
             </p>
-            <p className="text-xs text-gray-500 dark:text-gray-300">{user.role_name}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-300">
+              {user.role_name}
+            </p>
           </div>
         </div>
 
+        {/* footer */}
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>
             Cancel

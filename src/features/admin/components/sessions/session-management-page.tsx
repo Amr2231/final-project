@@ -44,7 +44,6 @@ import {
   MetricCard,
   MetricGrid,
   RoleBadge,
-  TablePagination,
   TableToolbar,
 } from "../shared";
 import {
@@ -56,7 +55,9 @@ import {
 import { SessionDetailsSheet } from "./session-details-sheet";
 import PaginationWrapper from "@/components/ui/paginationWrapper";
 
+// component
 export function SessionManagementPage() {
+  // state
   const [search, setSearch] = useState("");
   const [debouncedSearch] = useDebounce(search, 400);
   const [page, setPage] = useState(1);
@@ -69,6 +70,7 @@ export function SessionManagementPage() {
   );
   const [logoutAllOpen, setLogoutAllOpen] = useState(false);
 
+  // hooks & queries
   const { data, isLoading, isFetching } = useActiveSessions({
     page,
     keyword: debouncedSearch || undefined,
@@ -79,10 +81,12 @@ export function SessionManagementPage() {
   const { mutate: logoutAll, isPending: logoutAllPending } =
     useForceLogoutAll();
 
+  // computed values
   const stats = statsData?.data;
   const sessions = data?.data ?? [];
   const totalPages = data?.pages ?? 1;
 
+  // handlers
   const handleForceLogout = useCallback(() => {
     if (!targetSession) return;
     forceLogout(targetSession.user_id, {
@@ -96,6 +100,7 @@ export function SessionManagementPage() {
     });
   }, [logoutAll]);
 
+  // loading
   if (isLoading) return <AdminLoadingState />;
 
   return (
@@ -107,25 +112,32 @@ export function SessionManagementPage() {
           onClick={() => setLogoutAllOpen(true)}
           className="bg-red-600 hover:bg-red-700 text-white gap-2"
         >
+          {/* logout */}
           <LogOut className="w-4 h-4" />
           Terminate All
         </Button>
       }
     >
+      {/* stats */}
       {stats && (
         <MetricGrid cols={4}>
+          {/* sessions card */}
           <MetricCard
             label="Active Sessions"
             value={stats.active_sessions}
             icon={Wifi}
             accent="bg-green-100 dark:bg-green-900/40"
           />
+
+          {/* expired sessions */}
           <MetricCard
             label="Expired Sessions"
             value={stats.expired_sessions}
             icon={Clock}
             accent="bg-amber-100 dark:bg-amber-900/40"
           />
+
+          {/* roles  */}
           {stats.by_role.map((r) => (
             <MetricCard
               key={r.role_name}
@@ -137,6 +149,7 @@ export function SessionManagementPage() {
         </MetricGrid>
       )}
 
+      {/* table toolbar */}
       <TableToolbar
         search={search}
         onSearchChange={(v) => {
@@ -187,8 +200,10 @@ export function SessionManagementPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
+            {/* sessions */}
             {sessions.length === 0 ? (
               <TableRow>
+                {/* empty state */}
                 <TableCell colSpan={6} className="py-10">
                   <EmptyState
                     icon={Shield}
@@ -204,26 +219,39 @@ export function SessionManagementPage() {
                   className="border-b border-gray-100 hover:bg-gray-50/60 dark:hover:bg-gray-900/40 cursor-pointer"
                   onClick={() => setDetailsSession(session)}
                 >
+                  {/* user */}
                   <TableCell className="pl-4">
                     <p className="text-sm font-medium text-gray-800 dark:text-gray-200">
                       {session.first_name} {session.last_name}
                     </p>
+
+                    {/* email */}
                     <p className="text-xs text-gray-400">{session.email}</p>
                   </TableCell>
+
+                  {/* role */}
                   <TableCell>
                     <RoleBadge role={session.role_name} />
                   </TableCell>
+
+                  {/* last login */}
                   <TableCell className="text-sm text-gray-600 tabular-nums whitespace-nowrap">
                     {session.last_login_at
                       ? formatFullTimestamp(session.last_login_at)
                       : "—"}
                   </TableCell>
+
+                  {/* session expires */}
                   <TableCell className="text-sm text-gray-600 tabular-nums whitespace-nowrap">
                     {formatFullTimestamp(session.session_expires_at)}
                   </TableCell>
+
+                  {/* ip */}
                   <TableCell className="font-mono text-xs text-gray-500">
                     {session.last_login_ip ?? "—"}
                   </TableCell>
+
+                  {/* actions */}
                   <TableCell onClick={(e) => e.stopPropagation()}>
                     <Button
                       variant="ghost"
@@ -242,6 +270,7 @@ export function SessionManagementPage() {
         </Table>
       </AdminTableShell>
 
+      {/* pagination */}
       {totalPages > 1 && (
         <PaginationWrapper
           totalPages={totalPages}
@@ -250,6 +279,7 @@ export function SessionManagementPage() {
         />
       )}
 
+      {/* session details */}
       <SessionDetailsSheet
         session={detailsSession}
         onClose={() => setDetailsSession(null)}
@@ -265,7 +295,10 @@ export function SessionManagementPage() {
       >
         <DialogContent className="max-w-sm">
           <DialogHeader>
+            {/* terminate session */}
             <DialogTitle>Terminate Session</DialogTitle>
+
+            {/* description and username */}
             <DialogDescription>
               Force logout{" "}
               <span className="font-medium text-gray-800">
@@ -274,6 +307,8 @@ export function SessionManagementPage() {
               ? They will be signed out immediately.
             </DialogDescription>
           </DialogHeader>
+
+          {/* actions */}
           <DialogFooter>
             <Button variant="outline" onClick={() => setTargetSession(null)}>
               Cancel
@@ -289,10 +324,12 @@ export function SessionManagementPage() {
         </DialogContent>
       </Dialog>
 
+      {/* logout all */}
       <Dialog open={logoutAllOpen} onOpenChange={setLogoutAllOpen}>
         <DialogContent className="max-w-sm">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
+              {/* icon */}
               <AlertTriangle className="w-5 h-5 text-red-500" />
               Terminate All Sessions
             </DialogTitle>
@@ -300,6 +337,8 @@ export function SessionManagementPage() {
               This will immediately sign out ALL users except yourself.
             </DialogDescription>
           </DialogHeader>
+
+          {/* actions */}
           <DialogFooter>
             <Button variant="outline" onClick={() => setLogoutAllOpen(false)}>
               Cancel

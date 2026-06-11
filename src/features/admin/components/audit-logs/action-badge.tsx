@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils/tailwind-merge";
 import type { AuditAction } from "@/lib/types/audit-logs";
 
+// styles for action
 const actionStyles: Record<string, string> = {
   LOGIN: "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950 dark:text-emerald-400 dark:border-emerald-800",
   LOGOUT: "bg-gray-50 text-gray-600 border-gray-200 dark:bg-gray-900 dark:text-gray-400 dark:border-gray-700",
@@ -20,14 +21,17 @@ const actionStyles: Record<string, string> = {
   PATIENTS_TRANSFER: "bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-950 dark:text-purple-400 dark:border-purple-800",
 };
 
+// default style
 const defaultStyle =
   "bg-gray-50 text-gray-600 border-gray-200 dark:bg-gray-900 dark:text-gray-400 dark:border-gray-700";
 
+  // types
 type ActionBadgeProps = {
   action: AuditAction | string;
   className?: string;
 };
 
+// component
 export function ActionBadge({ action, className }: ActionBadgeProps) {
   const label = action.replace(/_/g, " ");
   return (

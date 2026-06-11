@@ -21,13 +21,16 @@ import {
 } from "../../hooks/use-chat";
 import { searchChatUsersAction } from "../../actions/chat.actions";
 
+// types
 type ChatPeer = {
   user_id: number;
   name: string;
   role_name: string;
 };
 
+// chat page
 export function ChatPage() {
+  // hooks
   const { data: session } = useSession();
   const [selectedUserId, setSelectedUserId] = useState(0);
   const [selectedPeer, setSelectedPeer] = useState<ChatPeer | null>(null);
@@ -41,6 +44,7 @@ export function ChatPage() {
     queryFn: () => searchChatUsersAction(userSearch),
     enabled: showUserPicker,
   });
+  // queries & mutations
   const { data: convData } = useConversation(selectedUserId);
   const { mutate: send, isPending } = useSendMessage();
 

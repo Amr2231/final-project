@@ -3,12 +3,14 @@ import { authOptions } from "@/auth";
 import { doctorFetch, getApiBase } from "./client";
 import type { MutationResponse } from "@/lib/types/doctor";
 
+// type
 export type StudyImageResponse = {
   success: boolean;
   data: string | null;
   mimeType: string | null;
 };
 
+// fetch study image
 export async function fetchStudyImage(
   studyId: string,
   imageId: number,
@@ -40,6 +42,7 @@ export async function fetchStudyImage(
   }
 }
 
+// delete study image
 export async function deleteStudyImage(
   studyId: string,
   imageId: number,

@@ -41,12 +41,10 @@ import { PulseLoader } from "@/components/ui/pulse-loader";
 import { EmptyState } from "@/components/ui/empty-state";
 import { StudyImageViewer } from "./image-viewer";
 
-// ─── Types ───────────────────────────────────────────────────────────────────
-
+// Types
 type AiResultWithStatus = AiResult & { validation_status?: AiValidationStatus };
 
-// ─── Constants ───────────────────────────────────────────────────────────────
-
+// Constants
 const EDITABLE_FIELDS = [
   {
     key: "ejection_fraction" as const,
@@ -92,7 +90,7 @@ const EDITABLE_FIELDS = [
   },
 ] as const;
 
-// ─── Helpers ─────────────────────────────────────────────────────────────────
+// Helpers
 function diagnosisBannerConfig(diagnosis: string | undefined) {
   const isNormal = diagnosis === "Normal";
   return {
@@ -104,8 +102,7 @@ function diagnosisBannerConfig(diagnosis: string | undefined) {
   };
 }
 
-// ─── Sub-components ──────────────────────────────────────────────────────────
-
+//  Sub-components
 function InfoRow({
   label,
   value,
@@ -127,6 +124,7 @@ function InfoRow({
   );
 }
 
+// Metric card
 function MetricCard({
   label,
   value,
@@ -215,8 +213,7 @@ function ConfirmBanner({
   );
 }
 
-// ─── AiResultCard ─────────────────────────────────────────────────────────────
-
+// AiResultCard
 function AiResultCard({
   result,
   studyId,
@@ -226,6 +223,7 @@ function AiResultCard({
   studyId: string;
   onFindingsInserted?: () => void;
 }) {
+  // State
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
   const [pendingAction, setPendingAction] = useState<
@@ -243,6 +241,7 @@ function AiResultCard({
     lvh_confidence: result.lvh_confidence,
   });
 
+  // Mutations
   const { mutate: validate, isPending: isValidating } = useValidateAi(studyId);
   const { mutate: editAi, isPending: isEditPending } = useEditAiResult(studyId);
   const { mutate: insertFindings, isPending: isInserting } =
@@ -251,6 +250,7 @@ function AiResultCard({
       router.push(`/doctor/patients/${studyId}/report`);
     });
 
+  // Computed
   const status = result.validation_status;
   const isApproved = status === "Approved";
   const isRejected = status === "Rejected";
@@ -647,7 +647,9 @@ export function AiAnalysisForm({ patientId }: { patientId: string }) {
             <ArrowLeft className="w-4 h-4" />
           </button>
           <div>
-            <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">AI Analysis</h1>
+            <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+              AI Analysis
+            </h1>
             <p className="text-xs text-gray-400 mt-0.5">
               Artificial Intelligence Medical Image Analysis
             </p>

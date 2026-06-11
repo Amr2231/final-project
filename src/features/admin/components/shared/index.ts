@@ -1,7 +1,6 @@
 export { AdminPageShell } from "./admin-page-shell";
 export { MetricCard } from "./metric-card";
 export { AdminTabs } from "./admin-tabs";
-export { TablePagination } from "./table-pagination";
 export { TableToolbar } from "./table-toolbar";
 export { AdminTableShell } from "./admin-table-shell";
 export { RoleBadge } from "./role-badge";

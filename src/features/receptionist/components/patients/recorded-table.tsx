@@ -78,18 +78,6 @@ export function RecordedTable() {
     sortDate !== "newest",
   ].filter(Boolean).length;
 
-  const toggleAll = useCallback(() => {
-    setSelected((prev) =>
-      prev.length === patients.length ? [] : patients.map((p) => p.national_id),
-    );
-  }, [patients]);
-
-  const toggleOne = useCallback((id: string) => {
-    setSelected((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
-    );
-  }, []);
-
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-20">

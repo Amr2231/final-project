@@ -5,6 +5,7 @@ import { toast } from "sonner";
 export function useReactivateUser() {
   const queryClient = useQueryClient();
 
+  // Mutations
   return useMutation({
     mutationFn: (id: number) => reactivateUserAction(id),
     onSuccess: (data) => {

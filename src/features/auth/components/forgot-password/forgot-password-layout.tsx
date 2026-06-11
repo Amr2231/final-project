@@ -8,7 +8,9 @@ import ForgotPasswordForm from "@/features/auth/components/forgot-password/forgo
 import ResetPasswordForm from "@/features/auth/components/reset-password/reset-password-form";
 import { useRouter } from "next/navigation";
 
+// component
 export default function ForgotPasswordLayout() {
+  // hooks
   const Router = useRouter();
   const [step, setStep] = useState<ForgetPasswordSteps>(
     Forget_password_Steps.Email,
@@ -16,6 +18,7 @@ export default function ForgotPasswordLayout() {
   const [email, setEmail] = useState<string | null>(null);
   const [token] = useState<string | null>(null);
 
+  // steps
   const steps = {
     [Forget_password_Steps.Email]: (
       <EmailStep
@@ -31,9 +34,7 @@ export default function ForgotPasswordLayout() {
       />
     ),
     [Forget_password_Steps.New_Password]: (
-      <ResetPasswordForm
-        token={token || ""}
-      />
+      <ResetPasswordForm token={token || ""} />
     ),
   };
 

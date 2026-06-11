@@ -14,11 +14,13 @@ import { AdminNavGroups } from "./shared/admin-nav-groups";
 export async function AppSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
+  // get session
   const session = await getServerSession(authOptions);
 
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
+        {/* team switcher */}
         <TeamSwitcher
           teams={[
             {

@@ -27,7 +27,7 @@ export function useLogin() {
         throw new Error(response?.error || "Login failed");
       }
 
-      // انتظر شوية عشان NextAuth يكتب الـ cookie الأول
+      // wait for 200ms
       await new Promise((resolve) => setTimeout(resolve, 200));
 
       await fetch("/api/auth/session-preference", {

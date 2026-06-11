@@ -28,7 +28,6 @@ export function DeletePatientModal({
             Deactivate Patient
           </DialogTitle>
           <DialogDescription className="text-sm text-gray-500">
-            {/* FIX: honest message — this is a soft delete, not permanent */}
             This will deactivate{" "}
             <span className="font-medium text-gray-800 dark:text-gray-100">
               {patient?.first_name} {patient?.last_name}
@@ -40,11 +39,7 @@ export function DeletePatientModal({
           <Button variant="outline" onClick={onClose}>
             Cancel
           </Button>
-          <Button
-            variant="default"
-            disabled={isPending}
-            onClick={onConfirm}
-          >
+          <Button variant="default" disabled={isPending} onClick={onConfirm}>
             {isPending ? "Deactivating..." : "Deactivate"}
           </Button>
         </DialogFooter>

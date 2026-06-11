@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 
+// NotificationsError component
 export default function NotificationsError({
   error,
   reset,
@@ -14,9 +15,11 @@ export default function NotificationsError({
       <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
         Something went wrong loading notifications
       </p>
+      {/* Display error message */}
       <p className="text-xs text-gray-500 max-w-sm text-center">
         {error.message || "An unexpected error occurred."}
       </p>
+      {/* Button to try again */}
       <Button
         variant="outline"
         size="sm"

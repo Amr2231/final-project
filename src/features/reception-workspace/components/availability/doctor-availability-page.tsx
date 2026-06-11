@@ -29,19 +29,25 @@ export function DoctorAvailabilityPage() {
             <dl className="grid grid-cols-2 gap-2 text-sm">
               <div>
                 <dt className="text-muted-foreground text-xs">Workload</dt>
-                <dd className="font-semibold tabular-nums">{d.workload_count}</dd>
+                <dd className="font-semibold tabular-nums">
+                  {d.workload_count}
+                </dd>
               </div>
               <div>
                 <dt className="text-muted-foreground text-xs">Next Slot</dt>
                 <dd className="font-mono text-xs truncate">
                   {d.next_available_slot
-                    ? String(d.next_available_slot).replace("T", " ").slice(0, 16)
+                    ? String(d.next_available_slot)
+                        .replace("T", " ")
+                        .slice(0, 16)
                     : "—"}
                 </dd>
               </div>
             </dl>
             {d.break_until && (
-              <p className="text-xs text-orange-600">Break until {String(d.break_until).slice(11, 16)}</p>
+              <p className="text-xs text-orange-600">
+                Break until {String(d.break_until).slice(11, 16)}
+              </p>
             )}
           </div>
         ))}

@@ -7,10 +7,6 @@ import { getPublicApiUrl } from "@/lib/shared/config/env";
 import { doctorKeys } from "@/features/doctor/constants/query-keys";
 import { RECEPTION_QUERY_KEYS } from "@/features/reception-workspace/constants";
 
-/**
- * SSE subscription for staff-wide realtime events (chat, appointments, etc.).
- * Works for Doctor, Receptionist, and Admin roles.
- */
 export function useStaffRealtime(
   scope: "doctor" | "reception" | "admin" = "doctor",
 ) {

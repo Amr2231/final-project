@@ -23,6 +23,7 @@ import {
   AUDIT_SORT_FIELDS,
 } from "../../constants/audit-logs.constants";
 
+// types
 export type AuditLogFiltersState = {
   action: string;
   entity: string;
@@ -42,6 +43,7 @@ type AuditLogFiltersModalProps = {
   onReset: () => void;
 };
 
+// component
 export function AuditLogFiltersModal({
   open,
   onOpenChange,
@@ -49,8 +51,10 @@ export function AuditLogFiltersModal({
   onApply,
   onReset,
 }: AuditLogFiltersModalProps) {
+  // state
   const [local, setLocal] = React.useState(filters);
 
+  // handlers
   const handleOpenChange = (nextOpen: boolean) => {
     if (nextOpen) setLocal(filters);
     onOpenChange(nextOpen);
@@ -65,6 +69,7 @@ export function AuditLogFiltersModal({
 
         <div className="space-y-4 py-2">
           <div className="space-y-2">
+            {/* actions */}
             <Label htmlFor="filter-action">Action</Label>
             <Select
               value={local.action || "all"}
@@ -86,6 +91,7 @@ export function AuditLogFiltersModal({
             </Select>
           </div>
 
+          {/* entity filter */}
           <div className="space-y-2">
             <Label htmlFor="filter-entity">Entity</Label>
             <Select
@@ -108,6 +114,7 @@ export function AuditLogFiltersModal({
             </Select>
           </div>
 
+          {/* Actor ID */}
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
               <Label htmlFor="filter-actor">Actor ID</Label>
@@ -121,6 +128,8 @@ export function AuditLogFiltersModal({
                 }
               />
             </div>
+
+            {/* Entity ID */}
             <div className="space-y-2">
               <Label htmlFor="filter-entity-id">Entity ID</Label>
               <Input
@@ -134,6 +143,7 @@ export function AuditLogFiltersModal({
             </div>
           </div>
 
+          {/* Date */}
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
               <Label htmlFor="filter-from">From date</Label>
@@ -146,6 +156,8 @@ export function AuditLogFiltersModal({
                 }
               />
             </div>
+
+            {/* To date */}
             <div className="space-y-2">
               <Label htmlFor="filter-to">To date</Label>
               <Input
@@ -159,6 +171,7 @@ export function AuditLogFiltersModal({
             </div>
           </div>
 
+          {/* Sort and order */}
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
               <Label htmlFor="filter-sort">Sort by</Label>
@@ -178,6 +191,8 @@ export function AuditLogFiltersModal({
                 </SelectContent>
               </Select>
             </div>
+
+            {/* Order */}
             <div className="space-y-2">
               <Label htmlFor="filter-order">Order</Label>
               <Select
@@ -198,6 +213,7 @@ export function AuditLogFiltersModal({
           </div>
         </div>
 
+        {/* Apply filters */}
         <div className="flex justify-end gap-2 pt-2">
           <Button variant="outline" onClick={onReset}>
             Reset

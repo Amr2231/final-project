@@ -19,6 +19,7 @@ import { useAddUser } from "../../hooks/use-add-user";
 import { addUserSchema, type AddUserSchema } from "@/lib/schemas/admin.schema";
 import { ROLES } from "@/lib/constants/roles.constants";
 
+// helper function
 function SectionCard({
   icon: Icon,
   title,
@@ -39,14 +40,16 @@ function SectionCard({
       transition={{ duration: 0.4, delay: 0.1 + index * 0.08 }}
       className="rounded-2xl border border-gray-200 dark:border-gray-700  dark:bg-gray-900 overflow-hidden"
     >
+      {/* header */}
       <div className="flex items-center gap-3 px-6 py-4 border-b border-gray-100 dark:border-gray-700 bg-gray-50/60 ">
         <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-100/10 dark:bg-blue-900/20">
           <Icon className="w-4 h-4 text-blue-800" />
         </span>
         <div>
-          <h2 className="text-sm font-semibold text-gray-900 ">
-            {title}
-          </h2>
+          {/* title */}
+          <h2 className="text-sm font-semibold text-gray-900 ">{title}</h2>
+
+          {/* description */}
           <p className="text-xs text-gray-400 dark:text-gray-500">
             {description}
           </p>
@@ -57,6 +60,7 @@ function SectionCard({
   );
 }
 
+// helper function
 function FieldLabel({
   label,
   required,
@@ -71,9 +75,12 @@ function FieldLabel({
   );
 }
 
+// component
 export function AddUserForm() {
+  // mutate
   const { mutate: addUser, isPending } = useAddUser();
 
+  // form
   const {
     register,
     handleSubmit,
@@ -83,6 +90,7 @@ export function AddUserForm() {
     resolver: zodResolver(addUserSchema),
   });
 
+  // generate password
   const generatePassword = () => {
     const chars =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$";
@@ -103,6 +111,7 @@ export function AddUserForm() {
         transition={{ duration: 0.3 }}
         className="flex items-center gap-3"
       >
+        {/* back button */}
         <Link
           href="/admin/users"
           className="flex items-center justify-center w-8 h-8 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:text-[#8B1A2B] hover:border-[#8B1A2B]/30 transition-colors"
@@ -110,9 +119,12 @@ export function AddUserForm() {
           <ArrowLeft className="w-4 h-4" />
         </Link>
         <div>
+          {/* title */}
           <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
             Create New User
           </h1>
+
+          {/* description */}
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
             Register a new user account in the system
           </p>
@@ -127,6 +139,7 @@ export function AddUserForm() {
         index={0}
       >
         <div className="grid grid-cols-2 gap-5">
+          {/* first name */}
           <div className="space-y-1.5">
             <FieldLabel label="First Name" required />
             <Input
@@ -144,6 +157,7 @@ export function AddUserForm() {
             )}
           </div>
 
+          {/* last name */}
           <div className="space-y-1.5">
             <FieldLabel label="Last Name" required />
             <Input
@@ -159,6 +173,7 @@ export function AddUserForm() {
             )}
           </div>
 
+          {/* username */}
           <div className="space-y-1.5">
             <FieldLabel label="Username" required />
             <Input
@@ -174,6 +189,7 @@ export function AddUserForm() {
             )}
           </div>
 
+          {/* email address */}
           <div className="space-y-1.5">
             <FieldLabel label="Email Address" required />
             <Input
@@ -200,6 +216,7 @@ export function AddUserForm() {
         index={1}
       >
         <div className="space-y-1.5">
+          {/* role */}
           <FieldLabel label="Role" required />
           <select
             {...register("role_name")}
@@ -210,6 +227,7 @@ export function AddUserForm() {
                 : "border-gray-200 dark:border-gray-700",
             )}
           >
+            {/* options */}
             <option value="" className="dark:bg-gray-800">
               Select role
             </option>
@@ -233,6 +251,7 @@ export function AddUserForm() {
         index={2}
       >
         <div className="grid grid-cols-2 gap-5">
+          {/* password */}
           <div className="space-y-1.5">
             <FieldLabel label="Password" required />
             <div className="flex gap-2">
@@ -242,6 +261,7 @@ export function AddUserForm() {
                 error={!!errors.password}
                 className="bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 dark:text-gray-200 dark:placeholder:text-gray-500"
               />
+              {/* generate password button */}
               <Button
                 type="button"
                 variant="outline"
@@ -261,6 +281,7 @@ export function AddUserForm() {
           </div>
 
           <div className="space-y-1.5">
+            {/* confirm password */}
             <FieldLabel label="Confirm Password" required />
             <PasswordInput
               placeholder="Confirm password"
@@ -284,6 +305,7 @@ export function AddUserForm() {
         transition={{ duration: 0.3, delay: 0.4 }}
         className="flex justify-end gap-2 pb-4"
       >
+        {/* create user button */}
         <Button
           onClick={handleSubmit((data) => addUser(data))}
           disabled={isPending}

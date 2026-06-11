@@ -3,13 +3,7 @@
 import { useState } from "react";
 import { useDebounce } from "use-debounce";
 import { motion } from "motion/react";
-import {
-  Search,
-  RotateCcw,
-  UserX,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
+import { Search, RotateCcw, UserX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -28,15 +22,14 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { cn } from "@/lib/utils/tailwind-merge";
 import { EmptyState } from "@/components/ui/empty-state";
 import { PulseLoader } from "@/components/ui/pulse-loader";
 import { useDeactivatedPatients } from "../../hooks/use-deactivated-patients";
 import { useReactivatePatient } from "../../hooks/use-reactivate-patient";
-// import { DeactivatedPatientsFiltersModal } from "./patient-modals/filter-patients-modal";
 import type { DeactivatedPatient } from "../../actions/users.actions";
 import PaginationWrapper from "@/components/ui/paginationWrapper";
 
+// Table headers
 export const TABLE_HEADERS = [
   "Patient",
   "Study",
@@ -46,6 +39,7 @@ export const TABLE_HEADERS = [
   "Actions",
 ] as const;
 
+// Reactivate patient modal
 function ReactivatePatientModal({
   patient,
   onClose,
@@ -60,10 +54,13 @@ function ReactivatePatientModal({
   return (
     <Dialog open={!!patient} onOpenChange={(v) => !v && onClose()}>
       <DialogContent className="max-w-sm">
+        {/* header */}
         <DialogHeader>
           <DialogTitle className="text-lg font-bold text-gray-900 dark:text-gray-100">
             Reactivate Patient
           </DialogTitle>
+
+          {/* description */}
           <DialogDescription className="text-sm text-gray-500">
             Are you sure you want to reactivate{" "}
             <span className="font-medium text-gray-800 dark:text-gray-100">
@@ -72,6 +69,8 @@ function ReactivatePatientModal({
             They will appear in the active patients list again.
           </DialogDescription>
         </DialogHeader>
+
+        {/* footer */}
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>
             Cancel
@@ -89,7 +88,9 @@ function ReactivatePatientModal({
   );
 }
 
+// Deactivated patients table
 export function DeactivatedPatientsTable() {
+  // states
   const [search, setSearch] = useState("");
   const [debouncedSearch] = useDebounce(search, 400);
   const [page, setPage] = useState(1);
@@ -98,10 +99,7 @@ export function DeactivatedPatientsTable() {
   const [reactivateTarget, setReactivateTarget] =
     useState<DeactivatedPatient | null>(null);
 
-  // const activeFilters = [sortDate !== "newest", !!filterDate].filter(
-  //   Boolean,
-  // ).length;
-
+  // hooks
   const { data, isLoading } = useDeactivatedPatients({
     keyword: debouncedSearch || undefined,
     page,
@@ -109,18 +107,22 @@ export function DeactivatedPatientsTable() {
     created_date: filterDate,
   });
 
+  // computed values
   const patients = data?.data ?? [];
   const totalPages = data?.pages ?? 1;
   const total = data?.total ?? 0;
 
+  // mutations
   const { mutate: reactivatePatient, isPending: isReactivating } =
     useReactivatePatient();
 
+  // handlers
   const handleSearchChange = (val: string) => {
     setSearch(val);
     setPage(1);
   };
 
+  // loading state
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-20 text-sm text-gray-400">
@@ -138,6 +140,7 @@ export function DeactivatedPatientsTable() {
         transition={{ duration: 0.3 }}
         className="flex items-center gap-2 mb-4"
       >
+        {/* Search */}
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
           <Input
@@ -148,6 +151,7 @@ export function DeactivatedPatientsTable() {
           />
         </div>
 
+        {/* Total */}
         {total > 0 && (
           <span className="text-xs text-gray-400 whitespace-nowrap">
             {total} deactivated
@@ -164,6 +168,7 @@ export function DeactivatedPatientsTable() {
       >
         <Table>
           <TableHeader>
+            {/* Table headers */}
             <TableRow className="bg-gray-50/70 hover:bg-gray-50/70 border-b border-gray-200">
               {TABLE_HEADERS.map((h) => (
                 <TableHead
@@ -177,9 +182,11 @@ export function DeactivatedPatientsTable() {
           </TableHeader>
 
           <TableBody>
+            {/* Table rows */}
             {patients.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={TABLE_HEADERS.length}>
+                  {/* empty state */}
                   <EmptyState
                     icon={UserX}
                     title="No deactivated patients"
@@ -198,21 +205,29 @@ export function DeactivatedPatientsTable() {
                 >
                   <TableCell>
                     <div className="flex flex-col">
+                      {/* name */}
                       <span className="font-medium text-gray-800 dark:text-gray-200 truncate ">
                         {patient.first_name} {patient.last_name}
                       </span>
 
+                      {/* national id */}
                       <span className="text-xs text-gray-400 font-mono">
                         {patient.national_id}
                       </span>
                     </div>
                   </TableCell>
+
+                  {/* study type */}
                   <TableCell className="text-sm text-gray-600">
                     {patient.study_type ?? "—"}
                   </TableCell>
+
+                  {/* doctor */}
                   <TableCell className="text-sm text-gray-600">
                     {patient.doctor_name}
                   </TableCell>
+
+                  {/* study date */}
                   <TableCell className="text-sm text-gray-600">
                     {new Date(patient.study_date).toLocaleDateString("en-GB", {
                       year: "numeric",
@@ -220,9 +235,13 @@ export function DeactivatedPatientsTable() {
                       day: "numeric",
                     })}
                   </TableCell>
+
+                  {/* phone */}
                   <TableCell className="text-sm text-gray-600">
                     {patient.phone_number}
                   </TableCell>
+
+                  {/* reactivate */}
                   <TableCell className="pr-4">
                     <Button
                       variant="ghost"
@@ -252,16 +271,6 @@ export function DeactivatedPatientsTable() {
       )}
 
       {/* ── Modals ── */}
-      {/* <DeactivatedPatientsFiltersModal
-        open={filtersOpen}
-        onOpenChange={setFiltersOpen}
-        sortDate={sortDate}
-        setSortDate={(v) => {
-          setSortDate(v);
-          setPage(1);
-        }}
-        // {/* filterRole و setFilterRole مش محتاجينهم هنا */}
-      {/* / */}
       <ReactivatePatientModal
         patient={reactivateTarget}
         onClose={() => setReactivateTarget(null)}

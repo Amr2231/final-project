@@ -8,6 +8,7 @@ import {
 } from "../../actions/images.actions";
 import { toast } from "sonner";
 
+// Types
 type Props = {
   studyId: string;
   imageId: number;
@@ -19,6 +20,7 @@ type Props = {
   onDeleted?: (imageId: number) => void;
 };
 
+// Utils functions
 function isDicom(format: string, path?: string) {
   const combined = `${format} ${path ?? ""}`.toLowerCase();
   return ["dcm", "dicom", "application/dicom"].some((t) =>
@@ -32,7 +34,7 @@ function isVideo(format: string) {
   );
 }
 
-// ── DICOM Viewer ──────────────────────────────────────────────────────────────
+// DICOM Viewer [convert to canvas ]
 function DicomViewer({ base64 }: { base64: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [error, setError] = useState(false);
@@ -45,28 +47,33 @@ function DicomViewer({ base64 }: { base64: string }) {
         const dicomParser = (await import("dicom-parser")).default;
         const jpegJs = await import("jpeg-js");
 
+        // Convert base64 to Uint8Array
         const binary = atob(base64);
         const bytes = new Uint8Array(binary.length);
         for (let i = 0; i < binary.length; i++) {
           bytes[i] = binary.charCodeAt(i);
         }
 
+        // Parse DICOM
         const dataSet = dicomParser.parseDicom(bytes);
         const rows = dataSet.uint16("x00280010") ?? 0;
         const cols = dataSet.uint16("x00280011") ?? 0;
         const transferSyntax = dataSet.string("x00020010") ?? "";
         const pixelDataElement = dataSet.elements["x7fe00010"];
 
+        // Check if the image is DICOM
         if (!pixelDataElement || !rows || !cols) {
           setError(true);
           return;
         }
 
+        // Create canvas
         const canvas = canvasRef.current!;
         canvas.width = cols;
         canvas.height = rows;
         const ctx = canvas.getContext("2d")!;
 
+        // JPEG
         const isJpeg =
           transferSyntax.includes("1.2.840.10008.1.2.4.50") ||
           transferSyntax.includes("1.2.840.10008.1.2.4.51") ||
@@ -82,18 +89,20 @@ function DicomViewer({ base64 }: { base64: string }) {
             frag.length,
           );
 
+          // Decode JPEG
           const decoded = jpegJs.decode(jpegBytes, {
             useTArray: true,
-            colorTransform: true, // ✅ YCbCr → RGB
+            colorTransform: true,
           });
 
+          // Create image
           const imageData = ctx.createImageData(decoded.width, decoded.height);
           imageData.data.set(decoded.data);
           canvas.width = decoded.width;
           canvas.height = decoded.height;
           ctx.putImageData(imageData, 0, 0);
         } else {
-          // ✅ Raw pixels
+          // Raw pixels
           const bitsAllocated = dataSet.uint16("x00280100") ?? 16;
           const pixelData =
             bitsAllocated === 8
@@ -109,6 +118,7 @@ function DicomViewer({ base64 }: { base64: string }) {
                   ),
                 );
 
+          // Create image
           const imageData = ctx.createImageData(cols, rows);
           let min = Infinity,
             max = -Infinity;
@@ -136,6 +146,7 @@ function DicomViewer({ base64 }: { base64: string }) {
     load();
   }, [base64]);
 
+  // is error
   if (error) {
     return (
       <div className="w-full h-full flex flex-col items-center justify-center gap-2 bg-[#0d1117] text-gray-400">
@@ -153,7 +164,7 @@ function DicomViewer({ base64 }: { base64: string }) {
     />
   );
 }
-// ── Video Viewer ──────────────────────────────────────────────────────────────
+// Video Viewer
 function VideoViewer({
   base64,
   mimeType,
@@ -185,7 +196,7 @@ function VideoViewer({
   );
 }
 
-// ── Image Viewer ──────────────────────────────────────────────────────────────
+// Image Viewer
 function ImageViewer({
   base64,
   mimeType,
@@ -194,7 +205,7 @@ function ImageViewer({
   mimeType: string;
 }) {
   return (
-    // eslint-disable-next-line @next/next/no-img-element -- dynamic base64 medical imaging preview
+    // dynamic base64 medical imaging preview
     <img
       src={`data:${mimeType};base64,${base64}`}
       alt="Study image"
@@ -203,8 +214,7 @@ function ImageViewer({
   );
 }
 
-// ── Main Component ────────────────────────────────────────────────────────────
-
+// Main Component
 export function StudyImageViewer({
   studyId,
   imageId,
@@ -215,6 +225,7 @@ export function StudyImageViewer({
   onSelect,
   onDeleted,
 }: Props) {
+  // state
   const [state, setState] = useState<{
     status: "loading" | "success" | "error";
     base64: string | null;
@@ -223,6 +234,7 @@ export function StudyImageViewer({
 
   const [isDeleting, setIsDeleting] = useState(false);
 
+  // get study image
   useEffect(() => {
     getStudyImageAction(studyId, imageId).then((res) => {
       if (res.success && res.data) {

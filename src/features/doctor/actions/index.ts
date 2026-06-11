@@ -1,5 +1,5 @@
 export {
-  getPatientsWithStudiesAction,
+  getActivePatientsAction,
   getHistoricalPatientsAction,
   getActivePatientByStudyIdAction,
   updatePatientAction,

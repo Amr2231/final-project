@@ -34,6 +34,7 @@ import { PatientsSearchBar } from "../shared/patients-search-bar";
 import { ViewReportModal } from "./historical/view-report-modal";
 import { DownloadReportModal } from "./historical/download-report-modal";
 
+// TABLE HEADERS 
 const tableHeaders = [
   "Full Name",
   "Report Status",
@@ -74,7 +75,7 @@ export function HistoricalPatientsTable({
     keyword: debouncedSearch.trim() || undefined,
     study_type: filterStudy !== "all" ? filterStudy : undefined,
     // report_status:
-      // filterReportStatus !== "all" ? filterReportStatus : undefined,
+    // filterReportStatus !== "all" ? filterReportStatus : undefined,
     date: filterDate || undefined,
     sort: sortDate,
     page: currentPage,

@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils/tailwind-merge";
 
+// component
 export function ViewUserModal({
   user,
   onClose,
@@ -21,34 +22,45 @@ export function ViewUserModal({
     <Dialog open={!!user} onOpenChange={(v) => !v && onClose()}>
       <DialogContent className="max-w-md">
         <DialogHeader>
+          {/* title */}
           <DialogTitle className="text-lg font-bold text-gray-900 dark:text-gray-200">
             User Details
           </DialogTitle>
+
+          {/* description and name */}
           <DialogDescription className="text-sm text-gray-500">
             View information for {user?.first_name} {user?.last_name}
           </DialogDescription>
         </DialogHeader>
 
+        {/* user details */}
         {user && (
           <div className="grid grid-cols-2 gap-4 text-sm pt-2">
+            {/* first name */}
             <div>
               <p className="text-gray-400 text-xs mb-0.5">First Name</p>
               <p className="font-medium text-gray-900 dark:text-gray-100">
                 {user.first_name}
               </p>
             </div>
+
+            {/* last name */}
             <div>
               <p className="text-gray-400 text-xs mb-0.5">Last Name</p>
               <p className="font-medium text-gray-900 dark:text-gray-100">
                 {user.last_name}
               </p>
             </div>
+
+            {/* username */}
             <div>
               <p className="text-gray-400 text-xs mb-0.5">Username</p>
               <p className="font-medium text-gray-900 dark:text-gray-100 font-mono">
                 {user.username ?? "—"}
               </p>
             </div>
+
+            {/* email */}
             <div>
               <p className="text-gray-400 text-xs mb-0.5">Email</p>
               <p
@@ -58,12 +70,16 @@ export function ViewUserModal({
                 {user.email ?? "—"}
               </p>
             </div>
+
+            {/* role */}
             <div>
               <p className="text-gray-400 text-xs mb-0.5">Role</p>
               <p className="font-medium text-gray-900 dark:text-gray-100">
                 {user.role_name}
               </p>
             </div>
+
+            {/* created date */}
             <div>
               <p className="text-gray-400 text-xs mb-0.5">Created Date</p>
               <p className="font-medium text-gray-900 dark:text-gray-100">
@@ -74,6 +90,8 @@ export function ViewUserModal({
                 })}
               </p>
             </div>
+
+            {/* status */}
             <div>
               <p className="text-gray-400 text-xs mb-0.5">Status</p>
               <span

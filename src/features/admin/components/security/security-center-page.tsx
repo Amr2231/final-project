@@ -31,7 +31,6 @@ import {
   BarChart,
   MetricCard,
   MetricGrid,
-  TablePagination,
   TableToolbar,
 } from "../shared";
 import {
@@ -42,28 +41,36 @@ import {
 } from "../../hooks/use-security";
 import PaginationWrapper from "@/components/ui/paginationWrapper";
 
+// tabs
 type SecurityTab = "overview" | "locked" | "logs";
 
+// components
 function SuspiciousIPsPanel({
   ips,
 }: {
   ips: { ip_address: string; attempts: number }[];
 }) {
+  // render
   if (!ips.length) return null;
   return (
     <div className="rounded-xl border border-gray-200 bg-white dark:bg-gray-950 dark:border-gray-800 p-4">
+      {/* header */}
       <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
         Top Suspicious IPs — Last 24h
       </p>
       <div className="space-y-2">
+        {/* ips */}
         {ips.map((ip) => (
           <div
             key={ip.ip_address}
             className="flex items-center justify-between py-1.5 border-b border-gray-100 last:border-0"
           >
+            {/* ip */}
             <span className="font-mono text-xs text-gray-600 dark:text-gray-400">
               {ip.ip_address}
             </span>
+
+            {/* attempts */}
             <span className="text-xs font-semibold text-red-600 dark:text-red-400">
               {ip.attempts} attempts
             </span>
@@ -74,13 +81,16 @@ function SuspiciousIPsPanel({
   );
 }
 
+// main
 export function SecurityCenterPage() {
+  // state
   const [tab, setTab] = useState<SecurityTab>("overview");
   const [targetUser, setTargetUser] = useState<LockedAccount | null>(null);
   const [logsPage, setLogsPage] = useState(1);
   const [ipSearch, setIpSearch] = useState("");
   const [debouncedIp] = useDebounce(ipSearch, 400);
 
+  // queries
   const { data: overviewData, isLoading: overviewLoading } =
     useSecurityOverview();
   const { data: lockedData, isLoading: lockedLoading } = useLockedAccounts();
@@ -90,8 +100,10 @@ export function SecurityCenterPage() {
   });
   const { mutate: unlock, isPending: unlockPending } = useUnlockAccount();
 
+  // data
   const overview = overviewData?.data;
 
+  // handlers
   const handleUnlock = () => {
     if (!targetUser) return;
     unlock(targetUser.user_id, {
@@ -99,6 +111,7 @@ export function SecurityCenterPage() {
     });
   };
 
+  // tabs
   const tabs = [
     { id: "overview" as const, label: "Overview" },
     {
@@ -116,25 +129,32 @@ export function SecurityCenterPage() {
     >
       <AdminTabs tabs={tabs} active={tab} onChange={setTab} />
 
+      {/* tabs */}
       {tab === "overview" && (
         <div className="space-y-6">
           {overviewLoading ? (
             <AdminLoadingState />
           ) : overview ? (
             <>
+              {/* metrics */}
               <MetricGrid cols={3}>
+                {/* locked accounts */}
                 <MetricCard
                   label="Locked Accounts"
                   value={overview.locked_accounts}
                   icon={LockKeyhole}
                   danger={overview.locked_accounts > 0}
                 />
+
+                {/* at risk accounts */}
                 <MetricCard
                   label="At Risk Accounts"
                   value={overview.at_risk_accounts}
                   icon={ShieldAlert}
                   danger={overview.at_risk_accounts > 0}
                 />
+
+                {/* failed logins */}
                 <MetricCard
                   label="Failed Logins (24h)"
                   value={overview.failed_logins_24h}
@@ -142,6 +162,8 @@ export function SecurityCenterPage() {
                   danger={overview.failed_logins_24h > 10}
                 />
               </MetricGrid>
+
+              {/* charts */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <BarChart
                   title="Failed Logins — Last 7 Days"
@@ -158,6 +180,7 @@ export function SecurityCenterPage() {
         </div>
       )}
 
+      {/* locked accounts */}
       {tab === "locked" && (
         <AdminTableShell isFetching={lockedLoading}>
           {lockedLoading ? (
@@ -187,6 +210,7 @@ export function SecurityCenterPage() {
                 {!lockedData?.data.length ? (
                   <TableRow>
                     <TableCell colSpan={6} className="py-10">
+                      {/* empty */}
                       <EmptyState
                         icon={ShieldAlert}
                         title="No locked accounts"
@@ -200,26 +224,37 @@ export function SecurityCenterPage() {
                       key={acc.user_id}
                       className="border-b border-gray-100 hover:bg-gray-50/60"
                     >
+                      {/* user info */}
                       <TableCell className="pl-4">
                         <p className="text-sm font-medium text-gray-800 dark:text-gray-100">
                           {acc.first_name} {acc.last_name}
                         </p>
                         <p className="text-xs text-gray-400">{acc.email}</p>
                       </TableCell>
+
+                      {/* role */}
                       <TableCell className="text-sm text-gray-600">
                         {acc.role_name}
                       </TableCell>
+
+                      {/* failed attempts */}
                       <TableCell>
                         <span className="text-sm font-semibold text-red-600">
                           {acc.failed_login_attempts}
                         </span>
                       </TableCell>
+
+                      {/* locked until */}
                       <TableCell className="text-sm text-gray-600 tabular-nums whitespace-nowrap">
                         {formatFullTimestamp(acc.lockout_until)}
                       </TableCell>
+
+                      {/* last login ip */}
                       <TableCell className="font-mono text-xs text-gray-500">
                         {acc.last_login_ip ?? "—"}
                       </TableCell>
+
+                      {/* unlock */}
                       <TableCell>
                         <Button
                           variant="ghost"
@@ -240,6 +275,7 @@ export function SecurityCenterPage() {
         </AdminTableShell>
       )}
 
+      {/* logs */}
       {tab === "logs" && (
         <div className="space-y-4">
           <TableToolbar
@@ -270,6 +306,7 @@ export function SecurityCenterPage() {
                 {!logsData?.data.length ? (
                   <TableRow>
                     <TableCell colSpan={4} className="py-10">
+                      {/* empty */}
                       <EmptyState
                         icon={ShieldAlert}
                         title="No failed login logs"
@@ -278,22 +315,29 @@ export function SecurityCenterPage() {
                     </TableCell>
                   </TableRow>
                 ) : (
-                  logsData.data.map((log , i) => (
+                  logsData.data.map((log, i) => (
                     <TableRow
                       key={`${log.audit_log_id}-${i}`}
                       className="border-b border-gray-100 hover:bg-gray-50/60"
                     >
+                      {/* Timestamp created at */}
                       <TableCell className="pl-4 text-sm text-gray-600 tabular-nums whitespace-nowrap">
                         {formatFullTimestamp(log.created_at)}
                       </TableCell>
+
+                      {/* Actor name */}
                       <TableCell>
                         <p className="text-sm font-medium text-gray-800 dark:text-gray-100">
                           {log.actor_name ?? "—"}
                         </p>
                       </TableCell>
+
+                      {/* Description */}
                       <TableCell className="text-sm text-gray-600 max-w-xs truncate">
                         {log.description ?? "—"}
                       </TableCell>
+
+                      {/* IP Address */}
                       <TableCell className="font-mono text-xs text-gray-500">
                         {log.ip_address ?? "—"}
                       </TableCell>
@@ -303,6 +347,8 @@ export function SecurityCenterPage() {
               </TableBody>
             </Table>
           </AdminTableShell>
+
+          {/* pagination */}
           {(logsData?.pages ?? 0) > 1 && (
             <PaginationWrapper
               totalPages={logsData?.pages ?? 1}
@@ -318,20 +364,25 @@ export function SecurityCenterPage() {
         onOpenChange={(v) => !v && setTargetUser(null)}
       >
         <DialogContent className="max-w-sm">
+          {/* header */}
           <DialogHeader>
             <DialogTitle>Unlock Account</DialogTitle>
             <DialogDescription>
-              Unlock{" "}
+              Unlock {/* name */}
               <span className="font-medium text-gray-800">
                 {targetUser?.first_name} {targetUser?.last_name}
               </span>
               ? They will be able to log in immediately.
             </DialogDescription>
           </DialogHeader>
+
+          {/* footer */}
           <DialogFooter>
             <Button variant="outline" onClick={() => setTargetUser(null)}>
               Cancel
             </Button>
+
+            {/* unlock button */}
             <Button
               disabled={unlockPending}
               onClick={handleUnlock}

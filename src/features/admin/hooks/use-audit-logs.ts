@@ -5,8 +5,10 @@ import { adminKeys } from "../constants/query-keys";
 import { getAuditLogsAction } from "../actions/audit-logs.actions";
 import type { AuditLogsQuery } from "@/lib/types/audit-logs";
 
+// types
 export type AuditLogsFilters = AuditLogsQuery;
 
+// use audit logs
 export function useAuditLogs(filters?: AuditLogsFilters) {
   return useQuery({
     queryKey: adminKeys.auditLogs({

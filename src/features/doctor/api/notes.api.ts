@@ -1,10 +1,12 @@
 import { doctorFetch } from "./client";
 import type { MutationResponse, StudyNote } from "@/lib/types/doctor";
 
+// type
 export type NotesMutationResponse = MutationResponse & {
   notes?: StudyNote[];
 };
 
+// save study notes
 export async function saveStudyNotes(
   studyId: string,
   notes: string,
@@ -19,6 +21,7 @@ export async function saveStudyNotes(
   });
 }
 
+// delete study note
 export async function deleteStudyNote(
   studyId: string,
   noteId: string,

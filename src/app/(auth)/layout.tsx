@@ -1,6 +1,7 @@
 import Provider from "@/components/providers/shared";
 import { AuthVisual } from "@/features/auth";
 
+// layout for auth pages
 export default function AuthLayout({
   children,
 }: {

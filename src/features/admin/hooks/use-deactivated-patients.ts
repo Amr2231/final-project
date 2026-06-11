@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getDeactivatedPatientsAction } from "../actions/users.actions";
 
+// types
 type Filters = {
   page?: number;
   keyword?: string;
@@ -8,6 +9,7 @@ type Filters = {
   created_date?: string;
 };
 
+// use deactivated patients
 export function useDeactivatedPatients(filters?: Filters) {
   return useQuery({
     queryKey: ["patients", "deactivated", filters],

@@ -49,11 +49,8 @@ const tableHeaders = [
 ];
 
 // Component
-export function ActivePatientsTable({
-  searchParams,
-}: {
-  searchParams?: { page?: string };
-}) {
+export function ActivePatientsTable() {
+  // hooks
   const router = useRouter();
 
   // ===== FILTER STATE =====

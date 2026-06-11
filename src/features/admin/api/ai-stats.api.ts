@@ -5,8 +5,10 @@ import type {
   AIResultsListResponse,
 } from "@/lib/types/admin-features";
 
+// constant url prefix
 const BASE = "/api/admin/ai";
 
+// fetch ai stats data
 export async function fetchAIStats(): Promise<{
   success: boolean;
   data: AIStatsData;
@@ -14,6 +16,7 @@ export async function fetchAIStats(): Promise<{
   return serverFetch(`${BASE}/stats`);
 }
 
+// fetch ai results
 export async function fetchAIResults(filters?: {
   page?: number;
   limit?: number;

@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils/tailwind-merge";
 import type { Role } from "@/lib/types/admin";
 
+// styles
 const ROLE_STYLES: Record<string, string> = {
   Doctor:
     "bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950 dark:text-blue-400 dark:border-blue-800",
@@ -10,11 +11,13 @@ const ROLE_STYLES: Record<string, string> = {
     "bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-950 dark:text-violet-400 dark:border-violet-800",
 };
 
+// types
 type RoleBadgeProps = {
   role: Role | string;
   className?: string;
 };
 
+// component
 export function RoleBadge({ role, className }: RoleBadgeProps) {
   return (
     <span

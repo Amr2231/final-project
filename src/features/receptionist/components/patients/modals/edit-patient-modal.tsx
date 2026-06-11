@@ -72,7 +72,7 @@ export function EditPatientModal({
       last_name: "",
       national_id: "",
       phone_number: "",
-      gender: undefined, // FIX: starts empty, not pre-selected
+      gender: undefined,
       doctor_id: undefined,
       study_type: undefined,
       study_date: "",

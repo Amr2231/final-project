@@ -2,6 +2,7 @@ import { serverFetch } from "@/lib/shared/api/server-client";
 import type { ChatInboxItem, ChatMessage } from "@/lib/types/doctor-portal";
 import type { MutationResponse } from "@/lib/types/doctor";
 
+// fetch chat inbox
 export async function fetchChatInbox(): Promise<{
   success: boolean;
   data: ChatInboxItem[];
@@ -9,6 +10,7 @@ export async function fetchChatInbox(): Promise<{
   return serverFetch("/api/chat/inbox");
 }
 
+// fetch chat unread
 export async function fetchChatUnread(): Promise<{
   success: boolean;
   unread: number;
@@ -16,6 +18,7 @@ export async function fetchChatUnread(): Promise<{
   return serverFetch("/api/chat/unread");
 }
 
+// fetch conversation
 export async function fetchConversation(
   userId: number,
   page = 1,
@@ -28,6 +31,7 @@ export async function fetchConversation(
   return serverFetch(`/api/chat/${userId}?page=${page}&limit=30`);
 }
 
+// search chat users
 export async function searchChatUsers(query = ""): Promise<{
   success: boolean;
   data: {
@@ -44,6 +48,7 @@ export async function searchChatUsers(query = ""): Promise<{
   return serverFetch(`/api/chat/users${qs}`);
 }
 
+// send chat message
 export async function sendChatMessage(payload: {
   receiver_id: number;
   message: string;

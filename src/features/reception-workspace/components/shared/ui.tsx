@@ -50,7 +50,6 @@ export function DoctorStatusBadge({ label, className }: BadgeProps) {
 
 export { MetricCard } from "@/features/admin/components/shared/metric-card";
 export { MetricGrid } from "@/features/admin/components/shared/analytics-layout";
-export { TablePagination } from "@/features/admin/components/shared/table-pagination";
 export { TableToolbar } from "@/features/admin/components/shared/table-toolbar";
 export { AdminLoadingState as ReceptionLoadingState } from "@/features/admin/components/shared/admin-loading-state";
 export { BarChart, MiniBar } from "@/features/admin/components/shared/bar-chart";

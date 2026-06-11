@@ -244,7 +244,7 @@ function PatientNotesModalContent({
             )}
           </div>
 
-          {/* ── Footer ──────────────────────────────────────────────── */}
+          {/* Footer  */}
           <DialogFooter className="pt-3">
             <Button
               type="button"

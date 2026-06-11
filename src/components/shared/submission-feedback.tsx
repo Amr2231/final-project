@@ -1,13 +1,18 @@
 import { cn } from "@/lib/utils/tailwind-merge";
 import { XCircle } from "lucide-react";
 
+// Types
 type SubmissionFeedbackProps = React.HTMLAttributes<HTMLParagraphElement>;
+
+// Component
 export default function SubmissionFeedback({
   children,
   className,
   ...props
 }: SubmissionFeedbackProps) {
+  // If no children, return null
   if (!children) return null;
+
   return (
     <p
       className={cn(

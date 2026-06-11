@@ -46,31 +46,6 @@ export function DashboardPage() {
       title="Reception Dashboard"
       description="Real-time overview of today's front desk operations"
     >
-      {/* <section className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
-        {QUICK_LINKS.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className="group rounded-xl border border-border bg-card p-3 hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-sm transition-all"
-          >
-            <div
-              className={cn(
-                "flex h-9 w-9 items-center justify-center rounded-lg mb-2",
-                item.accent,
-              )}
-            >
-              <item.icon className="w-4 h-4" />
-            </div>
-            <p className="text-xs font-semibold text-foreground group-hover:text-blue-800 dark:group-hover:text-blue-300">
-              {item.title}
-            </p>
-            <p className="text-[10px] text-muted-foreground mt-0.5 line-clamp-1">
-              {item.description}
-            </p>
-          </Link>
-        ))}
-      </section> */}
-
       <MetricGrid>
         <MetricCard
           label="Total Appointments Today"
@@ -118,7 +93,7 @@ export function DashboardPage() {
             />
           ) : (
             <div className="space-y-2">
-              {live_queue.map((item , i) => (
+              {live_queue.map((item, i) => (
                 <div
                   key={`${item.queue_id}-${i}`}
                   className="flex items-center justify-between gap-3 p-3 rounded-lg bg-muted/40 border border-border/50"
@@ -237,7 +212,7 @@ export function DashboardPage() {
           <BarChart
             title=""
             data={charts.appointment_trends.map((r) => ({
-              label: new Date(r.day).toLocaleDateString( "en-US", {
+              label: new Date(r.day).toLocaleDateString("en-US", {
                 month: "short",
                 day: "numeric",
               }),

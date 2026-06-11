@@ -8,7 +8,8 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-// ===================== VIEW =====================
+
+// VIEW
 export function ViewPatientModal({
   patient,
   onClose,

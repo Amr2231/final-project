@@ -3,15 +3,16 @@
 import { useQuery } from "@tanstack/react-query";
 import { getActiveUsersAction } from "../actions/users.actions";
 
+// types
 type Filters = {
   keyword?: string;
   role?: string;
-  // status?: "active" | "deactivated";
   created_date?: string;
   sort?: "newest" | "oldest";
   page?: number;
 };
 
+// use users
 export function useUsers(filters?: Filters) {
   return useQuery({
     queryKey: [
@@ -19,13 +20,13 @@ export function useUsers(filters?: Filters) {
       {
         keyword: filters?.keyword,
         role: filters?.role,
-        // status: filters?.status,
         created_date: filters?.created_date,
         sort: filters?.sort,
         page: filters?.page,
       },
     ],
     queryFn: async () => {
+      // fetch
       const res = await getActiveUsersAction(filters);
       return {
         data: res.data ?? [],
@@ -35,6 +36,6 @@ export function useUsers(filters?: Filters) {
       };
     },
     placeholderData: (prev) => prev,
-    staleTime: 0, 
+    staleTime: 0,
   });
 }

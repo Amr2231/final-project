@@ -11,18 +11,22 @@ import {
 } from "../services/reports.service";
 import type { MutationResponse, SaveReportPayload } from "@/lib/types/doctor";
 
+// open report
 export async function openReportAction(study_id: string) {
   return getOpenReport(study_id);
 }
 
+// get report
 export async function getReportAction(study_id: string) {
   return getReportDetail(study_id);
 }
 
+// get full report
 export async function getFullReportAction(study_id: string) {
   return getFullReport(study_id);
 }
 
+// save report
 export async function saveReportDraftAction(
   study_id: string,
   payload: SaveReportPayload,
@@ -30,6 +34,7 @@ export async function saveReportDraftAction(
   return saveDraft(study_id, payload);
 }
 
+// sign report
 export async function signReportAction(
   study_id: string,
   payload: SaveReportPayload,
@@ -37,10 +42,12 @@ export async function signReportAction(
   return signReport(study_id, payload);
 }
 
+// export report
 export async function exportReportPDFAction(study_id: string): Promise<Blob> {
   return downloadReportPdf(study_id);
 }
 
+// insert ai findings
 export async function insertAiFindingsAction(
   study_id: string,
   doctorInterpretation: string,

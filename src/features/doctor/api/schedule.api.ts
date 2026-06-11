@@ -20,6 +20,7 @@ export type DoctorHoliday = {
   reason?: string | null;
 };
 
+// types
 export type DoctorScheduleResponse = {
   success: boolean;
   data: {
@@ -44,6 +45,7 @@ export async function saveDoctorSchedule(
   });
 }
 
+// API function to add a holiday
 export async function addDoctorHoliday(payload: {
   holiday_date: string;
   reason?: string;
@@ -54,6 +56,7 @@ export async function addDoctorHoliday(payload: {
   });
 }
 
+// API function to remove a holiday
 export async function removeDoctorHoliday(
   holidayId: number,
 ): Promise<{ success: boolean; message?: string }> {

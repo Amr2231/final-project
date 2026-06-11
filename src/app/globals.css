@@ -133,6 +133,7 @@
   }
 }
 
+/* Pulse Loader */
 @keyframes pulse-loader {
   72.5% {
     opacity: 0;

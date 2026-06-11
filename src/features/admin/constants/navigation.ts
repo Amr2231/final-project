@@ -14,6 +14,7 @@ import {
   Wifi,
 } from "lucide-react";
 
+// types
 export type AdminNavItem = {
   title: string;
   url: string;
@@ -78,6 +79,7 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
   },
 ];
 
+// breadcrumbs
 export const ADMIN_BREADCRUMB_LABELS: Record<string, string> = {
   admin: "Admin",
   dashboard: "Live Dashboard",

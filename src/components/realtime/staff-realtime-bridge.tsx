@@ -2,6 +2,7 @@
 
 import { useStaffRealtime } from "@/hooks/use-staff-realtime";
 
+// This component is used to keep the SSE subscriptions alive for the whole staff layout
 type StaffRealtimeBridgeProps = {
   scope: "doctor" | "reception" | "admin";
 };

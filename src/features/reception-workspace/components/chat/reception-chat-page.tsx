@@ -217,7 +217,7 @@ export function ReceptionChatPage() {
                             />
                           )}
                           {item.unread_count > 0 && (
-                            <span className="min-w-[18px] text-center text-[10px] font-bold bg-blue-600 text-white rounded-full px-1.5 py-0.5">
+                            <span className="min-w-4.5 text-center text-[10px] font-bold bg-blue-600 text-white rounded-full px-1.5 py-0.5">
                               {item.unread_count}
                             </span>
                           )}

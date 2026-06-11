@@ -1,10 +1,13 @@
 import dynamic from "next/dynamic";
 import { PulseLoader } from "@/components/ui/pulse-loader";
 
+// metadata for follow-ups page
 export const metadata = {
-  title: "Follow-ups - Doctor Portal",
-  description: "Manage and review your patient follow-ups.",
+  title: "Follow-ups | Echo vision",
+  description: "Manage and review your patient follow-ups",
 };
+
+// dynamically import the FollowUpsPage component with a loading state
 const FollowUpsPage = dynamic(
   () =>
     import("@/features/doctor/components/follow-ups/follow-ups-page").then(
@@ -13,6 +16,7 @@ const FollowUpsPage = dynamic(
   { loading: () => <PulseLoader /> },
 );
 
+// export the FollowUpsPage
 export default function Page() {
   return <FollowUpsPage />;
 }

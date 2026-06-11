@@ -10,6 +10,7 @@ import {
   unlockAccountAction,
 } from "../actions/security.actions";
 
+// security overview
 export function useSecurityOverview() {
   return useQuery({
     queryKey: adminKeys.securityOverview,
@@ -19,6 +20,7 @@ export function useSecurityOverview() {
   });
 }
 
+// locked accounts
 export function useLockedAccounts() {
   return useQuery({
     queryKey: adminKeys.lockedAccounts,
@@ -27,6 +29,7 @@ export function useLockedAccounts() {
   });
 }
 
+// failed logins
 export function useFailedLoginLogs(filters?: {
   page?: number;
   from_date?: string;
@@ -41,6 +44,7 @@ export function useFailedLoginLogs(filters?: {
   });
 }
 
+// unlock account
 export function useUnlockAccount() {
   const qc = useQueryClient();
   return useMutation({

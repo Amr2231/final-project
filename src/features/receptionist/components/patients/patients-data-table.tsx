@@ -17,7 +17,7 @@ import { TABLE_HEADERS } from "@/lib/constants/patient-table.constants";
 import { EmptyState } from "@/components/ui/empty-state";
 import { StatusBadge } from "./status-badge";
 
-// ── Types ────
+// Types
 
 interface PatientsDataTableProps {
   patients: ActivePatient[];
@@ -35,8 +35,7 @@ interface PatientRowProps {
   onDelete: (p: ActivePatient) => void;
 }
 
-// ── PatientRow ────────────────────────────────────────────────────────────────
-
+// PatientRow
 function canDeactivatePatient(status: ActivePatient["status"]) {
   return status === "Scheduled";
 }
@@ -129,7 +128,7 @@ const PatientRow = memo(function PatientRow({
   );
 });
 
-// ── PatientsDataTable ─────────────────────────────────────────────────────────
+//  PatientsDataTable
 export const PatientsDataTable = memo(function PatientsDataTable({
   patients,
   onView,

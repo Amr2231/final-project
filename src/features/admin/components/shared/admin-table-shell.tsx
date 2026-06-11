@@ -7,6 +7,7 @@ type AdminTableShellProps = {
   className?: string;
 };
 
+// component
 export function AdminTableShell({
   children,
   isFetching,
@@ -25,6 +26,7 @@ export function AdminTableShell({
   );
 }
 
+// component
 export function AdminTableHead({ children }: { children: ReactNode }) {
   return (
     <thead>

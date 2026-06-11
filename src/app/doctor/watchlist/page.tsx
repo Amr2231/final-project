@@ -1,11 +1,14 @@
 import dynamic from "next/dynamic";
 import { PulseLoader } from "@/components/ui/pulse-loader";
 
+// metadata for watchlist page
 export const metadata = {
-  title: "Watchlist - Doctor Portal",
+  title: "Watchlist | Echo vision",
   description:
-    "Monitor and manage your patient watchlist for early detection and intervention in the Doctor Portal.",
+    "Monitor and manage your patient watchlist for early detection and intervention in the Doctor Portal",
 };
+
+// dynamically import the WatchlistPage component with a loading state
 const WatchlistPage = dynamic(
   () =>
     import("@/features/doctor/components/watchlist/watchlist-page").then(
@@ -14,6 +17,7 @@ const WatchlistPage = dynamic(
   { loading: () => <PulseLoader /> },
 );
 
+// export the WatchlistPage
 export default function Page() {
   return <WatchlistPage />;
 }

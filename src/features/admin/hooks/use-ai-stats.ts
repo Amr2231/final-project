@@ -7,7 +7,9 @@ import {
   getAIStatsAction,
 } from "../actions/ai-stats.actions";
 
+// get ai stats
 export function useAIStats() {
+  // hooks
   return useQuery({
     queryKey: adminKeys.aiStats,
     queryFn: getAIStatsAction,
@@ -15,6 +17,7 @@ export function useAIStats() {
   });
 }
 
+// get ai results
 export function useAIResults(filters?: {
   page?: number;
   status?: string;

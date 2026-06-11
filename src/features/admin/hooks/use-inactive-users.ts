@@ -4,6 +4,16 @@ import { useQuery } from "@tanstack/react-query";
 import { getInactiveUsersAction } from "../actions/users.actions";
 import type { InactiveUser, User } from "@/lib/types/admin";
 
+// types
+type InactiveFilters = {
+  page?: number;
+  keyword?: string;
+  role?: string;
+  sort?: "newest" | "oldest";
+  created_date?: string;
+};
+
+// only used for inactive users
 function toInactiveUser(u: User): InactiveUser {
   return {
     id: u.user_id,
@@ -15,14 +25,7 @@ function toInactiveUser(u: User): InactiveUser {
   };
 }
 
-type InactiveFilters = {
-  page?: number;
-  keyword?: string;
-  role?: string;
-  sort?: "newest" | "oldest";
-  created_date?: string; // ✅
-};
-
+// fetch inactive users
 export function useInactiveUsers(filters?: InactiveFilters) {
   return useQuery({
     queryKey: ["users", "inactive", filters],

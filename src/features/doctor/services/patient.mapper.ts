@@ -7,7 +7,6 @@ import type {
   StudyNote,
 } from "@/lib/types/doctor";
 
-
 export function getLatestStudyNoteText(
   notes: StudyNote[] | undefined | null,
 ): string | null {
@@ -31,7 +30,7 @@ function resolveStudy(patient: BackendPatient) {
   if (patient.study) return patient.study;
   if (patient.studies) return patient.studies;
 
-  // flat response من الـ /recent endpoint
+  // flat response
   if (patient.study_id) {
     return {
       study_id: patient.study_id,

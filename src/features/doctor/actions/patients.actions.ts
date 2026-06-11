@@ -21,38 +21,26 @@ import type {
   HistoricalPatientsQuery,
 } from "../utils/filters";
 
+// get active patients
 export async function getActivePatientsAction(
   options?: ActivePatientsQuery,
 ): Promise<PatientsListResult<ActivePatient>> {
   return listActivePatients(options);
 }
 
+// get historical patients
 export async function getHistoricalPatientsAction(
   options?: HistoricalPatientsQuery,
 ): Promise<PatientsListResult<HistoricalPatient>> {
   return listHistoricalPatients(options);
 }
 
-/** @deprecated Use `getActivePatientsAction` — kept for backward compatibility. */
-export async function getPatientsWithStudiesAction(
-  options?: ActivePatientsQuery,
-) {
-  const result = await listActivePatients(options);
-  return {
-    success: true,
-    message: "OK",
-    patients: result.patients,
-    total: result.total,
-    pages: result.pages,
-    page: result.page,
-    data: result.patients,
-  };
-}
-
+// get patient by study id
 export async function getActivePatientByStudyIdAction(studyId: string) {
   return getActivePatientByStudyId(studyId);
 }
 
+// update patient
 export async function updatePatientAction(
   national_id: string,
   payload: UpdatePatientPayload,
@@ -60,6 +48,7 @@ export async function updatePatientAction(
   return updateAssignedPatient(national_id, payload);
 }
 
+// get patient
 export async function getPatientByNationalIdAction(nationalId: string) {
   const profile = await getPatientByNationalId(nationalId);
   if (!profile) return null;
@@ -67,6 +56,7 @@ export async function getPatientByNationalIdAction(nationalId: string) {
   return { ...profile, visits };
 }
 
+// get recent patients
 export async function getRecentPatientsAction(params?: {
   keyword?: string;
   page?: number;

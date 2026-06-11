@@ -1,5 +1,12 @@
 import { NotificationsPageContent } from "@/features/notifications";
 
+// metadata for admin notifications page
+export const metadata = {
+  title: "Notifications | Echo vision",
+  description: "Stay up to date with system updates and activity alerts",
+};
+
+// AdminNotificationsPage component
 export default function AdminNotificationsPage() {
   return (
     <div className="min-h-screen bg-gray-50/50 dark:bg-gray-950/50 p-6 lg:p-8">
@@ -12,6 +19,7 @@ export default function AdminNotificationsPage() {
             System updates and activity alerts
           </p>
         </div>
+        {/* Notifications content */}
         <NotificationsPageContent role="Admin" />
       </div>
     </div>

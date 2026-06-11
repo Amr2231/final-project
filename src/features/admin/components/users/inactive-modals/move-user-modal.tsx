@@ -2,12 +2,19 @@
 "use client";
 import { getDoctorsAction } from "@/features/admin/actions/users.actions";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { InactiveUser } from "@/lib/types/admin";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
-// onConfirm receives (userId, newDoctorId) — both are numbers.
+// types
 type MoveProps = {
   user: InactiveUser | null;
   onClose: () => void;
@@ -15,12 +22,14 @@ type MoveProps = {
   isPending?: boolean;
 };
 
+// component
 export function TransferModal({
   user,
   onClose,
   onConfirm,
   isPending,
 }: MoveProps) {
+  // state
   const [selectedDoctorId, setSelectedDoctorId] = useState<string>("");
   const [errors, setErrors] = useState<{ doctor?: string }>({});
 
@@ -32,10 +41,13 @@ export function TransferModal({
     staleTime: 60_000,
   });
 
+  // data
   const doctors = doctorsData?.data ?? [];
 
+  // user not found
   if (!user) return null;
 
+  // handle confirm
   const validate = () => {
     const e: { doctor?: string } = {};
     if (!selectedDoctorId) e.doctor = "Required";
@@ -52,10 +64,13 @@ export function TransferModal({
   return (
     <Dialog open={!!user} onOpenChange={(v) => !v && onClose()}>
       <DialogContent key={user.id} className="max-w-md">
+        {/* header */}
         <DialogHeader>
           <DialogTitle className="text-lg font-bold text-gray-900 dark:text-gray-100">
             Transfer Patients & Deactivate
           </DialogTitle>
+
+          {/* description */}
           <DialogDescription className="text-sm text-blue-800">
             Select a doctor to transfer all patients to before deactivating this
             user
@@ -64,13 +79,19 @@ export function TransferModal({
 
         <div className="space-y-4 py-1">
           <div className="rounded-lg border border-gray-200 bg-gray-50 dark:bg-gray-800 dark:border-gray-700 p-3 space-y-0.5">
-            <p className="text-xs text-gray-400 dark:text-gray-300">User to be deactivated</p>
+            {/* user info */}
+            <p className="text-xs text-gray-400 dark:text-gray-300">
+              User to be deactivated
+            </p>
             <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">
               {user.fName} {user.lName}
             </p>
-            <p className="text-xs text-gray-500 dark:text-gray-300">{user.role}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-300">
+              {user.role}
+            </p>
           </div>
 
+          {/* select doctor */}
           <div className="space-y-1.5">
             <p className="text-xs text-gray-500">
               Transfer Patients To <span className="text-[#8B1A2B]">*</span>
@@ -102,12 +123,14 @@ export function TransferModal({
             )}
           </div>
 
+          {/* description */}
           <p className="text-xs text-gray-400 leading-relaxed">
             All patients assigned to this doctor will be transferred to the
             selected doctor. This user will then be deactivated.
           </p>
         </div>
 
+        {/* footer */}
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>
             Cancel

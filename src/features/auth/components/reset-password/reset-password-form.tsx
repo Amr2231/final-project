@@ -14,9 +14,12 @@ import { resetSchema, ResetFields } from "@/lib/schemas/auth.schema";
 import logo from "../../../../../public/logo.jpeg";
 import Image from "next/image";
 
+// component
 export default function ResetPasswordForm({ token }: { token: string }) {
+  // hooks
   const { isPending, error, success, resetPassword } = useResetPassword(token);
 
+  // form
   const {
     register,
     handleSubmit,
@@ -26,17 +29,23 @@ export default function ResetPasswordForm({ token }: { token: string }) {
     defaultValues: { password: "", confirmPassword: "" },
   });
 
+  // onsubmit handler
   const onSubmit = (data: ResetFields) => resetPassword(data);
 
   if (!token) {
     return (
       <div className="text-center">
+        {/* title */}
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
           Invalid Link
         </h1>
+
+        {/* description */}
         <p className="text-gray-500 dark:text-gray-400 mb-6">
           This reset link is invalid or has expired.
         </p>
+
+        {/* request new link */}
         <Link
           href="/forgot-password"
           className="text-red-800 hover:text-red-900 font-medium"
@@ -85,9 +94,12 @@ export default function ResetPasswordForm({ token }: { token: string }) {
           </svg>
         </div>
 
+        {/* title */}
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
           Password Reset!
         </h1>
+
+        {/* description */}
         <p className="text-gray-500 dark:text-gray-400 mb-2">
           Your password has been changed successfully.
         </p>
@@ -138,7 +150,9 @@ export default function ResetPasswordForm({ token }: { token: string }) {
         </p>
       </div>
 
+      {/* Form */}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        {/* Password */}
         <div className="space-y-2">
           <Label>New Password</Label>
           <PasswordInput
@@ -151,6 +165,7 @@ export default function ResetPasswordForm({ token }: { token: string }) {
           )}
         </div>
 
+        {/* Confirm Password */}
         <div className="space-y-2">
           <Label>Confirm Password</Label>
           <PasswordInput
@@ -165,8 +180,10 @@ export default function ResetPasswordForm({ token }: { token: string }) {
           )}
         </div>
 
+        {/* Error Feedback */}
         <SubmissionFeedback>{(error as Error)?.message}</SubmissionFeedback>
 
+        {/* Submit Button */}
         <Button type="submit" disabled={isPending} className="w-full">
           {isPending ? "Resetting..." : "Reset Password"}
           <MoveRight className="w-4 h-4" />

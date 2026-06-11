@@ -3,8 +3,10 @@ import { deleteUserAction } from "../actions/users.actions";
 import { toast } from "sonner";
 
 export function useDeleteUser() {
+  // queryClient
   const queryClient = useQueryClient();
 
+  // useMutation
   return useMutation({
     mutationFn: (id: number) => deleteUserAction(id),
     onSuccess: (data) => {

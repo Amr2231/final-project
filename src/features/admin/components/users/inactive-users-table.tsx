@@ -9,8 +9,6 @@ import {
   RotateCcw,
   Trash2,
   UserX,
-  ChevronLeft,
-  ChevronRight,
   Users,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -41,7 +39,9 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { TABLE_HEADERS } from "@/lib/constants/users-table.constants";
 import PaginationWrapper from "@/components/ui/paginationWrapper";
 
+// component
 export function InactiveUsersTable() {
+  // states
   const [search, setSearch] = useState("");
   const [debouncedSearch] = useDebounce(search, 400);
   const [page, setPage] = useState(1);
@@ -59,12 +59,14 @@ export function InactiveUsersTable() {
   );
   const [deleteTarget, setDeleteTarget] = useState<InactiveUser | null>(null);
 
+  // filters
   const activeFilters = [
     filterRole !== "all",
     !!filterDate,
     sortDate !== "newest",
   ].filter(Boolean).length;
 
+  // hooks
   const { data: inactiveData, isLoading } = useInactiveUsers({
     keyword: debouncedSearch || undefined,
     page,
@@ -73,9 +75,11 @@ export function InactiveUsersTable() {
     created_date: filterDate,
   });
 
+  // computed values
   const users = inactiveData?.data ?? [];
   const totalPages = inactiveData?.pages ?? 1;
 
+  // mutations
   const { mutate: transferAndDeactivate, isPending: isTransferring } =
     useMoveUser();
   const { mutate: reactivateUser, isPending: isReactivating } =
@@ -100,6 +104,7 @@ export function InactiveUsersTable() {
     transferAndDeactivate({ id, newDoctorId });
   };
 
+  // loading
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-20 text-sm text-gray-400">
@@ -117,6 +122,7 @@ export function InactiveUsersTable() {
         transition={{ duration: 0.3 }}
         className="flex items-center gap-2 mb-4"
       >
+        {/* Search */}
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-1" />
           <Input
@@ -127,6 +133,7 @@ export function InactiveUsersTable() {
           />
         </div>
 
+        {/* Filters */}
         <Button
           variant="outline"
           className={cn(
@@ -154,7 +161,7 @@ export function InactiveUsersTable() {
       >
         <Table className="table-fixed">
           <TableHeader>
-            <TableRow >
+            <TableRow>
               {TABLE_HEADERS.map((h) => (
                 <TableHead
                   key={h}
@@ -173,6 +180,7 @@ export function InactiveUsersTable() {
                   colSpan={TABLE_HEADERS.length + 1}
                   className="text-center text-sm text-gray-400 py-10"
                 >
+                  {/* empty */}
                   <EmptyState
                     icon={Users}
                     title="No inactive users found"
@@ -191,19 +199,26 @@ export function InactiveUsersTable() {
                     "border-b transition-colors dark:hover:bg-gray-700/30 hover:bg-gray-50 group",
                   )}
                 >
+                  {/* ID */}
                   <TableCell className="pl-4">
                     <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                       U-{String(user.id).padStart(4, "0")}
                     </span>
                   </TableCell>
-                  <TableCell className="">
+
+                  {/* Name */}
+                  <TableCell>
                     <span className="font-medium text-gray-800 dark:text-gray-300 truncate text-center">
                       {user.fName} {user.lName}
                     </span>
                   </TableCell>
+
+                  {/* Role */}
                   <TableCell className="text-sm text-gray-600 dark:text-gray-300">
                     {user.role}
                   </TableCell>
+
+                  {/* Date */}
                   <TableCell className="text-sm text-blue-900/70 dark:text-gray-300 tabular-nums">
                     {new Date(user.created_date).toLocaleDateString("en-GB", {
                       year: "numeric",
@@ -211,9 +226,13 @@ export function InactiveUsersTable() {
                       day: "numeric",
                     })}
                   </TableCell>
+
+                  {/* Status */}
                   <TableCell>
                     <InactiveStatusBadge status={user.status} />
                   </TableCell>
+
+                  {/* Actions */}
                   <TableCell className="pr-4">
                     <div className="flex items-center gap-1">
                       {user.role === "Doctor" && (

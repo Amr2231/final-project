@@ -10,6 +10,7 @@ import {
   getSessionStatsAction,
 } from "../actions/sessions.actions";
 
+// active sessions
 export function useActiveSessions(filters?: {
   page?: number;
   keyword?: string;
@@ -23,6 +24,7 @@ export function useActiveSessions(filters?: {
   });
 }
 
+// session stats
 export function useSessionStats() {
   return useQuery({
     queryKey: adminKeys.sessionStats,
@@ -32,6 +34,7 @@ export function useSessionStats() {
   });
 }
 
+// force logout
 export function useForceLogout() {
   const qc = useQueryClient();
   return useMutation({
@@ -45,6 +48,7 @@ export function useForceLogout() {
   });
 }
 
+// force logout
 export function useForceLogoutAll() {
   const qc = useQueryClient();
   return useMutation({

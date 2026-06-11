@@ -6,12 +6,14 @@ import type {
   MutationResponse,
 } from "@/lib/types/doctor";
 
+// type
 export type AiResultResponse = {
   success: boolean;
   data: (AiResult & { validation_status: AiValidationStatus }) | null;
   message?: string;
 };
 
+// run ai analysis
 export async function runAiAnalysis(
   studyId: string,
   imageId?: number,
@@ -22,10 +24,12 @@ export async function runAiAnalysis(
   });
 }
 
+// fetch ai result
 export async function fetchAiResult(studyId: string): Promise<AiResultResponse> {
   return doctorFetch<AiResultResponse>(`/ai/${studyId}`);
 }
 
+// validate ai
 export async function validateAi(
   studyId: string,
   action: "approve" | "reject",
@@ -36,6 +40,7 @@ export async function validateAi(
   });
 }
 
+// edit ai
 export async function editAiResult(
   studyId: string,
   payload: EditAiPayload,

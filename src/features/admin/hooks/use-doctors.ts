@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getDoctorsAction } from "../actions/users.actions";
 
+// use doctors
 export function useDoctors() {
   return useQuery({
     queryKey: ["doctors"],

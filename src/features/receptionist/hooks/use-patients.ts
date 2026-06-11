@@ -3,7 +3,7 @@ import { getActivePatientsAction } from "../actions/patients.actions";
 import { Filters } from "@/lib/constants/filters.constant";
 import { DEFAULT_PAGE_SIZE } from "@/lib/shared/constants/api";
 
-// ================= ACTIVE PATIENTS HOOK =====================
+// ACTIVE PATIENTS HOOK
 export function usePatients(filters?: Filters) {
   return useQuery({
     // queryKey
@@ -37,6 +37,6 @@ export function usePatients(filters?: Filters) {
     // placeholderData should return previous data if available, otherwise undefined
     placeholderData: (prev) => prev,
     staleTime: 30_000,
-    refetchInterval: 15_000, 
+    refetchInterval: 15_000,
   });
 }

@@ -94,7 +94,7 @@ export function PriorityQueuePage() {
                       setEditingId(null);
                     }}
                   >
-                    <SelectTrigger className="w-[160px]">
+                    <SelectTrigger className="w-40">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>

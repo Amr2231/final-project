@@ -6,12 +6,14 @@ import Link from "next/link";
 import logo from "../../../../../public/logo.jpeg";
 import Image from "next/image";
 
+// types
 type ForgotPasswordFormProps = {
   email: string;
   onSuccess?: (token: string) => void;
   onBack: () => void;
 };
 
+// component
 export default function ForgotPasswordForm({ email }: ForgotPasswordFormProps) {
   return (
     <motion.div
@@ -51,9 +53,12 @@ export default function ForgotPasswordForm({ email }: ForgotPasswordFormProps) {
         </svg>
       </div>
 
+      {/* heading */}
       <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
         Check your email
       </h1>
+
+      {/* description */}
       <p className="text-gray-500 dark:text-gray-400 mb-8">
         We sent a password reset link to:{" "}
         <span className="font-bold text-blue-800 dark:text-blue-400">
@@ -65,6 +70,7 @@ export default function ForgotPasswordForm({ email }: ForgotPasswordFormProps) {
         spam folder.
       </p>
 
+      {/* back to login link */}
       <Link
         href="/login"
         className="text-sm text-gray-500 dark:text-gray-400 hover:text-blue-900 dark:hover:text-blue-400 flex items-center gap-2"

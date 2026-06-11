@@ -1,8 +1,3 @@
-/**
- * Doctor feature public API (client-safe exports only).
- * Server actions: import from `@/features/doctor/actions` directly.
- */
-
 export { AppSidebar } from "./components/app-sidebar";
 export { ActivePatientsTable } from "./components/patients/active-patients-table";
 export { HistoricalPatientsTable } from "./components/patients/historical-patients-table";

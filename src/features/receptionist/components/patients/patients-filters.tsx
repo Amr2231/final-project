@@ -21,7 +21,7 @@ import {
 } from "@/lib/types/receptionist";
 import { STUDY } from "@/lib/constants/study.constants";
 
-// ── Active Filters
+//  Active Filters
 export function ActiveFiltersModal({
   open,
   onOpenChange,

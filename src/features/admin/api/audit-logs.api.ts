@@ -4,11 +4,13 @@ import type {
   AuditLogsQuery,
 } from "@/lib/types/audit-logs";
 
+// fetch audit logs from server
 export async function fetchAuditLogs(
   filters?: AuditLogsQuery,
 ): Promise<AuditLogsListResponse> {
   const params = new URLSearchParams();
 
+  // set query params
   if (filters?.page) params.set("page", String(filters.page));
   if (filters?.limit) params.set("limit", String(filters.limit));
   if (filters?.sort) params.set("sort", filters.sort);
@@ -21,6 +23,7 @@ export async function fetchAuditLogs(
   if (filters?.to_date) params.set("to_date", filters.to_date);
   if (filters?.keyword) params.set("keyword", filters.keyword);
 
+  // make request
   const qs = params.toString();
   return serverFetch<AuditLogsListResponse>(`/audit-logs${qs ? `?${qs}` : ""}`);
 }

@@ -1,3 +1,4 @@
+// constants
 export const AUDIT_ACTIONS = [
   "LOGIN",
   "LOGOUT",
@@ -35,8 +36,15 @@ export const AUDIT_TABLE_HEADERS = [
   "",
 ] as const;
 
+// helpers
 export function getAuditLogRowKey(
-  log: { audit_log_id?: number; id?: number; created_at: string; action: string; entity_id?: string | number | null },
+  log: {
+    audit_log_id?: number;
+    id?: number;
+    created_at: string;
+    action: string;
+    entity_id?: string | number | null;
+  },
   index: number,
 ): string {
   const id = log.audit_log_id ?? log.id;

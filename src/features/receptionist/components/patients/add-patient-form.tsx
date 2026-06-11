@@ -32,7 +32,7 @@ import { STUDY } from "@/lib/constants/study.constants";
 import { ReceptionPageShell } from "@/features/reception-workspace/components/shared/reception-page-shell";
 import { PulseLoader } from "@/components/ui/pulse-loader";
 
-// ── Sub-components
+//  Sub-components
 
 function SectionCard({
   icon: Icon,
@@ -89,7 +89,7 @@ function FieldError({ message }: { message?: string }) {
   return <p className="text-xs text-red-500 mt-1">{message}</p>;
 }
 
-// ── Main Form
+//  Main Form
 
 export function AddPatientForm() {
   const { mutate: addPatient, isPending } = useAddPatient();

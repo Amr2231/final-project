@@ -11,8 +11,6 @@ import {
   Edit,
   Trash2,
   UserX,
-  ChevronLeft,
-  ChevronRight,
   Users,
   ArrowLeft,
 } from "lucide-react";
@@ -83,20 +81,26 @@ const UserRow = memo(function UserRow({
     <TableRow
       className={cn(
         "border-b border-gray-100 transition-colors hover:bg-gray-50/60 group",
-        user.is_active === 0 && "bg-red-50/40",
       )}
     >
+      {/* User ID */}
       <TableCell className="pl-4">
         <span className="text-sm font-medium text-gray-600 dark:text-gray-200">
           U-{String(user.user_id).padStart(4, "0")}
         </span>
       </TableCell>
-      <TableCell className="">
+
+      {/* Name */}
+      <TableCell>
         <span className="font-medium text-gray-600 dark:text-gray-200 truncate text-center">
           {user.first_name} {user.last_name}
         </span>
       </TableCell>
+
+      {/* Role */}
       <TableCell className="text-sm text-gray-600">{user.role_name}</TableCell>
+
+      {/* created at */}
       <TableCell className="text-sm text-blue-900/70 tabular-nums">
         {new Date(user.created_at).toLocaleDateString("en-GB", {
           year: "numeric",
@@ -104,11 +108,15 @@ const UserRow = memo(function UserRow({
           day: "numeric",
         })}
       </TableCell>
+
+      {/* Status */}
       <TableCell>
         <UserStatusBadge
           status={user.is_active === 1 ? "Active" : "Inactive"}
         />
       </TableCell>
+
+      {/* Actions */}
       <TableCell className="pr-4">
         <div className="flex items-center gap-1">
           <Button
@@ -158,8 +166,9 @@ const UserRow = memo(function UserRow({
   );
 });
 
-// ── UsersTable ────────────────────────────────────────────────────────────────
+// UsersTable
 export function UsersTable() {
+  // hooks
   const { data: session } = useSession();
   const currentUserId = Number(session?.user?.id ?? 0);
   const [search, setSearch] = useState("");
@@ -170,6 +179,7 @@ export function UsersTable() {
   const [sortDate, setSortDate] = useState<"newest" | "oldest">("newest");
   const [page, setPage] = useState(1);
 
+  // modals
   const [selected, setSelected] = useState<number[]>([]);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [viewUser, setViewUser] = useState<User | null>(null);
@@ -184,13 +194,10 @@ export function UsersTable() {
     !!filterDate,
   ].filter(Boolean).length;
 
+  // hooks
   const { data: usersData, isLoading } = useUsers({
     keyword: debouncedSearch || undefined,
     role: filterRole === "all" ? undefined : filterRole,
-    // status:
-    //   filterStatus === "all"
-    //     ? undefined
-    //     : (filterStatus as "active" | "deactivated"),
     sort: sortDate,
     created_date: filterDate || undefined,
     page,
@@ -203,6 +210,7 @@ export function UsersTable() {
       : users;
   const totalPages = usersData?.pages ?? 1;
 
+  // mutations
   const { mutate: deleteUser, isPending: isDeleting } = useDeleteUser();
   const { mutate: updateUser, isPending: isUpdating } = useUpdateUser();
   const { mutate: deactivateUser, isPending: isDeactivating } = useMoveUser();
@@ -255,6 +263,7 @@ export function UsersTable() {
     [deactivateTarget, deactivateUser],
   );
 
+  // loading state
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-20 text-sm text-gray-400">
@@ -265,7 +274,6 @@ export function UsersTable() {
 
   return (
     <>
-      {/* ── Toolbar ── */}
       {/* Header */}
       <div className="space-y-6 p-5">
         <motion.div
@@ -274,22 +282,29 @@ export function UsersTable() {
           transition={{ duration: 0.3 }}
           className="flex items-center gap-3"
         >
+          {/* Back button */}
           <Link
             href="/admin/users"
             className="flex items-center justify-center w-8 h-8 rounded-lg border border-gray-100 text-gray-500 hover:text-blue-600 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
           </Link>
+
+          {/* Title */}
           <div>
             <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
               Users Management
             </h1>
+
+            {/* Description */}
             <p className="text-sm text-gray-500 mt-0.5">
               View and manage users
             </p>
           </div>
         </motion.div>
+
         <div className="flex items-center gap-2 mb-4 animate-in fade-in duration-300">
+          {/* Search */}
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
             <Input
@@ -300,6 +315,7 @@ export function UsersTable() {
             />
           </div>
 
+          {/* filters */}
           <Button
             variant="outline"
             className={cn(
@@ -317,6 +333,7 @@ export function UsersTable() {
             )}
           </Button>
 
+          {/* create */}
           <Link href="/admin/users/add">
             <Button className="h-10 bg-blue-800 hover:bg-blue-900 text-white flex items-center gap-2">
               <Plus className="w-4 h-4" />
@@ -348,6 +365,7 @@ export function UsersTable() {
                     colSpan={TABLE_HEADERS.length + 1}
                     className="text-center text-sm py-10"
                   >
+                    {/* Empty state */}
                     <EmptyState
                       icon={Users}
                       title="No users found"

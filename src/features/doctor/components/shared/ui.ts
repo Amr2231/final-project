@@ -1,7 +1,6 @@
 export { MetricCard } from "@/features/admin/components/shared/metric-card";
 export { MetricGrid } from "@/features/admin/components/shared/analytics-layout";
 export { AdminTabs as DoctorTabs } from "@/features/admin/components/shared/admin-tabs";
-export { TablePagination } from "@/features/admin/components/shared/table-pagination";
 export { TableToolbar } from "@/features/admin/components/shared/table-toolbar";
 export { AdminTableShell as DoctorTableShell } from "@/features/admin/components/shared/admin-table-shell";
 export { AdminLoadingState as DoctorLoadingState } from "@/features/admin/components/shared/admin-loading-state";

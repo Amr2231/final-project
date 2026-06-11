@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils/tailwind-merge";
 
+// Types
 export type AdminTab<T extends string> = {
   id: T;
   label: string;
@@ -15,6 +16,7 @@ type AdminTabsProps<T extends string> = {
   className?: string;
 };
 
+// Component
 export function AdminTabs<T extends string>({
   tabs,
   active,
@@ -22,7 +24,13 @@ export function AdminTabs<T extends string>({
   className,
 }: AdminTabsProps<T>) {
   return (
-    <div className={cn("flex gap-1 border-b border-gray-200 dark:border-gray-800", className)}>
+    <div
+      className={cn(
+        "flex gap-1 border-b border-gray-200 dark:border-gray-800",
+        className,
+      )}
+    >
+      {/* Tabs */}
       {tabs.map((tab) => (
         <button
           key={tab.id}

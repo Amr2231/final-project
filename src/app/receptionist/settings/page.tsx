@@ -9,21 +9,31 @@ import {
   SettingsSectionCard,
 } from "@/features/settings";
 
+// receptionist settings page
 export default async function ReceptionistSettingsPage() {
+  // get session data
   const session = await getServerSession(authOptions);
 
   return (
+    // settings page layout
     <SettingsPageLayout>
+      {/* settings section card */}
       <SettingsSectionCard title="Personal Information">
+        {/* personal info form */}
         <PersonalInfoForm />
       </SettingsSectionCard>
 
+      {/* settings section card */}
       <SettingsSectionCard title="Change Password">
+        {/* change password form */}
         <ChangePasswordForm variant="admin" />
       </SettingsSectionCard>
 
+      {/* settings section card */}
       <SettingsSectionCard title="Account Information">
+        {/* settings label row */}
         <SettingsInfoRow label="Role" value={session?.user?.role ?? "N/A"} />
+        {/* settings status row */}
         <SettingsInfoRow
           label="Account Status"
           value={session?.user?.account_status ?? "N/A"}
@@ -33,6 +43,7 @@ export default async function ReceptionistSettingsPage() {
               : "text-red-600"
           }
         />
+        {/* settings date row */}
         <SettingsInfoRow
           label="Member Since"
           value={
@@ -47,7 +58,9 @@ export default async function ReceptionistSettingsPage() {
         />
       </SettingsSectionCard>
 
+      {/* settings section card */}
       <SettingsSectionCard title="Danger Zone">
+        {/* delete account section */}
         <DeleteAccountSection />
       </SettingsSectionCard>
     </SettingsPageLayout>

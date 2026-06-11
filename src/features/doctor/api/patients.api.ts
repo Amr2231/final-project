@@ -11,6 +11,7 @@ import {
   type HistoricalPatientsQuery,
 } from "../utils/filters";
 
+// fetch assigned patients of doctor
 export async function fetchAssignedPatients(
   query: ActivePatientsQuery,
 ): Promise<ActivePatientsListResponse> {
@@ -29,6 +30,7 @@ export async function fetchAssignedPatients(
   );
 }
 
+// fetch historical patients
 export async function fetchHistoricalPatients(
   query: HistoricalPatientsQuery,
 ): Promise<HistoricalPatientsListResponse> {
@@ -46,6 +48,7 @@ export async function fetchHistoricalPatients(
   );
 }
 
+// update patient
 export async function updatePatient(
   nationalId: string,
   payload: UpdatePatientPayload,
@@ -59,17 +62,11 @@ export async function updatePatient(
 /** Fetch a single patient by study id (includes completed studies). */
 export async function fetchPatientByStudyId(
   studyId: string,
-): Promise<{ success: boolean; patient: import("@/lib/types/doctor").BackendPatient }> {
+): Promise<{
+  success: boolean;
+  patient: import("@/lib/types/doctor").BackendPatient;
+}> {
   return doctorFetch(`/patients/study/${studyId}`);
-}
-
-/** @deprecated Use fetchPatientByStudyId */
-export async function fetchPatientByStudyIdDirect(
-  studyId: string,
-): Promise<ActivePatientsListResponse> {
-  return doctorFetch<ActivePatientsListResponse>(
-    `/patients/assigned?study_id=${studyId}&limit=1&page=1`,
-  );
 }
 
 /** Fetch recent patients from dedicated backend endpoint */

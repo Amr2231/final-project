@@ -1,6 +1,7 @@
 import { doctorFetch, doctorFetchBlob } from "./client";
 import type { MutationResponse, SaveReportPayload } from "@/lib/types/doctor";
 
+// types
 export type OpenReportResponse = {
   report_id?: number;
   study_id: string;
@@ -24,14 +25,17 @@ export type ReportDetailResponse = {
   report_file_path?: string;
 };
 
+// open report
 export async function openReport(studyId: string): Promise<OpenReportResponse> {
   return doctorFetch<OpenReportResponse>(`/reports/open/${studyId}`);
 }
 
+// fetch report
 export async function fetchReport(studyId: string): Promise<ReportDetailResponse> {
   return doctorFetch<ReportDetailResponse>(`/reports/${studyId}`);
 }
 
+// save report
 export async function saveReportDraft(
   studyId: string,
   payload: SaveReportPayload,
@@ -42,16 +46,19 @@ export async function saveReportDraft(
   });
 }
 
+// finalize report
 export async function finalizeReport(studyId: string): Promise<MutationResponse> {
   return doctorFetch<MutationResponse>(`/reports/finalize/${studyId}`, {
     method: "POST",
   });
 }
 
+// export report
 export async function exportReportPdf(studyId: string): Promise<Blob> {
   return doctorFetchBlob(`/reports/pdf/${studyId}`);
 }
 
+// insert ai findings
 export async function insertAiFindings(
   studyId: string,
   doctorInterpretation: string,

@@ -17,7 +17,6 @@ import { usePatients } from "../../hooks/use-patients";
 import { useDeletePatient } from "../../hooks/use-delete-patient";
 import { useUpdatePatient } from "../../hooks/use-update-patient";
 import { PatientsDataTable } from "./patients-data-table";
-import { PatientsPagination } from "./patients-pagination";
 import type { ActivePatient } from "@/lib/types/receptionist";
 import { PulseLoader } from "@/components/ui/pulse-loader";
 import { ReceptionPageShell } from "@/features/reception-workspace/components/shared/reception-page-shell";
@@ -218,7 +217,6 @@ export function PatientsTable() {
             searchParams={{ page: String(currentPage) }}
           />
         )}
-
 
         {/* ── Modals ── */}
         <ActiveFiltersModal

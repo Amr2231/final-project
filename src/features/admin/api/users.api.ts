@@ -7,6 +7,7 @@ import type {
   UsersListResponse,
 } from "@/lib/types/admin";
 
+// types
 export type DeactivatedPatient = {
   national_id: string;
   first_name: string;
@@ -32,6 +33,7 @@ type AssignedPatientRow = {
   last_name: string;
 };
 
+// fetch active users
 export async function fetchActiveUsers(filters?: {
   role?: string;
   sort?: "newest" | "oldest";
@@ -39,7 +41,10 @@ export async function fetchActiveUsers(filters?: {
   page?: number;
   keyword?: string;
 }): Promise<UsersListResponse> {
+  // params
   const params = new URLSearchParams();
+
+  // set params
   if (filters?.role && filters.role !== "all") params.set("role", filters.role);
   if (filters?.page) params.set("page", String(filters.page));
   if (filters?.keyword) params.set("keyword", filters.keyword);
@@ -48,11 +53,13 @@ export async function fetchActiveUsers(filters?: {
     params.set("order", filters.sort === "newest" ? "DESC" : "ASC");
   }
 
+  // make request
   return serverFetch<UsersListResponse>(
     `/users?status=active&${params.toString()}`,
   );
 }
 
+// fetch inactive users
 export async function fetchInactiveUsers(filters?: {
   page?: number;
   keyword?: string;
@@ -60,18 +67,23 @@ export async function fetchInactiveUsers(filters?: {
   sort?: "newest" | "oldest";
   created_date?: string;
 }): Promise<InactiveUsersListResponse> {
+  // params
   const params = new URLSearchParams({ status: "deactivated" });
+  // set params
   if (filters?.page) params.set("page", String(filters.page));
   if (filters?.keyword) params.set("keyword", filters.keyword);
   if (filters?.role && filters.role !== "all") params.set("role", filters.role);
   if (filters?.sort) {
     params.set("order", filters.sort === "newest" ? "DESC" : "ASC");
   }
+  // set params
   if (filters?.created_date) params.set("created_date", filters.created_date);
 
+  // make request
   return serverFetch<InactiveUsersListResponse>(`/users?${params.toString()}`);
 }
 
+// create user
 export async function createUser(payload: AddUserPayload) {
   return serverFetch<MutationResponse>("/users", {
     method: "POST",
@@ -79,6 +91,7 @@ export async function createUser(payload: AddUserPayload) {
   });
 }
 
+// update user
 export async function updateUser(id: number, payload: UpdateUserPayload) {
   return serverFetch<MutationResponse>(`/users/${id}`, {
     method: "PUT",
@@ -86,22 +99,26 @@ export async function updateUser(id: number, payload: UpdateUserPayload) {
   });
 }
 
+// delete user
 export async function deleteUser(id: number) {
   return serverFetch<MutationResponse>(`/users/${id}`, { method: "DELETE" });
 }
 
+// deactivate user
 export async function deactivateUser(id: number) {
   return serverFetch<MutationResponse>(`/users/${id}/deactivate`, {
     method: "PATCH",
   });
 }
 
+// reactivate user
 export async function reactivateUser(id: number) {
   return serverFetch<MutationResponse>(`/users/${id}/reactivate`, {
     method: "PATCH",
   });
 }
 
+// transfer patients
 export async function transferPatients(oldDoctor: number, newDoctor: number) {
   return serverFetch<MutationResponse>("/users/transfer", {
     method: "POST",
@@ -109,6 +126,7 @@ export async function transferPatients(oldDoctor: number, newDoctor: number) {
   });
 }
 
+// fetch doctors
 export async function fetchDoctors() {
   return serverFetch<{
     success: boolean;
@@ -116,13 +134,17 @@ export async function fetchDoctors() {
   }>("/users?status=active&role=Doctor");
 }
 
+// fetch deactivated patients
 export async function fetchDeactivatedPatients(filters?: {
   page?: number;
   keyword?: string;
   sort?: "newest" | "oldest";
   created_date?: string;
 }) {
+  // params
   const params = new URLSearchParams();
+
+  // set params
   if (filters?.page) params.set("page", String(filters.page));
   if (filters?.keyword) params.set("keyword", filters.keyword);
   if (filters?.sort) {
@@ -130,6 +152,7 @@ export async function fetchDeactivatedPatients(filters?: {
   }
   if (filters?.created_date) params.set("created_date", filters.created_date);
 
+  // make request
   return serverFetch<{
     success: boolean;
     page: number;
@@ -139,6 +162,7 @@ export async function fetchDeactivatedPatients(filters?: {
   }>(`/patients/deactivated?${params.toString()}`);
 }
 
+// reactivate patient
 export async function reactivatePatient(nationalId: string) {
   return serverFetch<{ success: boolean; message: string }>(
     `/patients/${nationalId}/reactivate`,
@@ -146,6 +170,7 @@ export async function reactivatePatient(nationalId: string) {
   );
 }
 
+// fetch patients of doctor
 export async function fetchPatientsOfDoctor() {
   const json = await serverFetch<{
     data?: AssignedPatientRow[];

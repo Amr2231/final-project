@@ -30,10 +30,6 @@ export async function updateProfile(
   });
 }
 
-/**
- * Admin uses PATCH + confirm_new_password; doctor legacy used POST + confirm_password.
- * We preserve both contracts via adapter without changing backend behavior.
- */
 export async function changePassword(
   payload: {
     current_password: string;

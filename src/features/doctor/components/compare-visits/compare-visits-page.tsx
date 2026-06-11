@@ -12,7 +12,9 @@ import { useAiResult } from "../../hooks/use-ai-analysis";
 import { useGetReport } from "../../hooks/use-report";
 import { useDebounce } from "use-debounce";
 
+// helper components
 function VisitPanel({ studyId, label }: { studyId: string; label: string }) {
+  // hooks
   const { data: aiResponse } = useAiResult(studyId);
   const { data: reportResponse } = useGetReport(studyId);
   const ai = aiResponse?.data;
@@ -22,6 +24,7 @@ function VisitPanel({ studyId, label }: { studyId: string; label: string }) {
 
   return (
     <div className="rounded-xl border border-gray-200 bg-white dark:bg-gray-950 dark:border-gray-800 p-4 space-y-4">
+      {/* header */}
       <h3 className="text-sm font-semibold text-[#8B1A2B]">{label}</h3>
       <div>
         <p className="text-xs font-medium text-gray-500 mb-1">AI Diagnosis</p>
@@ -38,6 +41,7 @@ function VisitPanel({ studyId, label }: { studyId: string; label: string }) {
           {report?.data?.notes ?? report?.notes ?? "No report notes"}
         </p>
       </div>
+      {/* actions */}
       <Link
         href={`/doctor/patients/${studyId}/ai-analysis`}
         className="text-xs text-[#8B1A2B] hover:underline"
@@ -48,6 +52,7 @@ function VisitPanel({ studyId, label }: { studyId: string; label: string }) {
   );
 }
 
+// Visit selector
 function VisitSelector({
   label,
   value,
@@ -57,6 +62,7 @@ function VisitSelector({
   value: string;
   onChange: (val: string) => void;
 }) {
+  // hooks
   const [search, setSearch] = useState("");
   const [debounced] = useDebounce(search, 400);
   const [page, setPage] = useState(1);
@@ -76,6 +82,7 @@ function VisitSelector({
       <p className="text-xs font-medium text-gray-500">{label}</p>
       <div className="rounded-xl border border-gray-200 bg-white dark:bg-gray-950 overflow-hidden">
         <div className="p-2 border-b border-gray-100">
+          {/* search input */}
           <div className="relative">
             <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
             <Input

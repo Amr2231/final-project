@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { ReceptionPageShell } from "../shared/reception-page-shell";
-import { TableToolbar, TablePagination, ReceptionLoadingState, StatusBadge } from "../shared/ui";
+import { TableToolbar, ReceptionLoadingState, StatusBadge } from "../shared/ui";
 import {
   useCallbacks,
   useCreateCallback,
@@ -30,6 +30,7 @@ import {
   useCommunicationTimeline,
 } from "../../hooks/use-reception";
 import { formatFullTimestamp } from "@/lib/utils/date-format";
+import PaginationWrapper from "@/components/ui/paginationWrapper";
 
 export function CommunicationsPage() {
   const [search, setSearch] = useState("");
@@ -108,7 +109,7 @@ export function CommunicationsPage() {
           <div className="flex gap-3 mb-4 flex-wrap">
             <TableToolbar search={search} onSearchChange={(v) => { setSearch(v); setPage(1); }} searchPlaceholder="Search callbacks..." className="flex-1" />
             <Select value={status || "all"} onValueChange={(v) => { setStatus(v === "all" ? "" : v); setPage(1); }}>
-              <SelectTrigger className="w-[140px]"><SelectValue /></SelectTrigger>
+              <SelectTrigger className="w-35"><SelectValue /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All</SelectItem>
                 <SelectItem value="Pending">Pending</SelectItem>
@@ -144,7 +145,7 @@ export function CommunicationsPage() {
               </div>
             ))}
           </div>
-          <TablePagination page={page} totalPages={totalPages} onPageChange={setPage} />
+          <PaginationWrapper currentPage={page} totalPages={totalPages} onPageChange={setPage} />
         </div>
 
         <div className="rounded-xl border p-4">

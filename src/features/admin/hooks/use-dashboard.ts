@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { adminKeys } from "../constants/query-keys";
 import { getDashboardAction } from "../actions/dashboard.actions";
 
+// use dashboard hook
 export function useDashboard() {
   return useQuery({
     queryKey: adminKeys.dashboard,

@@ -6,8 +6,10 @@ import type {
 } from "@/lib/types/admin-features";
 import type { MutationResponse } from "@/lib/types/admin";
 
+// constant url prefix
 const BASE = "/api/admin/sessions";
 
+// get active sessions
 export async function fetchActiveSessions(filters?: {
   page?: number;
   keyword?: string;

@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils/tailwind-merge";
 
+// types
 type BarChartProps = {
   title: string;
   data: { label: string; value: number }[];
@@ -7,6 +8,7 @@ type BarChartProps = {
   className?: string;
 };
 
+// component
 export function BarChart({
   title,
   data,
@@ -23,15 +25,18 @@ export function BarChart({
         className,
       )}
     >
+      {/* header */}
       <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">
         {title}
       </p>
+      {/* bars */}
       <div className="flex items-end flex-1 gap-3 h-72">
-        {data.map((d , i) => (
+        {data.map((d, i) => (
           <div
             key={`${d.label}-${i}`}
             className="flex-1 flex flex-col items-center gap-1 min-w-0"
           >
+            {/* value */}
             <span className="text-xs text-gray-400 tabular-nums">
               {d.value}
             </span>

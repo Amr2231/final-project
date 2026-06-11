@@ -18,6 +18,7 @@ import {
   type ActiveFiltersSchema,
 } from "@/lib/schemas/admin.schema";
 
+// types
 type FiltersModalProps = {
   open: boolean;
   onOpenChange: (v: boolean) => void;
@@ -29,6 +30,7 @@ type FiltersModalProps = {
   setFilterDate: (v: string) => void;
 };
 
+// component
 export function UserFiltersModal({
   open,
   onOpenChange,
@@ -39,6 +41,7 @@ export function UserFiltersModal({
   filterDate,
   setFilterDate,
 }: FiltersModalProps) {
+  // form
   const { register, reset, watch } = useForm<ActiveFiltersSchema>({
     resolver: zodResolver(activeFiltersSchema),
     defaultValues: {
@@ -48,13 +51,14 @@ export function UserFiltersModal({
     },
   });
 
-  // sync لما يفتح الـ modal
+  // modal open
   useEffect(() => {
     if (open) {
       reset({ sortDate, filterRole, filterDate: filterDate ?? "" });
     }
   }, [open, sortDate, filterRole, filterDate, reset]);
 
+  // sync
   useEffect(() => {
     const { unsubscribe } = watch((values) => {
       setFilterRole(values.filterRole ?? "all");
@@ -64,6 +68,7 @@ export function UserFiltersModal({
     return unsubscribe;
   }, [watch, setFilterRole, setSortDate, setFilterDate]);
 
+  // check
   const hasActive =
     filterRole !== "all" || sortDate !== "newest" || !!filterDate;
 
@@ -84,6 +89,7 @@ export function UserFiltersModal({
         </DialogHeader>
 
         <div className="space-y-4 py-2">
+          {/* date filter */}
           <div className="space-y-1.5">
             <p className="text-xs text-gray-400 dark:text-gray-100">
               Sort by date
@@ -97,6 +103,7 @@ export function UserFiltersModal({
             </select>
           </div>
 
+          {/* role filter */}
           <div className="space-y-1.5">
             <p className="text-xs text-gray-400">Role</p>
             <select
@@ -112,12 +119,14 @@ export function UserFiltersModal({
             </select>
           </div>
 
+          {/* created date filter */}
           <div className="space-y-1.5">
             <p className="text-xs text-gray-400">Created Date</p>
             <Input type="date" {...register("filterDate")} />
           </div>
         </div>
 
+        {/* footer */}
         <DialogFooter className="gap-2">
           {hasActive && (
             <Button

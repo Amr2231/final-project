@@ -26,6 +26,5 @@ export default function useResetPassword(token: string) {
       setTimeout(() => router.push("/login"), 2000);
     },
   });
-
   return { isPending, error, success, resetPassword };
 }

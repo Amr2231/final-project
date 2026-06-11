@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils/tailwind-merge";
 
+// types
 type AnalyticsLayoutProps = {
   filters?: ReactNode;
   kpis?: ReactNode;
@@ -8,6 +9,12 @@ type AnalyticsLayoutProps = {
   className?: string;
 };
 
+type MetricGridProps = {
+  children: ReactNode;
+  cols?: 2 | 3 | 4;
+};
+
+// component
 export function AnalyticsLayout({
   filters,
   kpis,
@@ -25,11 +32,7 @@ export function AnalyticsLayout({
   );
 }
 
-type MetricGridProps = {
-  children: ReactNode;
-  cols?: 2 | 3 | 4;
-};
-
+// component
 export function MetricGrid({ children, cols = 4 }: MetricGridProps) {
   const colClass =
     cols === 2

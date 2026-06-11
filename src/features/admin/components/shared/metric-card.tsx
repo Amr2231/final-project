@@ -1,6 +1,7 @@
 import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils/tailwind-merge";
 
+// types
 type MetricCardProps = {
   label: string;
   value: number | string;
@@ -10,6 +11,7 @@ type MetricCardProps = {
   sublabel?: string;
 };
 
+// main
 export function MetricCard({
   label,
   value,

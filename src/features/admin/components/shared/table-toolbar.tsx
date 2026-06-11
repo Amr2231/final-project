@@ -5,6 +5,7 @@ import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils/tailwind-merge";
 
+// types
 type TableToolbarProps = {
   search?: string;
   onSearchChange?: (value: string) => void;
@@ -14,6 +15,7 @@ type TableToolbarProps = {
   className?: string;
 };
 
+// component
 export function TableToolbar({
   search,
   onSearchChange,
@@ -24,6 +26,7 @@ export function TableToolbar({
 }: TableToolbarProps) {
   return (
     <div className={cn("flex items-center gap-2", className)}>
+      {/* Search */}
       {onSearchChange != null && (
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />

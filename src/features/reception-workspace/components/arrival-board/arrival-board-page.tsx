@@ -1,8 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Megaphone, Clock, Users, Stethoscope, Timer } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Clock, Users, Stethoscope, Timer } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -23,7 +22,7 @@ import { useDebounce } from "use-debounce";
 import { cn } from "@/lib/utils/tailwind-merge";
 import { EmptyState } from "@/components/ui/empty-state";
 
-// ─── Status styling ──────────────────────────────────────────────────────────
+//  Status styling
 const STATUS_CARD_STYLE: Record<string, string> = {
   Called: "border-l-4 border-l-amber-400 bg-amber-50/40 dark:bg-amber-950/20",
   "In Consultation":
@@ -32,7 +31,7 @@ const STATUS_CARD_STYLE: Record<string, string> = {
   "Checked In": "border-l-4 border-l-emerald-400",
 };
 
-// ─── Stat card ────────────────────────────────────────────────────────────────
+//  Stat card
 function StatCard({
   icon: Icon,
   label,
@@ -57,7 +56,7 @@ function StatCard({
   );
 }
 
-// ─── Priority badge ───────────────────────────────────────────────────────────
+// Priority badge
 function PriorityBadge({ label }: { label: string }) {
   return (
     <span
@@ -71,7 +70,7 @@ function PriorityBadge({ label }: { label: string }) {
   );
 }
 
-// ─── Status badge ─────────────────────────────────────────────────────────────
+// Status badge
 function StatusBadge({ label }: { label: string }) {
   return (
     <span
@@ -85,7 +84,7 @@ function StatusBadge({ label }: { label: string }) {
   );
 }
 
-// ─── Main page ────────────────────────────────────────────────────────────────
+// Main page
 export function ArrivalBoardPage() {
   const [search, setSearch] = useState("");
   const [debouncedSearch] = useDebounce(search, 300);
@@ -99,12 +98,15 @@ export function ArrivalBoardPage() {
     [debouncedSearch, status],
   );
 
-  const { data: entries = [], isLoading, isFetching } = useArrivalBoard(filters);
-  const { mutate: callPatient, isPending } = useCallPatient();
+  const {
+    data: entries = [],
+    isLoading,
+    isFetching,
+  } = useArrivalBoard(filters);
 
   const showInitialLoader = isLoading && entries.length === 0;
 
-  // ── derived stats ──────────────────────────────────────────────────────────
+  // derived stats
   const inQueue = entries.filter((e) =>
     ["Waiting", "Checked In"].includes(e.board_status),
   ).length;
@@ -129,7 +131,7 @@ export function ArrivalBoardPage() {
       title="Patient Arrival Board"
       description="Live operations display — updates in real time"
     >
-      {/* ── Stats row ───────────────────────────────────────────────────────── */}
+      {/*  Stats row  */}
       <div className="grid grid-cols-3 gap-3">
         <StatCard icon={Users} label="In queue" value={inQueue} />
         <StatCard
@@ -140,7 +142,7 @@ export function ArrivalBoardPage() {
         <StatCard icon={Timer} label="Avg wait" value={`${avgWait}m`} />
       </div>
 
-      {/* ── Filters ─────────────────────────────────────────────────────────── */}
+      {/*  Filters  */}
       <div className="flex flex-wrap gap-3">
         <Input
           placeholder="Search patient name…"
@@ -167,7 +169,7 @@ export function ArrivalBoardPage() {
         </Select>
       </div>
 
-      {/* ── Board ───────────────────────────────────────────────────────────── */}
+      {/* Board  */}
       <div className="rounded-xl border bg-card">
         {/* header */}
         <div className="flex items-center justify-between border-b px-5 py-3">
@@ -232,20 +234,6 @@ export function ArrivalBoardPage() {
                       <span>Est. {e.estimated_wait_minutes}m</span>
                     )}
                   </div>
-
-                  {/* {(e.board_status === "Waiting" ||
-                    e.board_status === "Checked In") && (
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      disabled={isPending}
-                      onClick={() => callPatient(e.appointment_id ?? 0)}
-                      className="h-7 gap-1 px-2.5 text-xs"
-                    >
-                      <Megaphone className="h-3 w-3" />
-                      Call
-                    </Button>
-                  )} */}
                 </div>
               </div>
             ))}

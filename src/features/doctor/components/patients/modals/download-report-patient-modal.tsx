@@ -7,7 +7,8 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
-// ===================== DOWNLOAD REPORT =====================
+
+// DOWNLOAD REPORT
 export function DownloadReportModal({
   patient,
   onClose,

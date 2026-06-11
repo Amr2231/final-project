@@ -6,8 +6,6 @@ import dynamic from "next/dynamic";
 import {
   Search,
   SlidersHorizontal,
-  ChevronLeft,
-  ChevronRight,
   ChevronDown,
   ChevronUp,
   ScrollText,
@@ -37,12 +35,14 @@ import type { AuditLogFiltersState } from "./audit-log-filters-modal";
 import { formatFullTimestamp } from "@/lib/utils/date-format";
 import PaginationWrapper from "@/components/ui/paginationWrapper";
 
+// dynamic imports
 const AuditLogFiltersModal = dynamic(() =>
   import("./audit-log-filters-modal").then((m) => ({
     default: m.AuditLogFiltersModal,
   })),
 );
 
+// constants
 const DEFAULT_FILTERS: AuditLogFiltersState = {
   action: "",
   entity: "",
@@ -54,6 +54,7 @@ const DEFAULT_FILTERS: AuditLogFiltersState = {
   order: "DESC",
 };
 
+// components
 const AuditLogRowComponent = memo(function AuditLogRowComponent({
   log,
   isExpanded,
@@ -77,6 +78,7 @@ const AuditLogRowComponent = memo(function AuditLogRowComponent({
           isExpanded && "bg-gray-50/40 dark:bg-gray-900/20",
         )}
       >
+        {/* Timestamp created at */}
         <TableCell className="pl-4 text-sm text-gray-600 tabular-nums whitespace-nowrap">
           {formatFullTimestamp(log.created_at)}
         </TableCell>
@@ -85,9 +87,13 @@ const AuditLogRowComponent = memo(function AuditLogRowComponent({
             <p className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate">
               {actorDisplay}
             </p>
+
+            {/* Actor role */}
             {log.actor_role && (
               <p className="text-xs text-gray-400">{log.actor_role}</p>
             )}
+
+            {/* Actor ID */}
             {log.actor_id != null && (
               <p className="text-xs text-gray-400 tabular-nums">
                 ID: {log.actor_id}
@@ -95,9 +101,13 @@ const AuditLogRowComponent = memo(function AuditLogRowComponent({
             )}
           </div>
         </TableCell>
+
+        {/* Action */}
         <TableCell>
           <ActionBadge action={log.action} />
         </TableCell>
+
+        {/* Entity */}
         <TableCell>
           <div className="flex flex-col gap-1">
             <EntityBadge entity={log.entity} />
@@ -108,11 +118,15 @@ const AuditLogRowComponent = memo(function AuditLogRowComponent({
             )}
           </div>
         </TableCell>
+
+        {/* Description */}
         <TableCell className="max-w-xs">
           <p className="text-sm text-gray-600 dark:text-gray-400 truncate">
             {log.description || "—"}
           </p>
         </TableCell>
+
+        {/* Details */}
         <TableCell className="pr-4 w-10">
           {hasDetails && (
             <Button
@@ -133,20 +147,26 @@ const AuditLogRowComponent = memo(function AuditLogRowComponent({
         </TableCell>
       </TableRow>
 
+      {/* Details */}
       {isExpanded && hasDetails && (
         <TableRow className="bg-gray-50/50 dark:bg-gray-900/30 border-b border-gray-100">
+          {/* Details */}
           <TableCell colSpan={AUDIT_TABLE_HEADERS.length} className="px-6 py-4">
             <dl className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
+              {/* Description */}
               {log.description && (
                 <div className="sm:col-span-2 lg:col-span-3">
                   <dt className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">
                     Description
                   </dt>
+                  {/* Description */}
                   <dd className="text-gray-700 dark:text-gray-300">
                     {log.description}
                   </dd>
                 </div>
               )}
+
+              {/* Entity ID */}
               {log.entity_id != null && (
                 <div>
                   <dt className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">
@@ -157,6 +177,8 @@ const AuditLogRowComponent = memo(function AuditLogRowComponent({
                   </dd>
                 </div>
               )}
+
+              {/* IP Address */}
               {log.ip_address && (
                 <div>
                   <dt className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">
@@ -168,6 +190,7 @@ const AuditLogRowComponent = memo(function AuditLogRowComponent({
                 </div>
               )}
               <div>
+                {/* Timestamp */}
                 <dt className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">
                   Timestamp
                 </dt>
@@ -183,7 +206,9 @@ const AuditLogRowComponent = memo(function AuditLogRowComponent({
   );
 });
 
+// Audit logs table
 export function AuditLogsTable() {
+  // state
   const [search, setSearch] = useState("");
   const [debouncedSearch] = useDebounce(search, 400);
   const [page, setPage] = useState(1);
@@ -191,6 +216,7 @@ export function AuditLogsTable() {
   const [filters, setFilters] = useState<AuditLogFiltersState>(DEFAULT_FILTERS);
   const [expandedKeys, setExpandedKeys] = useState<Set<string>>(new Set());
 
+  // queries
   const activeFilterCount = [
     filters.action,
     filters.entity,
@@ -216,10 +242,12 @@ export function AuditLogsTable() {
     order: filters.order,
   });
 
+  // computed values
   const logs = data?.data ?? [];
   const totalPages = data?.pages ?? 1;
   const total = data?.total ?? 0;
 
+  // handlers
   const handleSearchChange = useCallback((val: string) => {
     setSearch(val);
     setPage(1);
@@ -245,6 +273,7 @@ export function AuditLogsTable() {
     });
   }, []);
 
+  // loading state
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-20">
@@ -253,6 +282,7 @@ export function AuditLogsTable() {
     );
   }
 
+  // error state
   if (isError) {
     return (
       <div className="rounded-xl border border-red-200 bg-red-50 dark:bg-red-950/20 p-8 text-center">
@@ -268,10 +298,13 @@ export function AuditLogsTable() {
 
   return (
     <div className="p-6 space-y-6">
+      {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
           Audit Logs
         </h1>
+
+        {/* Description */}
         <p className="text-sm text-gray-500 mt-1">
           Complete activity trail across the system
           {total > 0 && (
@@ -280,6 +313,7 @@ export function AuditLogsTable() {
         </p>
       </div>
 
+      {/* search */}
       <div className="flex items-center gap-2">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
@@ -291,6 +325,7 @@ export function AuditLogsTable() {
           />
         </div>
 
+        {/* filter */}
         <Button
           variant="outline"
           className={cn(
@@ -309,6 +344,7 @@ export function AuditLogsTable() {
         </Button>
       </div>
 
+      {/* table */}
       <div
         className={cn(
           "rounded-xl border bg-white dark:bg-gray-950 overflow-hidden transition-opacity",
@@ -337,6 +373,7 @@ export function AuditLogsTable() {
                     colSpan={AUDIT_TABLE_HEADERS.length}
                     className="py-10"
                   >
+                    {/* Empty */}
                     <EmptyState
                       icon={ScrollText}
                       title="No audit logs found"
@@ -345,6 +382,7 @@ export function AuditLogsTable() {
                   </TableCell>
                 </TableRow>
               ) : (
+                // Logs
                 logs.map((log, index) => {
                   const key = getAuditLogRowKey(log, index);
                   return (
@@ -362,6 +400,7 @@ export function AuditLogsTable() {
         </div>
       </div>
 
+      {/* pagination */}
       {totalPages > 1 && (
         <PaginationWrapper
           totalPages={totalPages}
@@ -370,6 +409,7 @@ export function AuditLogsTable() {
         />
       )}
 
+      {/* filters */}
       {filtersOpen && (
         <AuditLogFiltersModal
           open={filtersOpen}

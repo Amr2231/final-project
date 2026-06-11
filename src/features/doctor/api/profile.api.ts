@@ -1,6 +1,7 @@
 import { doctorFetch } from "./client";
 import type { MutationResponse } from "@/lib/types/doctor";
 
+// change password
 export async function changePassword(payload: {
   current_password: string;
   new_password: string;
@@ -12,6 +13,7 @@ export async function changePassword(payload: {
   });
 }
 
+// update profile
 export async function updateProfile(payload: {
   first_name?: string;
   last_name?: string;

@@ -6,8 +6,10 @@ import type {
   GeoLoginData,
 } from "@/lib/types/admin-features";
 
+// constant url prefix
 const BASE = "/api/admin/analytics";
 
+// fetch heatmap
 export async function fetchHeatmap(filters?: {
   from_date?: string;
   to_date?: string;
@@ -22,6 +24,7 @@ export async function fetchHeatmap(filters?: {
   );
 }
 
+// fetch file access
 export async function fetchFileAccessLogs(filters?: {
   page?: number;
   limit?: number;
@@ -45,6 +48,7 @@ export async function fetchFileAccessLogs(filters?: {
   );
 }
 
+// fetch geo logins
 export async function fetchGeoLogins(filters?: {
   from_date?: string;
   to_date?: string;

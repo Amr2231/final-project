@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils/tailwind-merge";
 export type UserStatus = "Active" | "Inactive";
 export type InactiveStatus = "Inactive" | "Ready for Deletion";
 
+// types
 export const UserStatusBadge = ({ status }: { status: UserStatus }) => {
   const config: Record<UserStatus, string> = {
     Active: "bg-green-50 text-green-700 border-green-200",
@@ -21,6 +22,7 @@ export const UserStatusBadge = ({ status }: { status: UserStatus }) => {
   );
 };
 
+// inactive shadow badge
 export const InactiveStatusBadge = ({ status }: { status: InactiveStatus }) => {
   const config: Record<InactiveStatus, string> = {
     Inactive: "bg-red-50 text-red-700 border-red-200",

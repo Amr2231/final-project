@@ -17,19 +17,23 @@ import SubmissionFeedback from "@/components/shared/submission-feedback";
 import logo from "../../../../../public/logo.jpeg";
 import Image from "next/image";
 
+// types
 interface EmailStepProps {
   setStep: Dispatch<SetStateAction<ForgetPasswordSteps>>;
   setEmail: Dispatch<SetStateAction<string | null>>;
   onBack: () => void;
 }
 
+// component
 export default function LoginForm({
   setStep,
   setEmail,
   onBack,
 }: EmailStepProps) {
+  // hooks
   const { isPending, error, sendOtp } = useEmail();
 
+  // form
   const form = useForm<EmailStepFields>({
     resolver: zodResolver(emailStepSchema()),
     defaultValues: { email: "" },
@@ -41,6 +45,7 @@ export default function LoginForm({
     formState: { errors },
   } = form;
 
+  // onsubmit handler
   const onSubmit: SubmitHandler<EmailStepFields> = (values) => {
     sendOtp(values, {
       onSuccess: () => {
@@ -91,7 +96,9 @@ export default function LoginForm({
         </p>
       </div>
 
+      {/* form */}
       <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+        {/* Email */}
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
           <div className="relative">
@@ -109,8 +116,10 @@ export default function LoginForm({
           )}
         </div>
 
+        {/* Submission feedback */}
         <SubmissionFeedback>{error?.message}</SubmissionFeedback>
 
+        {/* continue */}
         <Button
           variant="default"
           disabled={isPending || !form.formState.isValid}

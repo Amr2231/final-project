@@ -8,6 +8,7 @@ import {
   getHeatmapAction,
 } from "../actions/analytics.actions";
 
+// use heatmap
 export function useHeatmap(filters?: {
   from_date?: string;
   to_date?: string;
@@ -20,6 +21,7 @@ export function useHeatmap(filters?: {
   });
 }
 
+// use file access
 export function useFileAccessLogs(filters?: {
   page?: number;
   entity?: string;
@@ -35,6 +37,7 @@ export function useFileAccessLogs(filters?: {
   });
 }
 
+// use geo logins
 export function useGeoLogins(filters?: {
   from_date?: string;
   to_date?: string;

@@ -1,5 +1,12 @@
 import { AddUserForm } from "@/features/admin";
 
+// metadata for add user page
+export const metadata = {
+  title: "Add User | Echo vision",
+  description: "Add a new user to your Echo vision account",
+};
+
+// Add User Page
 export default function AddUserPage() {
   return (
     <div className="p-6 lg:p-8">

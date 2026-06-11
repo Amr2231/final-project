@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { serverFetch } from "@/lib/shared/api/server-client";
 
+// Type for a doctor
 type DoctorListItem = {
   user_id: number;
   first_name: string;
@@ -8,8 +9,10 @@ type DoctorListItem = {
   username: string;
 };
 
+// GET /api/receptionist/doctors
 export async function GET() {
   try {
+    // get doctors
     const res = await serverFetch<{
       success: boolean;
       data: DoctorListItem[];

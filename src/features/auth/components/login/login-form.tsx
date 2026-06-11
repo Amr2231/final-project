@@ -18,13 +18,16 @@ import logo from "../../../../../public/logo.jpeg";
 import Image from "next/image";
 
 export default function LoginForm() {
+  // hooks
   const { isPending, error, login } = useLogin();
 
+  // form
   const form = useForm<LoginFields>({
     resolver: zodResolver(loginSchema),
     defaultValues: { email: "", password: "", rememberMe: false },
   });
 
+  // destructure
   const {
     register,
     control,
@@ -32,6 +35,7 @@ export default function LoginForm() {
     formState: { errors },
   } = form;
 
+  // onsubmit handler
   const onSubmit: SubmitHandler<LoginFields> = (values) => {
     login(values);
   };
@@ -129,8 +133,10 @@ export default function LoginForm() {
           )}
         />
 
+        {/* Submission Feedback */}
         <SubmissionFeedback>{error?.message}</SubmissionFeedback>
 
+        {/* Sign in button */}
         <Button
           variant="default"
           disabled={isPending || !form.formState.isValid}
